@@ -1,0 +1,31 @@
+{
+  "name": "YesOrNo",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "dev": "webpack --mode development ./backend/frontend/src/index.js --output ./backend/frontend/static/frontend/main.js",
+    "build": "webpack --mode production ./backend/frontend/src/index.js --output ./backend/frontend/static/frontend/main.js"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "devDependencies": {
+    "@babel/core": "^7.1.2",
+    "@babel/preset-env": "^7.1.0",
+    "@babel/preset-react": "^7.0.0",
+    "babel-loader": "^8.0.4",
+    "babel-plugin-transform-class-properties": "^6.24.1",
+    "css-loader": "^1.0.1",
+    "css-selector": "^0.1.0",
+    "prop-types": "^15.6.2",
+    "react": "^16.6.0",
+    "react-dom": "^16.6.0",
+    "style-loader": "^0.23.1",
+    "style-selector": "^2.0.3",
+    "weak-key": "^1.0.1",
+    "webpack": "^4.23.1",
+    "webpack-cli": "^3.1.2"
+  }
+}

@@ -1,0 +1,18 @@
+.Vote {
+    min-height: 100%;
+    display: inline-flex;
+    width: 100%;
+}
+
+.Buttons {
+    /* display: inline-flex; */
+    height: 13%;
+    width: 40%;
+    margin: auto;
+    margin-top: 3%;
+    position: relative;
+}
+
+#VoteContainer {
+    width: 100%;
+}

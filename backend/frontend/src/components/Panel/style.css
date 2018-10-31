@@ -1,0 +1,6 @@
+.Panel {
+    width: 20%;
+    /* float: right; */
+    height: 100%;
+    border: 1px solid blue;
+}
