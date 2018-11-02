@@ -4,3 +4,27 @@
     height: 100%;
     border: 1px solid blue;
 }
+
+.button {
+    height: 3.5vh;
+    text-align: center;
+    width: 96%;
+    margin: auto;
+    margin-top: 3%;
+    font-size: 1.6em;
+}
+
+.input {
+    position: relative;
+    left: 2%;
+    width: 94%;
+}
+
+#login {
+    width: 96%;
+    border: none;
+}
+
+a {
+    text-decoration: none;
+}

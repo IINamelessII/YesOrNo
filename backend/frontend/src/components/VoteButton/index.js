@@ -5,7 +5,7 @@ import './style.css'
 class VoteButton extends PureComponent {
     render() {
         return (
-            <div id={this.props.yes ? "YesButton" : "NoButton"} className="VoteButton" onClick={this.props.onButtonClick}>
+            <div id={this.props.yes ? "YesButton" : "NoButton"} className="VoteButton ui disable-select" onClick={this.props.onButtonClick}>
                 {this.props.result ? this.props.yes ? "Like" : "Dislike" : this.props.yes ? "Yes" : "No"}
             </div>
         )

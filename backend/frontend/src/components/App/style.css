@@ -13,3 +13,18 @@ body {
     height: 100%;
     overflow: hidden;
 }
+
+.ui {
+    background-color: #ff2a2a;
+    color: ghostwhite;
+    border-radius: 0.3em;        
+    text-align: center;
+    align-items: center;
+}
+
+.disable-select {
+    -webkit-user-select: none;  
+    -moz-user-select: none;    
+    -ms-user-select: none;      
+    user-select: none;
+}

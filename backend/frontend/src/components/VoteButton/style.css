@@ -1,20 +1,20 @@
 .VoteButton {
-    border-radius: 5px;
+    /* border-radius: 5px; */
     margin: 5px;
     /* height: 4vh;
     width: 8vw; */
     width: 100%;
     padding: 5px;
-    font-size: 32px;
+    font-size: 2.2em;
     font-variant: small-caps;
     color: white;
     text-align: center;
 }
 
-#YesButton {
+/* #YesButton {
     background: url("https://previews.123rf.com/images/arayabandit/arayabandit1601/arayabandit160100110/50628782-background-pattern-light-blue-asphalt-floor-texture-or-tarmac-road-texture-with-copy-space-for-text-.jpg");
 }
 
 #NoButton {
     background: url("http://www.rgbstock.com/cache1tCxXd/users/x/xy/xymonau/300/nPLJDpC.jpg");
-}
+} */

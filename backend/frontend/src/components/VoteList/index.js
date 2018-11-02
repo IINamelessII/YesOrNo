@@ -22,15 +22,10 @@ class VoteList extends PureComponent {
         )
     }
 
-    handleGo = () => {
-        this.setState({
-            currentId: this.state.currentId + 1
-        })
-
-        this.setState({
-            poll: this.state.currentId < this.props.data.length ? this.props.data[this.state.currentId] : null
-        })
-    }
+    handleGo = () => this.setState({
+        poll: this.state.currentId + 1 < this.props.data.length ? this.props.data[this.state.currentId + 1] : null,
+        currentId: this.state.currentId + 1
+    })
 }
 
 export default VoteList;

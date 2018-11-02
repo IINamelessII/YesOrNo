@@ -1,7 +1,14 @@
 .VoteList {
-    width: 60%;
+    width: 100%;
+    height: 100%;
 }
 
-.Empty {
-    width: 60%;
+.Empty, Placeholder {
+    width: 100%;
+    height: 100%;
+}
+
+.Wrap {
+    width: 100%;
+    height: 100%;
 }

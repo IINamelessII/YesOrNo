@@ -27,18 +27,18 @@ class Vote extends PureComponent {
     }
 
     yesClick = () => {
-        this.state.result && this.props.goNext()
         this.setState({
             result: !this.state.result
         })
+        this.state.result && this.props.goNext()
         //Changing data
     }
 
     noClick = () => {
-        this.state.result && this.props.goNext()
         this.setState({
             result: !this.state.result
         })
+        this.state.result && this.props.goNext()
         //Changing data
     }
 }

@@ -6,7 +6,9 @@ class Pic extends PureComponent {
     render() {
         return (
             <div className="Pic">
-                {this.props.pic}
+                <div className="Flow ui">
+                    {this.props.pic}
+                </div>
             </div>
         )
     }
