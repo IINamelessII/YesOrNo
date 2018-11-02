@@ -17,7 +17,7 @@ body {
 .ui {
     background-color: #ff2a2a;
     color: ghostwhite;
-    border-radius: 0.3em;        
+    border-radius: 0.15em;        
     text-align: center;
     align-items: center;
 }
@@ -27,4 +27,26 @@ body {
     -moz-user-select: none;    
     -ms-user-select: none;      
     user-select: none;
+}
+
+.clickable {
+    box-shadow: 0 3px 20px rgba(0,0,0,.25), inset 0 2px 0 rgba(255,255,255,.6), 0 2px 0 rgba(0,0,0,.1), inset 0 0 20px rgba(0,0,0,.1);
+    cursor: pointer;
+}
+
+.clickable:hover {
+    box-shadow: inset 0 0 20px rgba(0,0,0,.2), 0 2px 0 rgba(255,255,255,.4),inset 0 2px 0 rgba(0,0,0,.1), inset 0 0 20px rgba(0,0,0,.1);
+}
+
+.Statement {
+    width: 70%;
+    height: 50%;
+    margin: auto;
+    margin-top: 3%;
+    padding: 2vh;
+    text-align: center;
+    font-size: 2em;
+    color: #ff2a2a;
+    background-color: white;
+    border: 5px solid #ff2a2a;
 }

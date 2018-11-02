@@ -1,5 +1,5 @@
 .Panel {
-    width: 20%;
+    width: 25%;
     /* float: right; */
     height: 100%;
     border: 1px solid blue;
@@ -20,11 +20,34 @@
     width: 94%;
 }
 
-#login {
-    width: 96%;
+#LogButt {
     border: none;
+    left: 2%;
+    position: relative;
 }
 
 a {
     text-decoration: none;
+}
+
+#LogPanelTabs {
+    display: inline-flex;
+    height: 6%;
+    width: 100%;
+}
+
+.LogPanelTab {
+    margin: 1%;
+    height: 100%;
+    width: 33%;
+    font-size: 1.2em;
+}
+
+.LogForm {
+    height: 40%;
+    /* width: 90%; */
+}
+
+#activeLogPanelTab {
+    background-color: #bb0000;
 }
