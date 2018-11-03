@@ -51,3 +51,11 @@ a {
 #activeLogPanelTab {
     background-color: #bb0000;
 }
+
+.message {
+    color: #ff2a2a;
+    background-color: white;
+    font-size: 1.2em;
+    margin-top: 2%;
+    text-align: center;
+}

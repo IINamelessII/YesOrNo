@@ -1,0 +1,23 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>YesOrNo Reseting Password</title>
+    {% load static %}
+    <link rel="stylesheet" href="{% static 'frontend/resetPassForm.css' %}">
+</head>
+<body>
+    <form action="form/" method="post">
+        {% csrf_token %}
+        <div class="ui">New Password</div>
+        <div class="container">
+            <input type="password" placeholder="Enter new Password" name="password" required>
+        </div>
+        <div class="container">
+            <button type="submit">Set new Password</button>
+        </div>
+    </form>
+</body>
+</html>

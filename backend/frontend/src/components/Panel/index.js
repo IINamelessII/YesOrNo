@@ -5,7 +5,8 @@ import DjangoCSRFToken from 'django-react-csrftoken'
 
 class Panel extends PureComponent {
     state = {
-        process: 0
+        process: 0,
+        message: this.props.user.message
     }
 
     render() {
@@ -33,8 +34,6 @@ class Panel extends PureComponent {
                             <input className="button input" type="text" placeholder="Enter Username" name="username" required></input>
                             <div id="password" className="ui button">Password</div>
                             <input className="button input" type="password" placeholder="Enter Password" name="password" required></input>
-                            <div id="regkey" className="ui button">Registration Key</div>
-                            <input className="button input" type="password" placeholder="Enter Registration Key" name="regkey" required></input>
                             <button id="LogButt" className="ui button disable-select clickable"  type="submit">Sign Up</button>
                         </div>
                     ) : this.state.process === 1 ? (
@@ -52,24 +51,31 @@ class Panel extends PureComponent {
                             <button id="LogButt" className="ui button disable-select clickable"  type="submit">Reset Password</button>
                         </div>
                     )}
-                 </form>
+                </form>
+                <div className="message">{this.state.message}</div>
             </div>
         )
     }
 
     openSignUpTab = () => this.setState({
-        process: 0
+        process: 0,
+        message: null
     })
 
     openSignInTab = () => this.setState({
-        process: 1
+        process: 1,
+        message: null
     })
 
     openResetPassTab = () => this.setState({
-        process: 2
+        process: 2,
+        message: null
     })
 
 }
 
 
 export default Panel
+
+//<div id="regkey" className="ui button">Registration Key</div>
+//<input className="button input" type="password" placeholder="Enter Registration Key" name="regkey" required></input>
