@@ -2,12 +2,15 @@ from django.shortcuts import render, redirect
 from django.core import serializers
 from django.core.mail import EmailMessage
 from django.contrib import auth
+from django.http import HttpResponse
 from django.views.decorators.csrf import ensure_csrf_cookie
+from django.views.decorators.cache import cache_page
 from django.utils.http import urlsafe_base64_encode, urlsafe_base64_decode
 from django.utils.encoding import force_bytes
 from django.contrib.auth.tokens import default_token_generator
 from django.db import IntegrityError
-from backend.settings import ALLOWED_HOSTS
+from polls.models import Poll
+import json
 
 
 def index(request, logout=False):
@@ -59,7 +62,7 @@ def signup(request):
             user.save()
             token = default_token_generator.make_token(user)
             uid = urlsafe_base64_encode(force_bytes(user.pk)).decode()
-            link = "{}:{}/{}/{}/{}".format(ALLOWED_HOSTS[0], request.META['SERVER_PORT'], 'users/validate', uid, token)
+            link = "{}://{}:{}/{}/{}/{}".format(request.scheme, request.META['SERVER_NAME'], request.META['SERVER_PORT'], 'users/validate', uid, token)
             email = EmailMessage('Confirmation of registration in the YesOrNo', 'Greetings, {}!\nFollow the link below to confirm registration of your account.\n{}'.format(username, link), to=[email,])
             email.send()
     except IntegrityError:
@@ -95,7 +98,7 @@ def activation(request, uidb64, token):
         message = 'Sorry, this link is not valid'
     request.session['message'] = message
     request.session['message_was_showed'] = False
-    return redirect(request.META.get('HTTP_REFERER'))
+    return redirect('index')
 
 
 @ensure_csrf_cookie
@@ -113,7 +116,7 @@ def reset_password(request):
         try:
             token = default_token_generator.make_token(user)
             uemail = urlsafe_base64_encode(force_bytes(user.pk)).decode()
-            link = "{}:{}/{}/{}/{}".format(ALLOWED_HOSTS[0], request.META['SERVER_PORT'], 'users/reset', uemail, token)
+            link = "{}://{}:{}/{}/{}/{}".format(request.scheme, request.META['SERVER_NAME'], request.META['SERVER_PORT'], 'users/reset', uemail, token)
             email = EmailMessage('Account access recovery in the YesOrNo', 'Greetings, {}!\nFollow the link below to restore access to your account.\n{}\nIf you did not restore access to your account, ignore this email.'.format(\
                 user.username, link), to=[email,])
             email.send()
@@ -153,7 +156,58 @@ def reset_password_link(request, uemailb64, token):
 @ensure_csrf_cookie
 def reset_password_form(request, uemailb64, token):
     password = request.POST.get('password')
-    request.user.set_password(password)
-    request.user.save()
-    return index(request, logout=True)
+    try:
+        user_model = auth.get_user_model()
+        uemail = urlsafe_base64_decode(uemailb64)
+        user = user_model.objects.get(pk=uemail)
+        user.set_password(password)
+        user.save()
+    except:
+        pass
+    finally:
+        return redirect('http://{}:{}'.format(request.META['SERVER_NAME'], request.META['SERVER_PORT']))
     
+
+def voteYes(request):
+    data = json.loads(request.body.decode('utf-8'))
+    try:
+        poll = Poll.objects.get(pk=data['id'])
+        poll.voteYes()
+
+    except:
+        return HttpResponse(status=404)
+    else:
+        return HttpResponse(status=204)
+    
+
+def voteNo(request):
+    data = json.loads(request.body.decode('utf-8'))
+    try:
+        poll = Poll.objects.get(pk=data['id'])
+        poll.voteNo()
+    except:
+        return HttpResponse(status=404)
+    else:
+        return HttpResponse(status=204)
+
+def voteLike(request):
+    data = json.loads(request.body.decode('utf-8'))
+    try:
+        poll = Poll.objects.get(pk=data['id'])
+        poll.voteLike()
+    except:
+        return HttpResponse(status=404)
+    else:
+        return HttpResponse(status=204)
+
+def voteDislike(request):
+    data = json.loads(request.body.decode('utf-8'))
+    try:
+        poll = Poll.objects.get(pk=data['id'])
+        poll.voteDislike()
+    except:
+        return HttpResponse(status=404)
+    else:
+        return HttpResponse(status=204)
+
+

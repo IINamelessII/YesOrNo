@@ -14,6 +14,23 @@ class Poll(models.Model):
     def __str__(self):
         return r'Poll #{} rate {}%'.format(self.id, self.likes / (self.likes +\
          self.dislikes if any([self.likes, self.dislikes]) else 1) * 100)
+    
+    def voteYes(self):
+        self.agree += 1
+        self.save()
+    
+    def voteNo(self):
+        self.disagree += 1
+        self.save()
+    
+    def voteLike(self):
+        self.likes += 1
+        self.save()
+    
+    def voteDislike(self):
+        self.dislikes += 1
+        self.save()
+
 
 
 class Flow(models.Model):

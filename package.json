@@ -30,6 +30,7 @@
     "webpack-cli": "^3.1.2"
   },
   "dependencies": {
-    "django-react-csrftoken": "^1.0.4"
+    "django-react-csrftoken": "^1.0.4",
+    "js-cookie": "^2.2.0"
   }
 }

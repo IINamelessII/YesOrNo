@@ -13,4 +13,8 @@ urlpatterns = [
     url(r'^users/reset/(?P<uemailb64>[0-9A-Za-z_\-]+)/(?P<token>[0-9A-Za-z]{1,13}-[0-9A-Za-z]{1,20})/$',
     views.reset_password_link, name='reset_password_link'),
     url(r'^users/reset/(?P<uemailb64>[0-9A-Za-z_\-]+)/(?P<token>[0-9A-Za-z]{1,13}-[0-9A-Za-z]{1,20})/form/$', views.reset_password_form, name='reset_password_form'),
+    path('voteYes/', views.voteYes, name='voteYes'),
+    path('voteNo/', views.voteNo, name='voteNo'),
+    path('voteLike/', views.voteLike, name='voteLike'),
+    path('voteDislike/', views.voteDislike, name='voteDislike'),
 ]
