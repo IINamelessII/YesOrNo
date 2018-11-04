@@ -20,9 +20,9 @@ class Panel extends PureComponent {
         ) : (
             <div className="Panel">
                 <div id="LogPanelTabs">
-                    <div className="ui LogPanelTab clickable" id={this.state.process === 0 ? "activeLogPanelTab" : ""} onClick={this.openSignUpTab}>Sign Up</div>
-                    <div className="ui LogPanelTab clickable" id={this.state.process === 1 ? "activeLogPanelTab" : ""} onClick={this.openSignInTab}>Sign In</div>
-                    <div className="ui LogPanelTab clickable" id={this.state.process === 2 ? "activeLogPanelTab" : ""} onClick={this.openResetPassTab}>Reset Password</div>
+                    <div className="ui LogPanelTab clickable lh" id={this.state.process === 0 ? "activeLogPanelTab" : ""} onClick={this.openSignUpTab}>Sign Up</div>
+                    <div className="ui LogPanelTab clickable lh" id={this.state.process === 1 ? "activeLogPanelTab" : ""} onClick={this.openSignInTab}>Sign In</div>
+                    <div className="ui LogPanelTab clickable lh_2line" id={this.state.process === 2 ? "activeLogPanelTab" : ""} onClick={this.openResetPassTab}>Reset Password</div>
                 </div>
                 <form action={this.state.process === 0 ? "signup/" : this.state.process === 1 ? "signin/" : "resetpassword/"} method="post">
                     <DjangoCSRFToken />

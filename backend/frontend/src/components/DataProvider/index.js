@@ -2,6 +2,7 @@ import React, {Component} from 'react';
 import VoteList from "../VoteList";
 import Nav from '../Nav';
 import Panel from '../Panel';
+import './style.css';
 
 class DataProvider extends Component {
 
@@ -29,7 +30,11 @@ class DataProvider extends Component {
                              <VoteList data={data} />
                              <Panel user={this.props.user} />
                          </div>)
-                      : <p>{placeholder}</p>;
+        : (
+            <div className="loading">
+                <p>{placeholder}</p>
+            </div>
+        );
         //return loader ? <p>{}</p> : <p className="Placeholder">{placeholder}</p>;
     }
 }
