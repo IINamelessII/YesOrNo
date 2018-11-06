@@ -10,7 +10,7 @@ class Panel extends PureComponent {
     }
 
     render() {
-        return this.props.user.is_auth ? (
+        return this.props.show ? this.props.user.is_auth ? (
             <div className="Panel">
                 <div className="ui button">Hello, {this.props.user.username}!</div>
                 <a href="logout/">
@@ -54,7 +54,8 @@ class Panel extends PureComponent {
                 </form>
                 <div className="message">{this.state.message}</div>
             </div>
-        )
+        ) : (
+            <div className="Panel"></div>)
     }
 
     openSignUpTab = () => this.setState({

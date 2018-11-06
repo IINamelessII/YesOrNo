@@ -1,7 +1,4 @@
 import React, {Component} from 'react';
-import VoteList from "../VoteList";
-import Nav from '../Nav';
-import Panel from '../Panel';
 import './style.css';
 
 class DataProvider extends Component {
@@ -20,22 +17,18 @@ class DataProvider extends Component {
                 }
                 return response.json();
             })
-            .then(data => this.setState({data: data, loader: true}));
+            .then(data => {
+                this.setState({data: data, loader: true});
+                this.props.switcher();
+            });
     }
 
     render() {
-        const {data, loader, placeholder} = this.state;
-        return loader ? (<div className="App">
-                             <Nav />
-                             <VoteList data={data} />
-                             <Panel user={this.props.user} />
-                         </div>)
-        : (
-            <div className="loading">
-                <p>{placeholder}</p>
+        return this.state.loader ? this.props.render(this.state.data) : (
+            <div className={this.props.name}>
+                <p className="loading">{this.state.placeholder}</p>
             </div>
-        );
-        //return loader ? <p>{}</p> : <p className="Placeholder">{placeholder}</p>;
+        )
     }
 }
 

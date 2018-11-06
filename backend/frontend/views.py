@@ -70,7 +70,7 @@ def signup(request):
     except ValueError:
         message = 'Account has already been registered to this email'
     except:
-        message = 'Something gone wrong, please try again'
+        message = 'Something went wrong, please try again'
     else:
         message = 'Please follow the link received in the email to confirm registration of your account'
     request.session['message'] = message
@@ -121,7 +121,7 @@ def reset_password(request):
                 user.username, link), to=[email,])
             email.send()
         except:
-            message = 'Something gone wrong, please try again'
+            message = 'Something went wrong, please try again'
         else:
             message = "Please follow the link in the email to restore access to your account"
     request.session['message'] = message
