@@ -1,2 +1,2 @@
 # YesOrNo
-Simple learning Django REST Framework &amp; React.js app
+Django REST Framework &amp; React.js app [DEV]
