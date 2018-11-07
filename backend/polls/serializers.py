@@ -9,11 +9,10 @@ class FlowSerializer(serializers.ModelSerializer):
 
 
 class PollSerializer(serializers.ModelSerializer):
-    owner = serializers.ReadOnlyField(source='owner.username')
     flow = serializers.ReadOnlyField(source='flow.name')
     class Meta:
         model = Poll
-        fields = '__all__'
+        fields = ('id', 'flow', 'statement', 'agree_rate', 'rate')
 
 
 class UserSerializer(serializers.ModelSerializer):

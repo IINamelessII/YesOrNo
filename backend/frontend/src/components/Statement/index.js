@@ -4,8 +4,8 @@ import './style.css'
 
 class Statement extends PureComponent {
     render() {
-        let agree = this.props.poll.agree / (this.props.poll.agree + this.props.poll.disagree) * 100;
-        let disagree = this.props.poll.disagree / (this.props.poll.agree + this.props.poll.disagree) * 100;
+        // let agree = Math.min(Math.max(parseInt(this.props.poll.agree_rate), 10), 90)
+        // let disagree = 100 - agree
         return (
             <div className="Statement">  
                 {this.props.result ? "Thanks!" : this.props.poll.statement}
@@ -14,9 +14,13 @@ class Statement extends PureComponent {
                         <div className="Result">
                             People choose answer:
                         </div>
+                        <div className="Labels">
+                            <div className="CountYes">{"Yes " + this.props.poll.agree_rate + "%"}</div>
+                            <div className="CountNo">{"No " + (100 - this.props.poll.agree_rate) + "%"}</div>
+                        </div>
                         <div className="Diagramm">
-                            <div id="YesRate" style={{width: (agree > 10 ? agree.toFixed(0) : 10) + "%"}}>{"Yes " + agree + "%"}</div>
-                            <div id="NoRate" style={{width: (disagree > 10 ? disagree.toFixed(0) : 10) + "%"}}>{"No " + disagree + "%"}</div>
+                            <div id="YesRate" style={{width: this.props.poll.agree_rate + "%"}}></div>
+                            <div id="NoRate" style={{width:  (100 - this.props.poll.agree_rate) + "%"}}></div>
                         </div>
                     </React.Fragment>
                 )}

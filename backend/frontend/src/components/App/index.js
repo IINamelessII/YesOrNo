@@ -55,7 +55,7 @@ class App extends PureComponent {
                 return response.json();
             })
             .then(data => {
-                this.setState({data: shuffle(data), plug: false, currentId: 0, poll: data ? data[0]: null});
+                this.setState({data: data, plug: false, currentId: 0, poll: data ? data[0]: null});
             });
     }
 
@@ -65,7 +65,7 @@ class App extends PureComponent {
                 return response.json();
             })
             .then(data => {
-                this.setState({data: data.sort(), plug: false, currentId: 0, poll: data ? data[0]: null});
+                this.setState({data: shuffle(data), plug: false, currentId: 0, poll: data ? data[0]: null});
             });
     }
 }

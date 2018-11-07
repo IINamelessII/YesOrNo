@@ -14,28 +14,49 @@
 }
 
 .Diagramm {
-    height: 60%;
+    height: 35%;
     width: 80%;
     display: inline-flex;
-    border: 3px solid #ff2a2a;
+    border: 1px solid #ff2a2a;
     margin-left: 10%;
 }
 
 .Result {
     color: #ff2a2a;
-    font-size: 1.88em;
+    font-size: 1.4em;
     margin: auto;
+}
+
+.Labels {
+    display: inline-flex;
+    width: 80%;
+    height: 20%;
+    margin: auto;
+}
+
+.CountYes, .CountNo {
+    height: 100%;
+    width: 50%;
+    margin: auto;
+}
+
+.CountYes {
+    text-align: left;
+}
+
+.CountNo {
+    text-align: right;
 }
 
 #YesRate, #NoRate {
     height: 100%;
-    font-size: 2.2em;
+    font-size: 1.4em;
 }
 
 #YesRate {
-    background-color: blue;
+    background-color: #4392e0;
 }
 
 #NoRate {
-    background-color: white;
+    background-color: #ff4e4e;
 }
