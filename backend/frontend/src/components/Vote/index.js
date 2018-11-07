@@ -17,7 +17,7 @@ class Vote extends PureComponent {
                 <div className="Vote">
                     <div id="VoteContainer" className={this.state.result ? "Resulting" : "Voting"}>
                         <Pic pic={this.props.poll.flow} />
-                        <Statement result={this.state.result} statement={this.props.poll.statement} />
+                        <Statement result={this.state.result} poll={this.props.poll} />
                         <div className="Buttons">
                             <VoteButton yes={true} result={this.state.result} onButtonClick={this.state.result ? this.likeClick : this.yesClick}/>
                             <VoteButton yes={false} result={this.state.result} onButtonClick={this.state.result ? this.dislikeClick : this.noClick}/>

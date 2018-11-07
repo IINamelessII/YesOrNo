@@ -1,8 +1,32 @@
 .Nav {
     width: 25%;
-    /* float: left; */
     height: 100%;
     border: 1px solid blue;
     display: inline-block;
 }
 
+.header {
+    height: 3.5vh;
+    width: 96%;
+    margin: auto;
+    margin-top: 3%;
+    font-size: 1.6em;
+    text-align: center;
+    vertical-align: middle;
+
+}
+
+.flowList {
+    width: 100%;
+}
+
+.flowLabel {
+    width: 76%;
+    height: 3.5vh;
+    margin: auto;
+    margin-top: 3%;
+    margin-left: 12%;
+    font-size: 1.6em;
+    text-align: center;
+    vertical-align: middle;
+}

@@ -1,1 +1,41 @@
+.Statement {
+    width: 70%;
+    height: 50%;
+    margin: auto;
+    margin-top: 3%;
+    padding: 2vh;
+    text-align: center;
+    font-size: 2em;
+    color: #ff2a2a;
+    background-color: white;
+    border: 5px solid #ff2a2a;
+    border-radius: 0.15em;        
+    display: grid;
+}
 
+.Diagramm {
+    height: 60%;
+    width: 80%;
+    display: inline-flex;
+    border: 3px solid #ff2a2a;
+    margin-left: 10%;
+}
+
+.Result {
+    color: #ff2a2a;
+    font-size: 1.88em;
+    margin: auto;
+}
+
+#YesRate, #NoRate {
+    height: 100%;
+    font-size: 2.2em;
+}
+
+#YesRate {
+    background-color: blue;
+}
+
+#NoRate {
+    background-color: white;
+}

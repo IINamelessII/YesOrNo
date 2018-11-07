@@ -2,30 +2,38 @@ import React, {PureComponent} from 'react'
 import Vote from '../Vote'
 import './style.css'
 
+let text = "\tWelcome to YesOrNo close pre-alpha v.0.0.0!\nTo start choose Flow or just hit the crazy \"Random!\" button in left column.\nHave a nice time!\n\t\t\t(c)IINamelessII";
+let text2 = "You voted in all avaible polls in this Flow(or even in all, if you run Random Mode).\n If you want to create more polls... ";
+
 
 class VoteList extends PureComponent {
-    //it = makeIterator(his.props.data)
-    state = {
-        currentId: 0,
-        poll: this.props.data[0]
-    }
-
     render() {
-        return this.state.poll ? (
+        return this.props.state.show ? (
             <div className="VoteList">
-                    <Vote poll={this.state.poll} goNext = {this.handleGo} />
+                {
+                    this.props.state.plug ? (
+                        <div className="VotePlug">
+                            <div className="text">
+                                {text}
+                            </div>
+                        </div>
+                    ) : this.props.state.poll ? (
+                        <Vote poll={this.props.state.poll} goNext={this.props.handleGo} />
+                    ) : (
+                        <div className="Empty">
+                            <div className="text">
+                                {text2}
+                            </div>
+                        </div>
+                    )
+                }
             </div>
         ) : (
-            <div className="Empty">
-                <p>You voted in all avaible polls, congratulations!</p>
+            <div className="VoteList">
+                <p className="loading">Loading...</p>
             </div>
         )
     }
-
-    handleGo = () => this.setState({
-        poll: this.state.currentId + 1 < this.props.data.length ? this.props.data[this.state.currentId + 1] : null,
-        currentId: this.state.currentId + 1
-    })
 }
 
 export default VoteList;

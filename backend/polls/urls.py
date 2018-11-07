@@ -13,5 +13,5 @@ router.register(r'flows', views.FlowViewSet)
 # Additionally, we include the login URLs for the browsable API.
 urlpatterns = [
     url(r'', include(router.urls)),
-    #url(r'^api-auth/', include('rest_framework.urls', namespace='rest_framework'))
+    url(r'polls_by_flow/(?P<flow_name>.+)/$', views.PollByFlowNameList.as_view()),
 ]

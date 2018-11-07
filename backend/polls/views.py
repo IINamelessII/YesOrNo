@@ -1,8 +1,9 @@
 from polls.models import Poll, Flow
 from polls.permissions import IsSuperUserOrReadOnly, IsSuperUserOrOwnerAdnDeleteOnlyObjectOrReadOnly
 from polls.serializers import FlowSerializer, PollSerializer, UserSerializer
-from rest_framework import viewsets
+from rest_framework import viewsets, generics
 from django.contrib.auth.models import User
+from django.http import HttpResponse
 
 
 class UserViewSet(viewsets.ModelViewSet):
@@ -33,3 +34,15 @@ class PollViewSet(viewsets.ModelViewSet):
 
     def perform_create(self, serializer):
         serializer.save(owner=self.request.user)
+
+
+class PollByFlowNameList(generics.ListAPIView):
+    serializer_class = PollSerializer
+
+    def get_queryset(self):
+        try:
+            flow = self.kwargs['flow_name']
+            return Poll.objects.filter(flow__name=flow)
+        except:
+            return HttpResponse(status=404)
+

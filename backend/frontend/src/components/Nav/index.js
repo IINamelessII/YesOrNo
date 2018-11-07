@@ -10,39 +10,37 @@ class Nav extends Component {
     }
 
     componentDidMount() {
-        fetch(this.props.endpoint)
+        fetch("api/flows/")
             .then(response => {
                 if (response.status !== 200) {
                     return this.setState({load: false});
                 }
                 return response.json();
             })
-            .then(data => this.setState({data: data, load: true}));
+            .then(data => {
+                this.setState({data: data, load: true});
+                this.props.switcher();
+            });
     }
 
     render() {
-        let list = this.state.load && !this.state.hidden && this.state.data.map(flow => (<div key={flow.id} className="ui flowLabel disable-select clickable" onClick={this.goFlow(flow)}>{flow.name}</div>));
+        let data = [...this.state.data].sort((a, b) => a.name > b.name);
+        let list = this.state.load && !this.state.hidden && data.map(flow => (<div key={flow.id} className="ui disable-select clickable flowLabel" onClick={() => {this.props.getPolls(flow.name)}}>{flow.name}</div>));
         return this.props.show ? (
             <div className="Nav">
-                <div className="flowListUp">
-                    <div className="ui chooseLabel disable-select clickable" onClick={this.switch_hidden}>
-                        {this.state.hidden ? "Show Flows" : "Hide Flows"}
-                    </div>
-                    <div className="flowList">
-                        {list}
-                    </div>
+                <div className="ui disable-select clickable header" onClick={this.switch_hidden}>
+                    {this.state.hidden ? "Show Flows" : "Hide Flows"}
                 </div>
-                <div className="ui GoRandom">
+                <div className="flowList">
+                    {list}
+                </div>
+                <div className="ui disable-select clickable header" onClick={this.props.getRandomPolls}>
                     Random!
                 </div>
             </div>
         ) : (
             <div className="Nav"></div>
         )
-    }
-
-    goFlow = (flow) => {
-        console.log(flow.name + "Hello");
     }
 
     switch_hidden = () => this.setState({hidden: !this.state.hidden})
