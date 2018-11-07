@@ -13,15 +13,15 @@ class VoteList extends PureComponent {
                 {
                     this.props.state.plug ? (
                         <div className="VotePlug">
-                            <div className="text">
+                            <div className="ui-inverse-bordered text">
                                 {text}
                             </div>
                         </div>
                     ) : this.props.state.poll ? (
-                        <Vote poll={this.props.state.poll} goNext={this.props.handleGo} />
+                        <Vote poll={this.props.state.poll} result={this.props.result} switcher={this.props.switcher} goNext={this.props.handleGo} />
                     ) : (
                         <div className="Empty">
-                            <div className="text">
+                            <div className="ui-inverse-bordered text">
                                 {text2}
                             </div>
                         </div>
@@ -30,7 +30,7 @@ class VoteList extends PureComponent {
             </div>
         ) : (
             <div className="VoteList">
-                <p className="loading">Loading...</p>
+                <p className="ui-inverse loading">Loading...</p>
             </div>
         )
     }

@@ -5,7 +5,6 @@ import './style.css'
 class Nav extends Component {
     state = {
         data: [],
-        hidden: true,
         load: false
     }
 
@@ -24,15 +23,13 @@ class Nav extends Component {
     }
 
     render() {
-        let data = [...this.state.data].sort((a, b) => a.name > b.name);
-        let list = this.state.load && !this.state.hidden && data.map(flow => (<div key={flow.id} className="ui disable-select clickable flowLabel" onClick={() => {this.props.getPolls(flow.name)}}>{flow.name}</div>));
         return this.props.show ? (
             <div className="Nav">
-                <div className="ui disable-select clickable header" onClick={this.switch_hidden}>
-                    {this.state.hidden ? "Show Flows" : "Hide Flows"}
+                <div className="ui disable-select header">
+                    Choose Flow
                 </div>
                 <div className="flowList">
-                    {list}
+                    {this.state.load && !this.state.hidden && this.state.data.map(flow => (<div key={flow.id} className="ui disable-select clickable flowLabel" onClick={() => {this.props.getPolls(flow.name)}}>{flow.name}</div>))}
                 </div>
                 <div className="ui disable-select clickable header" onClick={this.props.getRandomPolls}>
                     Random!
@@ -42,8 +39,6 @@ class Nav extends Component {
             <div className="Nav"></div>
         )
     }
-
-    switch_hidden = () => this.setState({hidden: !this.state.hidden})
 }
 
 

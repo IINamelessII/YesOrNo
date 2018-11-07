@@ -14,14 +14,6 @@ body {
     overflow: hidden;
 }
 
-.ui {
-    background-color: #ff2a2a;
-    color: white;
-    border-radius: 0.15em;        
-    text-align: center;
-    align-items: center;
-}
-
 .disable-select {
     -webkit-user-select: none;  
     -moz-user-select: none;    

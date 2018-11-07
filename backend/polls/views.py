@@ -19,7 +19,7 @@ class FlowViewSet(viewsets.ModelViewSet):
     """
     List of flows in system
     """
-    queryset = Flow.objects.all()
+    queryset = Flow.objects.all().order_by('name')
     serializer_class = FlowSerializer
     permission_classes = (IsSuperUserOrReadOnly,)
 
@@ -42,7 +42,7 @@ class PollByFlowNameList(generics.ListAPIView):
     def get_queryset(self):
         try:
             flow = self.kwargs['flow_name']
-            return Poll.objects.filter(flow__name=flow)
+            return sorted(Poll.objects.filter(flow__name=flow), reverse=True, key=lambda x: x.rate)
         except:
             return HttpResponse(status=404)
 

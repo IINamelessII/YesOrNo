@@ -20,9 +20,9 @@ class Panel extends PureComponent {
         ) : (
             <div className="Panel">
                 <div id="LogPanelTabs">
-                    <div className="ui LogPanelTab clickable lh" id={this.state.process === 0 ? "activeLogPanelTab" : ""} onClick={this.openSignUpTab}>Sign Up</div>
-                    <div className="ui LogPanelTab clickable lh" id={this.state.process === 1 ? "activeLogPanelTab" : ""} onClick={this.openSignInTab}>Sign In</div>
-                    <div className="ui LogPanelTab clickable lh_2line" id={this.state.process === 2 ? "activeLogPanelTab" : ""} onClick={this.openResetPassTab}>Reset Password</div>
+                    <div className={this.state.process === 0 ? "ui-selected LogPanelTab clickable lh" : "ui LogPanelTab clickable lh"} onClick={this.openSignUpTab}>Sign Up</div>
+                    <div className={this.state.process === 1 ? "ui-selected LogPanelTab clickable lh" : "ui LogPanelTab clickable lh"} onClick={this.openSignInTab}>Sign In</div>
+                    <div className={this.state.process === 2 ? "ui-selected LogPanelTab clickable lh_2line" : "ui LogPanelTab clickable lh_2line"} onClick={this.openResetPassTab}>Reset Password</div>
                 </div>
                 <form action={this.state.process === 0 ? "signup/" : this.state.process === 1 ? "signin/" : "resetpassword/"} method="post">
                     <DjangoCSRFToken />
@@ -52,7 +52,7 @@ class Panel extends PureComponent {
                         </div>
                     )}
                 </form>
-                <div className="message">{this.state.message}</div>
+                <div className="ui-inverse message">{this.state.message}</div>
             </div>
         ) : (
             <div className="Panel"></div>)

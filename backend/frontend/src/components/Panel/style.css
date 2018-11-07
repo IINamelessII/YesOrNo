@@ -2,7 +2,6 @@
     width: 25%;
     /* float: right; */
     height: 100%;
-    border: 1px solid blue;
 }
 
 .button {
@@ -51,18 +50,16 @@ a {
     line-height: 1.5em;
 }
 
-.LogForm {
-    height: 40%;
-    /* width: 90%; */
+form {
+    width: 102%;
+    margin-left: -1.1%;
 }
 
-#activeLogPanelTab {
-    background-color: #bb0000;
+.LogForm {
+    height: 40%;
 }
 
 .message {
-    color: #ff2a2a;
-    background-color: white;
     font-size: 1.2em;
     margin-top: 2%;
     text-align: center;

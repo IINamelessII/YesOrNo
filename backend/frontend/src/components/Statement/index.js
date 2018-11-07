@@ -7,14 +7,14 @@ class Statement extends PureComponent {
         // let agree = Math.min(Math.max(parseInt(this.props.poll.agree_rate), 10), 90)
         // let disagree = 100 - agree
         return (
-            <div className="Statement">  
-                {this.props.result ? "Thanks!" : this.props.poll.statement}
+            <div className="ui-inverse-bordered Statement">  
+                {this.props.poll.statement}
                 {this.props.result && (
                     <React.Fragment>
-                        <div className="Result">
-                            People choose answer:
+                        <div className="ui-inverse Result">
+                            Percentage of people who chose the answer:
                         </div>
-                        <div className="Labels">
+                        <div className="ui-inverse Labels">
                             <div className="CountYes">{"Yes " + this.props.poll.agree_rate + "%"}</div>
                             <div className="CountNo">{"No " + (100 - this.props.poll.agree_rate) + "%"}</div>
                         </div>

@@ -29,23 +29,27 @@ class App extends PureComponent {
         data : [],
         currentId: 0,
         poll: null,
-        plug: true
+        plug: true,
+        result: false
     }  
     render() {
         return(
             <div className="App">
                 <Nav show={this.state.show} switcher={this.switch_show} getPolls={this.getPolls} getRandomPolls={this.getRandomPolls} />
-                <VoteList state={this.state} handleGo={this.handleGo}/>
+                <VoteList state={this.state} handleGo={this.handleGo} result={this.state.result} switcher={this.switch_result}/>
                 <Panel show={this.state.show} user={JSON.parse(document.getElementById('props_user').textContent)} />
             </div>);
     }
 
     switch_show = () => this.setState({show: true})
 
+    switch_result = () => this.setState({result: true})
+
     handleGo = () => {
         this.setState({
             poll: this.state.currentId + 1 < this.state.data.length ? this.state.data[this.state.currentId + 1] : null,
-            currentId: this.state.currentId + 1
+            currentId: this.state.currentId + 1,
+            result: false
         });
     }
 
@@ -55,7 +59,7 @@ class App extends PureComponent {
                 return response.json();
             })
             .then(data => {
-                this.setState({data: data, plug: false, currentId: 0, poll: data ? data[0]: null});
+                this.setState({data: data, plug: false, result: false, currentId: 0, poll: data ? data[0]: null});
             });
     }
 
@@ -65,7 +69,7 @@ class App extends PureComponent {
                 return response.json();
             })
             .then(data => {
-                this.setState({data: shuffle(data), plug: false, currentId: 0, poll: data ? data[0]: null});
+                this.setState({data: shuffle(data), plug: false, result: false, currentId: 0, poll: data ? data[0]: null});
             });
     }
 }
