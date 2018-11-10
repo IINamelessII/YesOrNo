@@ -7,6 +7,10 @@
     display: grid;
 }
 
+.statement-text {
+    font-family: 'Chakra Petch', sans-serif;
+}
+
 .Diagramm {
     height: 35%;
     width: 80%;

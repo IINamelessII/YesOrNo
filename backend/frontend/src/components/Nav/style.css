@@ -35,6 +35,8 @@
 .flowText {
     height: 100%;
     width: 85%;
+    text-align: left;
+    margin-left: 2.5%;
 }
 
 .plus {

@@ -4,11 +4,9 @@ import './style.css'
 
 class Statement extends PureComponent {
     render() {
-        // let agree = Math.min(Math.max(parseInt(this.props.poll.agree_rate), 10), 90)
-        // let disagree = 100 - agree
         return (
             <div className="ui-inverse-bordered Statement">  
-                {this.props.poll.statement}
+                <div className="statement-text">{this.props.poll.statement}</div>
                 {this.props.result && (
                     <React.Fragment>
                         <div className="ui-inverse Result">
