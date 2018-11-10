@@ -1,12 +1,9 @@
 .Statement {
-    width: 70%;
-    height: 50%;
+    width: 90%;
+    height: 70%;
     margin: auto;
-    margin-top: 3%;
-    padding: 2vh;
-    text-align: center;
-    font-size: 2em;
-    border-radius: 0.15em;        
+    margin-top: 2.5%;
+    font-size: 1.5em;       
     display: grid;
 }
 

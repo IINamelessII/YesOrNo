@@ -1,6 +1,13 @@
 .VoteList {
-    /* height: 100vh;
-    width: 100wh; */
+    height: 100%;
+    width: 100%;
+    display: block;
+    overflow-x: hidden;
+    overflow-y: hidden;
+}
+
+.ListWrap {
+    overflow-y: scroll;
     height: 100%;
     width: 100%;
 }
@@ -12,7 +19,7 @@
     font-size: 4.4em;
 }
 
-.Empty, .Placeholder, .VotePlug {
+.Placeholder, .VotePlug {
     width: 100%;
     height: 100vh;
 }
@@ -25,9 +32,4 @@
     width: 90%;
     margin: auto;
     margin-top: 3%;
-}
-
-.Wrap {
-    width: 100%;
-    height: 100%;
 }

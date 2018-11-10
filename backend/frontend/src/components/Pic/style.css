@@ -1,15 +1,11 @@
 .Pic {
-    height: 20%;
+    height: 8%;
     width: 100%;
-    position: relative;
 }
 
 .Flow {
-    align-self: center;
     margin: auto;
-    margin-top: 1%;
-    width: 40%;
-    height: 20%;
-    text-align: center;
+    width: 30%;
+    height: 100%;
     font-size: 2em;
 }

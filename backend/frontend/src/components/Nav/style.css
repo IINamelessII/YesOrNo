@@ -2,6 +2,7 @@
     width: 25%;
     height: 100%;
     display: inline-block;
+    overflow: hidden;
 }
 
 .header {
@@ -20,12 +21,29 @@
 }
 
 .flowLabel {
-    width: 76%;
+    width: 80%;
     height: 3.5vh;
     margin: auto;
     margin-top: 3%;
-    margin-left: 12%;
+    margin-left: 2%;
     font-size: 1.6em;
     text-align: center;
     vertical-align: middle;
+    display: inline-flex;
+}
+
+.flowText {
+    height: 100%;
+    width: 85%;
+}
+
+.plus {
+    font-size: 1em;
+    height: 100%;
+    width: 15%;
+}
+
+.Random {
+    width: 80%;
+    margin-left: 2%;
 }

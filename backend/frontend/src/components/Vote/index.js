@@ -8,45 +8,40 @@ import './style.css'
 
 
 class Vote extends PureComponent {
+    state = {
+        result: false
+    }
     render() {
         return (
             <div className="Wrap">
-                <div className="Vote">
-                    <div id="VoteContainer" className={this.props.result ? "Resulting" : "Voting"}>
-                        <Pic pic={this.props.poll.flow} />
-                        <Statement result={this.props.result} poll={this.props.poll} />
-                        <div className="Buttons">
-                            <VoteButton yes={true} result={this.props.result} onButtonClick={this.props.result ? this.likeClick : this.yesClick}/>
-                            <VoteButton yes={false} result={this.props.result} onButtonClick={this.props.result ? this.dislikeClick : this.noClick}/>
-                        </div>
+                <div className="ui-inverse-bordered Vote">
+                    <Pic pic={this.props.poll.flow} />
+                    <Statement result={this.state.result} poll={this.props.poll} />
+                    <div className="Buttons">
+                        <VoteButton yes={true} result={this.state.result} onButtonClick={this.state.result ? this.likeClick : this.yesClick}/>
+                        <VoteButton yes={false} result={this.state.result} onButtonClick={this.state.result ? this.dislikeClick : this.noClick}/>
                     </div>
                 </div>
             </div>
         )
     }
 
-    click = () => {
-        this.props.result ? this.props.goNext() : this.props.switcher()
-    }
-
     yesClick = () => {
         axios.post('voteYes/', {'id': this.props.poll.id}, {headers: {'X-CSRFTOKEN': Cookies.get('csrftoken')}})
-        this.click()
+        this.setState({result: true})
     }
 
     noClick = () => {
         axios.post('voteNo/', {'id': this.props.poll.id}, {headers: {'X-CSRFTOKEN': Cookies.get('csrftoken')}})
-        this.click()
+        this.setState({result: true})
     }
 
     likeClick = () => {
         axios.post('voteLike/', {'id': this.props.poll.id}, {headers: {'X-CSRFTOKEN': Cookies.get('csrftoken')}})
-        this.click()
     }
 
     dislikeClick = () => {
         axios.post('voteDislike/', {'id': this.props.poll.id}, {headers: {'X-CSRFTOKEN': Cookies.get('csrftoken')}})
-        this.click()
     }
 }
 

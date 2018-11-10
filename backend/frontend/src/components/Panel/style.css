@@ -1,7 +1,7 @@
 .Panel {
     width: 25%;
-    /* float: right; */
     height: 100%;
+    overflow: hidden;
 }
 
 .button {
