@@ -217,6 +217,7 @@ def addPoll(request):
     data = json.loads(request.body.decode('utf-8'))
     try:
         assert len(data['statement']) > 9
+        assert len(data['statement']) < 501
         poll = Poll(owner=request.user, flow=Flow.objects.get(name=data['flow']), statement=data['statement'])
         poll.save()
     except:

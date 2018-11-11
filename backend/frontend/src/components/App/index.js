@@ -42,14 +42,18 @@ class App extends PureComponent {
                 <Panel show={this.state.show} user={JSON.parse(document.getElementById('props_user').textContent)} />
                 {this.state.adding && (
                     <div className="add-the-poll-window">
-                        <div className="labels">
-                            <div className="ui add-poll-label">Adding a poll to {this.state.adding} flow</div>
-                            <div className="ui exit disable-select clickable" onClick={this.closeAddPoll}>X</div>
+                        <div className="ui-inverse-bordered add-the-poll-content">
+                            <div className="labels">
+                                <div className="ui-inverse-bordered add-poll-label">Adding a poll to {this.state.adding} flow</div>
+                                <div className="ui exit disable-select clickable" onClick={this.closeAddPoll}>x</div>
+                            </div>
+                            <div className="ui-inverse text advise">We advise you to formulate a statement in the yes-no question format without using negatives to avoid confusion.</div>
+                            <textarea cols="50" rows="10" id="statement-input" className="ui-inverse-bordered" placeholder="What do you want to ask?"></textarea>
+                            <div className="add-poll-container">
+                                <div id="AddPollMessage" text="message"></div>
+                                <div className="ui add-poll disable-select clickable" onClick={this.addPoll}>Add this poll to the flow</div>
+                            </div>
                         </div>
-                        <div className="ui text">We advise you to formulate a statement in the yes-no question format without using negatives to avoid confusion.</div>
-                        <input id="statement-input" type="text" placeholder="Type your statement here" name="statement-inp"></input>
-                        <div id="AddPollMessage" text="message"></div>
-                        <div className="ui add-poll disable-select clickable" onClick={this.addPoll}>Add this poll to the flow</div>
                     </div>
                 )}
             </div>
@@ -88,7 +92,7 @@ class App extends PureComponent {
 
     addPoll = (func1, func2) => {
         let statement = document.getElementById('statement-input')
-        statement.value.length > 9 ? 
+        statement.value.length > 9 && statement.value.length < 501 ? 
             axios.post('addPoll/', {'flow': this.state.adding, 'statement': statement.value}, {headers: {'X-CSRFTOKEN': Cookies.get('csrftoken')}})
             .then(response => {
                 return this.state.currFlow === this.state.adding ? this.getPolls(this.state.adding) : this.state.currRand ? this.getRandomPolls() : this.closeAddPoll();
@@ -96,7 +100,10 @@ class App extends PureComponent {
             .then(response => {
                 return this.closeAddPoll();
             })
-          : document.getElementById('AddPollMessage').innerHTML = "Statement must be 10 characters at least!"
+        : statement.value.length < 10 ? 
+            document.getElementById('AddPollMessage').innerHTML = "Statement must be 10 characters at least!"
+        :    
+          document.getElementById('AddPollMessage').innerHTML = "Statement must be no more than 500 characters!"
     }
 }
 

@@ -3,7 +3,7 @@ from django.db import models
 class Poll(models.Model):
     created = models.DateTimeField(auto_now_add=True)
     owner = models.ForeignKey('auth.User', related_name='polls', on_delete=models.CASCADE)
-    statement = models.CharField(max_length=1000)
+    statement = models.CharField(max_length=500)
     agree = models.PositiveIntegerField(default=1)
     disagree = models.PositiveIntegerField(default=1)
     likes = models.PositiveIntegerField(default=1)
