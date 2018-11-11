@@ -9,7 +9,7 @@ from django.utils.http import urlsafe_base64_encode, urlsafe_base64_decode
 from django.utils.encoding import force_bytes
 from django.contrib.auth.tokens import default_token_generator
 from django.db import IntegrityError
-from polls.models import Poll
+from polls.models import Poll, Flow
 import json
 
 
@@ -190,6 +190,7 @@ def voteNo(request):
     else:
         return HttpResponse(status=204)
 
+
 def voteLike(request):
     data = json.loads(request.body.decode('utf-8'))
     try:
@@ -199,6 +200,7 @@ def voteLike(request):
         return HttpResponse(status=404)
     else:
         return HttpResponse(status=204)
+
 
 def voteDislike(request):
     data = json.loads(request.body.decode('utf-8'))
@@ -210,4 +212,15 @@ def voteDislike(request):
     else:
         return HttpResponse(status=204)
 
+
+def addPoll(request):
+    data = json.loads(request.body.decode('utf-8'))
+    try:
+        assert len(data['statement']) > 9
+        poll = Poll(owner=request.user, flow=Flow.objects.get(name=data['flow']), statement=data['statement'])
+        poll.save()
+    except:
+        return HttpResponse(status=404)
+    else:
+        return HttpResponse(status=204)
 

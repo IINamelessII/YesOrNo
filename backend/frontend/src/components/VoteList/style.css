@@ -4,6 +4,8 @@
     display: block;
     overflow-x: hidden;
     overflow-y: hidden;
+    z-index: 1;
+    position: relative;
 }
 
 .ListWrap {

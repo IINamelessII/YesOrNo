@@ -5,6 +5,14 @@
     font-family: 'Armata', sans-serif;
 }
 
+.add-the-poll-window {
+    position: absolute;
+    z-index: 2;
+    height: 40%;
+    width: 40%;
+    margin: auto;
+}
+
 body {
     margin: 0;
     width: 100%;

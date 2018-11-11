@@ -31,8 +31,10 @@ class Nav extends Component {
                 <div className="flowList">
                     {this.state.load && !this.state.hidden && this.state.data.map(flow => (
                     <div key={flow.id} className="ui disable-select clickable flowLabel">
-                        <div className="flowText clickable" onClick={() => {this.props.getPolls(flow.name)}}>{flow.name}</div>
-                        <div className="plus clickable">+</div>
+                        <div className="flowText clickable disable-select" onClick={() => {this.props.getPolls(flow.name)}}>{flow.name}</div>
+                        {this.props.is_auth && (
+                            <div className="plus clickable disable-select" onClick={() => {this.props.openAddPoll(flow.name)}}>+</div>
+                        )}
                     </div>))}
                 </div>
                 <div className="ui disable-select clickable header Random" onClick={this.props.getRandomPolls}>
