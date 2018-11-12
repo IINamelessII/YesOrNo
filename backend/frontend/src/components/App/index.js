@@ -29,17 +29,30 @@ class App extends PureComponent {
     state = {
         show: false,
         data : [],
+        voted: this.getVoted(),
+        rated: this.getRated(),
         plug: true,
         adding: null,
         currFlow: null,
         currRand: false
     }  
     render() {
+        // let prom = new Promise(JSON.parse(document.getElementById('props_user').textContent))
+        // prom()
+        // .then(response => response.json())
+        // .then(data => {
+        //     console.log(data)
+        //     let user_data = data
+        //     data.is_auth && this.getVotedAndRated()
+        // })
+        let user_data = JSON.parse(document.getElementById('props_user').textContent)
+        // console.log(this.state.voted)
+        // console.log(this.state.rated)
         return(
             <div className="App">
-                <Nav show={this.state.show} switcher={this.switch_show} getPolls={this.getPolls} getRandomPolls={this.getRandomPolls} openAddPoll={this.openAddPoll} is_auth={JSON.parse(document.getElementById('props_user').textContent).is_auth}/>
-                <VoteList state={this.state} />
-                <Panel show={this.state.show} user={JSON.parse(document.getElementById('props_user').textContent)} />
+                <Nav show={this.state.show} switcher={this.switch_show} getPolls={this.getPolls} getRandomPolls={this.getRandomPolls} openAddPoll={this.openAddPoll} is_auth={user_data.is_auth}/>
+                <VoteList state={this.state} is_auth={user_data.is_auth}/>
+                <Panel show={this.state.show} user={user_data} />
                 {this.state.adding && (
                     <div className="add-the-poll-window">
                         <div className="ui-inverse-bordered add-the-poll-content">
@@ -90,7 +103,7 @@ class App extends PureComponent {
         this.setState({adding: null})
     }
 
-    addPoll = (func1, func2) => {
+    addPoll = () => {
         let statement = document.getElementById('statement-input')
         statement.value.length > 9 && statement.value.length < 501 ? 
             axios.post('addPoll/', {'flow': this.state.adding, 'statement': statement.value}, {headers: {'X-CSRFTOKEN': Cookies.get('csrftoken')}})
@@ -105,13 +118,21 @@ class App extends PureComponent {
         :    
           document.getElementById('AddPollMessage').innerHTML = "Statement must be no more than 500 characters!"
     }
+
+    getVoted = () => {
+        axios.get('api/profile/')
+        .then(data => {
+            return data.data['voted']
+        })
+    }
+
+    getRated = () => {
+        axios.get('api/profile/')
+        .then(data => {
+            return data.data['rated']
+        })
+    }
 }
 
 const wrapper = document.getElementById("root");
 wrapper ? ReactDOM.render(<App />, wrapper) : null;
-
-//<DataProvider user={JSON.parse(document.getElementById('props_user').textContent)} endpoint="api/polls/"/>
-//<div>{JSON.parse(document.getElementById('props_user').textContent).is_auth}</div>
-//<DataProvider switcher={this.switch_show} name="VoteList" render={data => <VoteList data={data} />} endpoint="api/polls/"/>
-
-

@@ -17,10 +17,15 @@ class Vote extends PureComponent {
                 <div className="ui-inverse-bordered Vote">
                     <Pic pic={this.props.poll.flow} />
                     <Statement result={this.state.result} poll={this.props.poll} />
-                    <div className="Buttons">
-                        <VoteButton yes={true} result={this.state.result} onButtonClick={this.state.result ? this.likeClick : this.yesClick}/>
-                        <VoteButton yes={false} result={this.state.result} onButtonClick={this.state.result ? this.dislikeClick : this.noClick}/>
-                    </div>
+                    {this.props.voted ? (
+                        <div className="Buttons">
+                            <VoteButton yes={true} result={this.state.result} onButtonClick={this.state.result ? this.likeClick : this.yesClick}/>
+                            <VoteButton yes={false} result={this.state.result} onButtonClick={this.state.result ? this.dislikeClick : this.noClick}/>
+                        </div>
+                    ) : (
+                        <div className="Buttons"></div>
+                    )}
+                    
                 </div>
             </div>
         )

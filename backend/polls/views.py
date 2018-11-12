@@ -45,4 +45,3 @@ class PollByFlowNameList(generics.ListAPIView):
             return sorted(Poll.objects.filter(flow__name=flow), reverse=True, key=lambda x: x.rate)
         except:
             return HttpResponse(status=404)
-

@@ -9,7 +9,10 @@ from django.utils.http import urlsafe_base64_encode, urlsafe_base64_decode
 from django.utils.encoding import force_bytes
 from django.contrib.auth.tokens import default_token_generator
 from django.db import IntegrityError
+from rest_framework import generics
 from polls.models import Poll, Flow
+from frontend.serializers import ProfileSerializer
+from frontend.models import Profile
 import json
 
 
@@ -172,8 +175,9 @@ def voteYes(request):
     data = json.loads(request.body.decode('utf-8'))
     try:
         poll = Poll.objects.get(pk=data['id'])
+        profile = Profile.objects.get(user=request.user)
+        profile.voteYes(poll.id)
         poll.voteYes()
-
     except:
         return HttpResponse(status=404)
     else:
@@ -184,6 +188,8 @@ def voteNo(request):
     data = json.loads(request.body.decode('utf-8'))
     try:
         poll = Poll.objects.get(pk=data['id'])
+        profile = Profile.objects.get(user=request.user)
+        profile.voteNo(poll.id)
         poll.voteNo()
     except:
         return HttpResponse(status=404)
@@ -191,22 +197,26 @@ def voteNo(request):
         return HttpResponse(status=204)
 
 
-def voteLike(request):
+def rateLike(request):
     data = json.loads(request.body.decode('utf-8'))
     try:
         poll = Poll.objects.get(pk=data['id'])
-        poll.voteLike()
+        profile = Profile.objects.get(user=request.user)
+        profile.rateLike(poll.id)
+        poll.rateLike()
     except:
         return HttpResponse(status=404)
     else:
         return HttpResponse(status=204)
 
 
-def voteDislike(request):
+def rateDislike(request):
     data = json.loads(request.body.decode('utf-8'))
     try:
         poll = Poll.objects.get(pk=data['id'])
-        poll.voteDislike()
+        profile = Profile.objects.get(user=request.user)
+        profile.rateDislike(poll.id)
+        poll.rateDislike()
     except:
         return HttpResponse(status=404)
     else:
@@ -225,3 +235,12 @@ def addPoll(request):
     else:
         return HttpResponse(status=204)
 
+class ProfileById(generics.RetrieveAPIView):
+    serializer_class = ProfileSerializer
+
+    def get_object(self):
+        try:
+            #profile_id = int(self.kwargs['profile_id'])
+            return Profile.objects.get(user__id=self.request.user.id)
+        except:
+            return HttpResponse(status=404)
