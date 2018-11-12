@@ -16,24 +16,18 @@ from frontend.models import Profile
 import json
 
 
-def index(request, logout=False):
-    if logout:
-        auth.logout(request)
-    props = {
-        'is_auth': request.user.is_authenticated,
-        'username': request.user.username,
-        'message': request.session.get('message') if not request.session.get('message_was_showed') else None
-    }
-    context = {
-        'props': props
-    }
+def index(request):
     request.session['message_was_showed'] = True
-    return render(request, 'frontend/index.html', context=context)
+    return render(request, 'frontend/index.html')
 
 
 def logout(request):
-    auth.logout(request)
-    return redirect(request.META.get('HTTP_REFERER'))
+    try:
+        auth.logout(request)
+    except:
+        return HttpResponse(status=404)
+    else:
+        return HttpResponse(status=200)
 
 
 @ensure_csrf_cookie

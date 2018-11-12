@@ -1,21 +1,20 @@
 import React, {PureComponent} from 'react'
 import './style.css'
 import DjangoCSRFToken from 'django-react-csrftoken'
+import axios from 'axios';
 
 
 class Panel extends PureComponent {
     state = {
         process: 0,
-        message: this.props.user.message
+        message: this.props.state.message
     }
 
     render() {
-        return this.props.show ? this.props.user.is_auth ? (
+        return this.props.state.show ? this.props.state.is_auth ? (
             <div className="Panel">
-                <div className="ui button">Hello, {this.props.user.username}!</div>
-                <a href="logout/">
-                    <div className="ui button clickable disable-select">Sign out</div>
-                </a>
+                <div className="ui button">Hello, {this.props.state.username}!</div>
+                <div className="ui button clickable disable-select" onClick={this.signOut} >Sign out</div>
             </div>
         ) : (
             <div className="Panel">
@@ -72,6 +71,13 @@ class Panel extends PureComponent {
         process: 2,
         message: null
     })
+
+    signOut = () => {
+        axios.get('logout/')
+        .then(response => {
+            this.props.getProfile()
+        })
+    }
 
 }
 

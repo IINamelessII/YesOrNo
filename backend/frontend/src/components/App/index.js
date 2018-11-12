@@ -29,30 +29,23 @@ class App extends PureComponent {
     state = {
         show: false,
         data : [],
-        voted: this.getVoted(),
-        rated: this.getRated(),
+        voted: null,
+        rated: null,
+        username: null,
+        is_auth: null,
+        message: null,
         plug: true,
         adding: null,
         currFlow: null,
         currRand: false
     }  
     render() {
-        // let prom = new Promise(JSON.parse(document.getElementById('props_user').textContent))
-        // prom()
-        // .then(response => response.json())
-        // .then(data => {
-        //     console.log(data)
-        //     let user_data = data
-        //     data.is_auth && this.getVotedAndRated()
-        // })
-        let user_data = JSON.parse(document.getElementById('props_user').textContent)
-        // console.log(this.state.voted)
-        // console.log(this.state.rated)
+        !this.state.show && this.getProfile()
         return(
             <div className="App">
-                <Nav show={this.state.show} switcher={this.switch_show} getPolls={this.getPolls} getRandomPolls={this.getRandomPolls} openAddPoll={this.openAddPoll} is_auth={user_data.is_auth}/>
-                <VoteList state={this.state} is_auth={user_data.is_auth}/>
-                <Panel show={this.state.show} user={user_data} />
+                <Nav show={this.state.show} switcher={this.switch_show} getPolls={this.getPolls} getRandomPolls={this.getRandomPolls} openAddPoll={this.openAddPoll} is_auth={this.state.is_auth}/>
+                <VoteList state={this.state}/>
+                <Panel state={this.state} getProfile={this.getProfile}/>
                 {this.state.adding && (
                     <div className="add-the-poll-window">
                         <div className="ui-inverse-bordered add-the-poll-content">
@@ -119,17 +112,19 @@ class App extends PureComponent {
           document.getElementById('AddPollMessage').innerHTML = "Statement must be no more than 500 characters!"
     }
 
-    getVoted = () => {
+    getProfile = () => {
         axios.get('api/profile/')
-        .then(data => {
-            return data.data['voted']
+        .then(response => {
+            return response.data
         })
-    }
-
-    getRated = () => {
-        axios.get('api/profile/')
         .then(data => {
-            return data.data['rated']
+            this.setState({
+                username: data['username'],
+                is_auth: data['is_auth'],
+                message: data['message'],
+                voted: data['voted'],
+                rated: data['rated']
+            })
         })
     }
 }

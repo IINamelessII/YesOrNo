@@ -16,7 +16,7 @@ class Vote extends PureComponent {
             <div className="Wrap">
                 <div className="ui-inverse-bordered Vote">
                     <Pic pic={this.props.poll.flow} />
-                    <Statement result={this.state.result} poll={this.props.poll} />
+                    <Statement poll={this.props.poll} />
                     {this.props.voted ? (
                         <div className="Buttons">
                             <VoteButton yes={true} result={this.state.result} onButtonClick={this.state.result ? this.likeClick : this.yesClick}/>
