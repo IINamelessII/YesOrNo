@@ -1,3 +1,4 @@
 {
-    "python.pythonPath": "/home/nitro/.local/share/virtualenvs/YesOrNo-FLTRvmpx/bin/python"
+    "python.pythonPath": "/home/nitro/.local/share/virtualenvs/YesOrNo-FLTRvmpx/bin/python",
+    "git.ignoreLimitWarning": true
 }

@@ -44,7 +44,7 @@ class App extends PureComponent {
         return(
             <div className="App">
                 <Nav show={this.state.show} switcher={this.switch_show} getPolls={this.getPolls} getRandomPolls={this.getRandomPolls} openAddPoll={this.openAddPoll} is_auth={this.state.is_auth}/>
-                <VoteList state={this.state}/>
+                <VoteList state={this.state} getVoted={this.getVoted} getRated={this.getRated}/>
                 <Panel state={this.state} getProfile={this.getProfile}/>
                 {this.state.adding && (
                     <div className="add-the-poll-window">
@@ -126,6 +126,22 @@ class App extends PureComponent {
                 rated: data['rated']
             })
         })
+    }
+    
+    getVoted = () => {
+        axios.get('api/profile/')
+        .then(response => {
+            return response.data
+        })
+        .then(data => this.setState({voted: data['voted']}))
+    }
+
+    getRated = () => {
+        axios.get('api/profile/')
+        .then(response => {
+            return response.data
+        })
+        .then(data => this.setState({rated: data['rated']}))
     }
 }
 
