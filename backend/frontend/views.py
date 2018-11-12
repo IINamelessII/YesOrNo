@@ -32,47 +32,57 @@ def logout(request):
 
 @ensure_csrf_cookie
 def signin(request):
-    username = request.POST.get('username')
-    password = request.POST.get('password')
-    user = auth.authenticate(request, username=username, password=password)
-    if user is not None:
-        auth.login(request, user)
-        message = None
+    data = json.loads(request.body.decode('utf-8'))
+    try:
+        username = data['username']
+        password = data['password']
+    except:
+        return HttpResponse(status=404)
     else:
-        message = "Wrong Username or Password, please try again or reset your Password"
-    request.session['message'] = message
-    request.session['message_was_showed'] = False
-    return redirect(request.META.get('HTTP_REFERER'))
+        user = auth.authenticate(request, username=username, password=password)
+        if user is not None:
+            auth.login(request, user)
+            message = None
+        else:
+            message = "Wrong Username or Password, please try again or reset your Password"
+        request.session['message'] = message
+        request.session['message_was_showed'] = False
+        return HttpResponse(status=200)
 
 
 @ensure_csrf_cookie
 def signup(request):
-    email = request.POST.get('email')
-    username = request.POST.get('username')
-    password = request.POST.get('password')
+    data = json.loads(request.body.decode('utf-8'))
     try:
-        if auth.models.User.objects.filter(email=email).exists():
-            raise ValueError()
-        user = auth.models.User.objects.create_user(
-            username=username, email=email, password=password, is_active=False)
-        if user:
-            user.save()
-            token = default_token_generator.make_token(user)
-            uid = urlsafe_base64_encode(force_bytes(user.pk)).decode()
-            link = "{}://{}:{}/{}/{}/{}".format(request.scheme, request.META['SERVER_NAME'], request.META['SERVER_PORT'], 'users/validate', uid, token)
-            email = EmailMessage('Confirmation of registration in the YesOrNo', 'Greetings, {}!\nFollow the link below to confirm registration of your account.\n{}'.format(username, link), to=[email,])
-            email.send()
-    except IntegrityError:
-        message = 'Account with this username already exists'
-    except ValueError:
-        message = 'Account has already been registered to this email'
+        email = data['email']
+        username = data['username']
+        password = data['password']
     except:
-        message = 'Something went wrong, please try again'
+        return HttpResponse(status=404)
     else:
-        message = 'Please follow the link received in the email to confirm registration of your account'
-    request.session['message'] = message
-    request.session['message_was_showed'] = False
-    return redirect(request.META.get('HTTP_REFERER'))
+        try:
+            if auth.models.User.objects.filter(email=email).exists():
+                raise ValueError()
+            user = auth.models.User.objects.create_user(
+                username=username, email=email, password=password, is_active=False)
+            if user:
+                user.save()
+                token = default_token_generator.make_token(user)
+                uid = urlsafe_base64_encode(force_bytes(user.pk)).decode()
+                link = "{}://{}:{}/{}/{}/{}".format(request.scheme, request.META['SERVER_NAME'], request.META['SERVER_PORT'], 'users/validate', uid, token)
+                email = EmailMessage('Confirmation of registration in the YesOrNo', 'Greetings, {}!\nFollow the link below to confirm registration of your account.\n{}'.format(username, link), to=[email,])
+                email.send()
+        except IntegrityError:
+            message = 'Account with this username already exists'
+        except ValueError:
+            message = 'Account has already been registered to this email'
+        except:
+            message = 'Something went wrong, please try again'
+        else:
+            message = 'Please follow the link received in the email to confirm registration of your account'
+        request.session['message'] = message
+        request.session['message_was_showed'] = False
+        return HttpResponse(status=200)
 
 
 def activation(request, uidb64, token):
@@ -100,30 +110,35 @@ def activation(request, uidb64, token):
 
 @ensure_csrf_cookie
 def reset_password(request):
-    email = request.POST.get('email')
+    data = json.loads(request.body.decode('utf-8'))
     try:
-        user = auth.models.User.objects.get(email=email)
-        if not user.is_active:
-            raise ValueError()
-    except ValueError:
-        message = "Please follow the link in the email to complete the registration of your account."
+        email = data['email']
     except:
-        message = "Account with this email not found"
+        return HttpResponse(status=404)
     else:
         try:
-            token = default_token_generator.make_token(user)
-            uemail = urlsafe_base64_encode(force_bytes(user.pk)).decode()
-            link = "{}://{}:{}/{}/{}/{}".format(request.scheme, request.META['SERVER_NAME'], request.META['SERVER_PORT'], 'users/reset', uemail, token)
-            email = EmailMessage('Account access recovery in the YesOrNo', 'Greetings, {}!\nFollow the link below to restore access to your account.\n{}\nIf you did not restore access to your account, ignore this email.'.format(\
-                user.username, link), to=[email,])
-            email.send()
+            user = auth.models.User.objects.get(email=email)
+            if not user.is_active:
+                raise ValueError()
+        except ValueError:
+            message = "Please follow the link in the email to complete the registration of your account."
         except:
-            message = 'Something went wrong, please try again'
+            message = "Account with this email not found"
         else:
-            message = "Please follow the link in the email to restore access to your account"
-    request.session['message'] = message
-    request.session['message_was_showed'] = False
-    return redirect(request.META.get('HTTP_REFERER'))
+            try:
+                token = default_token_generator.make_token(user)
+                uemail = urlsafe_base64_encode(force_bytes(user.pk)).decode()
+                link = "{}://{}:{}/{}/{}/{}".format(request.scheme, request.META['SERVER_NAME'], request.META['SERVER_PORT'], 'users/reset', uemail, token)
+                email = EmailMessage('Account access recovery in the YesOrNo', 'Greetings, {}!\nFollow the link below to restore access to your account.\n{}\nIf you did not restore access to your account, ignore this email.'.format(\
+                    user.username, link), to=[email,])
+                email.send()
+            except:
+                message = 'Something went wrong, please try again'
+            else:
+                message = "Please follow the link in the email to restore access to your account"
+        request.session['message'] = message
+        request.session['message_was_showed'] = False
+        return HttpResponse(status=200)
 
 
 @ensure_csrf_cookie

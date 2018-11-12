@@ -19,7 +19,7 @@ class VoteList extends PureComponent {
                         </div>
                     ) : this.props.state.data.length ? (
                         <div className="ListWrap">
-                            {this.props.state.data.map((poll) => (<Vote
+                            {this.props.state.data.map((poll) => (<Vote key={poll.id}
                                 poll={poll} 
                                 voted={this.props.state.is_auth ? poll.id in this.props.state.voted ? this.props.state.voted[poll.id] ? 1 : 2 : 3: null}
                                 rated={this.props.state.is_auth ? poll.id in this.props.state.rated ? this.props.state.rated[poll.id] ? 1 : 2 : 3: null} />))}

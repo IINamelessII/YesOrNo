@@ -1,7 +1,7 @@
 import React, {PureComponent} from 'react'
 import './style.css'
-import DjangoCSRFToken from 'django-react-csrftoken'
 import axios from 'axios';
+import * as Cookies from 'js-cookie'
 
 
 class Panel extends PureComponent {
@@ -22,35 +22,32 @@ class Panel extends PureComponent {
                     <div className={this.state.process === 0 ? "ui-selected LogPanelTab clickable lh" : "ui LogPanelTab clickable lh"} onClick={this.openSignUpTab}>Sign Up</div>
                     <div className={this.state.process === 1 ? "ui-selected LogPanelTab clickable lh" : "ui LogPanelTab clickable lh"} onClick={this.openSignInTab}>Sign In</div>
                     <div className={this.state.process === 2 ? "ui-selected LogPanelTab clickable lh_2line" : "ui LogPanelTab clickable lh_2line"} onClick={this.openResetPassTab}>Reset Password</div>
-                </div>
-                <form action={this.state.process === 0 ? "signup/" : this.state.process === 1 ? "signin/" : "resetpassword/"} method="post">
-                    <DjangoCSRFToken />
-                    {this.state.process === 0 ? (
-                        <div className="LogForm">
-                            <div id="email" className="ui button">Email</div>
-                            <input className="button input" type="email" placeholder="Enter Email" name="email" required></input>
-                            <div id="username" className="ui button">Username</div>
-                            <input className="button input" type="text" placeholder="Enter Username" name="username" required></input>
-                            <div id="password" className="ui button">Password</div>
-                            <input className="button input" type="password" placeholder="Enter Password" name="password" required></input>
-                            <button id="LogButt" className="ui button disable-select clickable"  type="submit">Sign Up</button>
-                        </div>
-                    ) : this.state.process === 1 ? (
-                        <div className="LogForm">
-                            <div id="username" className="ui button">Username</div>
-                            <input className="button input" type="text" placeholder="Enter Username" name="username" required></input>
-                            <div id="password" className="ui button">Password</div>
-                            <input className="button input" type="password" placeholder="Enter Password" name="password" required></input>
-                            <button id="LogButt" className="ui button disable-select clickable"  type="submit">Sign In</button>
-                        </div>
-                    ) : (
-                        <div className="LogForm">
-                            <div id="email" className="ui button">Email</div>
-                            <input className="button input" type="email" placeholder="Enter Email" name="email" required></input>
-                            <button id="LogButt" className="ui button disable-select clickable"  type="submit">Reset Password</button>
-                        </div>
-                    )}
-                </form>
+                </div>                
+                {this.state.process === 0 ? (
+                    <div className="LogForm">
+                        <div id="email" className="ui button">Email</div>
+                        <input className="button input" type="email" placeholder="Enter Email" id="signup-email"></input>
+                        <div id="username" className="ui button">Username</div>
+                        <input className="button input" type="text" placeholder="Enter Username" id="signup-username"></input>
+                        <div id="password" className="ui button">Password</div>
+                        <input className="button input" type="password" placeholder="Enter Password" id="signup-password"></input>
+                        <button id="LogButt" className="ui button disable-select clickable" onClick={this.signUp}>Sign Up</button>
+                    </div>
+                ) : this.state.process === 1 ? (
+                    <div className="LogForm">
+                        <div id="username" className="ui button">Username</div>
+                        <input id="signin-username" className="button input" type="text" placeholder="Enter Username"></input>
+                        <div id="password" className="ui button">Password</div>
+                        <input id="signin-password" className="button input" type="password" placeholder="Enter Password"></input>
+                        <button id="LogButt" className="ui button disable-select clickable" onClick={this.signIn}>Sign In</button>
+                    </div>
+                ) : (
+                    <div className="LogForm">
+                        <div id="email" className="ui button">Email</div>
+                        <input className="button input" type="email" placeholder="Enter Email" id="rp-email"></input>
+                        <button id="LogButt" className="ui button disable-select clickable" onClick={this.resetPass}>Reset Password</button>
+                    </div>
+                )}
                 <div className="ui-inverse message">{this.state.message}</div>
             </div>
         ) : (
@@ -79,6 +76,33 @@ class Panel extends PureComponent {
         })
     }
 
+    signUp = () => {
+        axios.post('signup/', {
+            'username': document.getElementById('signup-username').value,
+            'email': document.getElementById('signup-email').value,
+            'password': document.getElementById('signup-password').value
+        }, {headers: {'X-CSRFTOKEN': Cookies.get('csrftoken')}})
+        .then(response => {
+            this.props.getProfile()
+        })
+    }
+
+    signIn = () => {
+        axios.post('signin/', {
+            'username': document.getElementById('signin-username').value,
+            'password': document.getElementById('signin-password').value
+        }, {headers: {'X-CSRFTOKEN': Cookies.get('csrftoken')}})
+        .then(response => {
+            this.props.getProfile()
+        })
+    }
+
+    resetPass = () => {
+        axios.post('resetpassword/', {'email': document.getElementById('rp-email').value}, {headers: {'X-CSRFTOKEN': Cookies.get('csrftoken')}})
+        .then(response => {
+            this.props.getProfile()
+        })
+    }
 }
 
 
