@@ -17,3 +17,13 @@
     font-size: 2em;
     display: inline-flex;
 }
+
+.left-buttons {
+    display: inline-flex;
+    width: 50%;
+}
+
+.right-buttons {
+    display: inline-flex;
+    width: 50%;
+}

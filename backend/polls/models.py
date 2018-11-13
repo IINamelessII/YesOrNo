@@ -28,28 +28,36 @@ class Poll(models.Model):
         return r'Poll #{} rate {}%'.format(self.id, self.rate)
     
     def voteYes(self):
-        self.update(agree=models.F('agree') + 1)
+        self.agree = models.F('agree') + 1
+        self.save()
     
     def voteNo(self):
-        self.update(disagree=models.F('disagree') + 1)
+        self.disagree = models.F('disagree') + 1
+        self.save()
     
     def rateLike(self):
-        self.update(likes=models.F('likes') + 1)
+        self.likes = models.F('likes') + 1
+        self.save()
     
     def rateDislike(self):
-        self.update(dislikes=models.F('dislikes') + 1)
+        self.dislikes = models.F('dislikes') + 1
+        self.save()
     
     def unvoteYes(self):
-        self.update(agree=models.F('agree') - 1)
+        self.agree = models.F('agree') - 1
+        self.save()
     
     def unvoteNo(self):
-        self.update(disagree=models.F('disagree') - 1)
+        self.disagree = models.F('disagree') - 1
+        self.save()
     
     def unrateLike(self):
-        self.update(likes=models.F('likes') - 1)
+        self.likes = models.F('likes') - 1
+        self.save()
     
     def unrateDislike(self):
-        self.update(dislikes=models.F('dislikes') - 1)
+        self.dislikes = models.F('dislikes') - 1
+        self.save()
 
 
 
