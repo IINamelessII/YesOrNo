@@ -17,6 +17,10 @@ urlpatterns = [
     path('voteNo/', views.voteNo, name='voteNo'),
     path('voteLike/', views.rateLike, name='rateLike'),
     path('voteDislike/', views.rateDislike, name='rateDislike'),
+    path('unvoteYes/', views.unvoteYes, name='unvoteYes'),
+    path('unvoteNo/', views.unvoteNo, name='unvoteNo'),
+    path('unvoteLike/', views.unrateLike, name='unrateLike'),
+    path('unvoteDislike/', views.unrateDislike, name='unrateDislike'),
     path('addPoll/', views.addPoll, name='addPoll'),
     url(r'api/profile/', views.ProfileById.as_view())
 ]

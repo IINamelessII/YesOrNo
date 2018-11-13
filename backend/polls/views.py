@@ -1,6 +1,6 @@
 from polls.models import Poll, Flow
 from polls.permissions import IsSuperUserOrReadOnly, IsSuperUserOrOwnerAdnDeleteOnlyObjectOrReadOnly
-from polls.serializers import FlowSerializer, PollSerializer, UserSerializer
+from polls.serializers import FlowSerializer, PollSerializer, ShortPollSerializer, UserSerializer
 from rest_framework import viewsets, generics
 from django.contrib.auth.models import User
 from django.http import HttpResponse
@@ -43,5 +43,16 @@ class PollByFlowNameList(generics.ListAPIView):
         try:
             flow = self.kwargs['flow_name']
             return sorted(Poll.objects.filter(flow__name=flow), reverse=True, key=lambda x: x.rate)
+        except:
+            return HttpResponse(status=404)
+
+
+class ShortPollById(generics.RetrieveAPIView):
+    serializer_class = ShortPollSerializer
+
+    def get_object(self):
+        try:
+            id = int(self.kwargs['id'])
+            return Poll.objects.get(pk=id)
         except:
             return HttpResponse(status=404)

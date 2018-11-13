@@ -14,4 +14,5 @@ router.register(r'flows', views.FlowViewSet)
 urlpatterns = [
     url(r'', include(router.urls)),
     url(r'polls_by_flow/(?P<flow_name>.+)/$', views.PollByFlowNameList.as_view()),
+    url(r'shortpoll_by_id/(?P<id>.+)/$', views.ShortPollById.as_view()),
 ]

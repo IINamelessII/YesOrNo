@@ -12,7 +12,13 @@ class PollSerializer(serializers.ModelSerializer):
     flow = serializers.ReadOnlyField(source='flow.name')
     class Meta:
         model = Poll
-        fields = ('id', 'flow', 'statement', 'agree_rate', 'rate')
+        fields = ('id', 'flow', 'statement', 'agree', 'disagree', 'likes', 'dislikes')
+
+
+class ShortPollSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Poll
+        fields = ('agree_rate', 'rate')
 
 
 class UserSerializer(serializers.ModelSerializer):

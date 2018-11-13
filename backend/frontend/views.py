@@ -232,6 +232,50 @@ def rateDislike(request):
         return HttpResponse(status=204)
 
 
+def unvoteYes(request):
+    data = json.loads(request.body.decode('utf-8'))
+    try:
+        poll = Poll.objects.get(pk=data['id'])
+        poll.unvoteYes()
+    except:
+        return HttpResponse(status=404)
+    else:
+        return HttpResponse(status=204)
+    
+
+def unvoteNo(request):
+    data = json.loads(request.body.decode('utf-8'))
+    try:
+        poll = Poll.objects.get(pk=data['id'])
+        poll.unvoteNo()
+    except:
+        return HttpResponse(status=404)
+    else:
+        return HttpResponse(status=204)
+
+
+def unrateLike(request):
+    data = json.loads(request.body.decode('utf-8'))
+    try:
+        poll = Poll.objects.get(pk=data['id'])
+        poll.unrateLike()
+    except:
+        return HttpResponse(status=404)
+    else:
+        return HttpResponse(status=204)
+
+
+def unrateDislike(request):
+    data = json.loads(request.body.decode('utf-8'))
+    try:
+        poll = Poll.objects.get(pk=data['id'])
+        poll.unrateDislike()
+    except:
+        return HttpResponse(status=404)
+    else:
+        return HttpResponse(status=204)
+
+
 def addPoll(request):
     data = json.loads(request.body.decode('utf-8'))
     try:
@@ -244,12 +288,12 @@ def addPoll(request):
     else:
         return HttpResponse(status=204)
 
+
 class ProfileById(generics.RetrieveAPIView):
     serializer_class = ProfileSerializer
 
     def get_object(self):
         try:
-            #profile_id = int(self.kwargs['profile_id'])
             return Profile.objects.get(user__id=self.request.user.id)
         except:
             return HttpResponse(status=404)

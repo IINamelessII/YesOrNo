@@ -11,12 +11,12 @@ class Statement extends PureComponent {
                     Percentage of people who chose the answer:
                 </div>
                 <div className="ui-inverse Labels">
-                    <div className="CountYes">{"Yes " + this.props.poll.agree_rate + "%"}</div>
-                    <div className="CountNo">{"No " + (100 - this.props.poll.agree_rate) + "%"}</div>
+                    <div className="CountYes">{"Yes " + this.props.agree_rate + "%"}</div>
+                    <div className="CountNo">{"No " + (100 - this.props.agree_rate) + "%"}</div>
                 </div>
                 <div className="Diagramm">
-                    <div id="YesRate" style={{width: this.props.poll.agree_rate + "%"}}></div>
-                    <div id="NoRate" style={{width:  (100 - this.props.poll.agree_rate) + "%"}}></div>
+                    <div id="YesRate" style={{width: this.props.agree_rate + "%"}}></div>
+                    <div id="NoRate" style={{width:  (100 - this.props.agree_rate) + "%"}}></div>
                 </div>
             </div>
         )
