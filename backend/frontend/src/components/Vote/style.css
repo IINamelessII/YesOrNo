@@ -13,17 +13,32 @@
 .Buttons {
     height: 8%;
     width: 90%;
-    margin-top: 1.5%;
+    margin-top: 1%;
     font-size: 2em;
     display: inline-flex;
+    position: relative;
 }
 
 .left-buttons {
     display: inline-flex;
     width: 50%;
+    height: 125%;
 }
 
 .right-buttons {
     display: inline-flex;
     width: 50%;
+    position: absolute;
+    left: 62.3%;
+}
+
+.rate {
+    width: 25%;
+    text-align: center;
+}
+
+.self-rate {
+    width: 12.5%;
+    position: absolute;
+    left: 87.3%;
 }

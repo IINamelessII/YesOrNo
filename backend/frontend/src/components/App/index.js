@@ -37,7 +37,8 @@ class App extends PureComponent {
         plug: true,
         adding: null,
         currFlow: null,
-        currRand: false
+        currRand: false,
+        currUser: false
     }  
     render() {
         !this.state.show && this.getProfile()
@@ -45,7 +46,7 @@ class App extends PureComponent {
             <div className="App">
                 <Nav show={this.state.show} switcher={this.switch_show} getPolls={this.getPolls} getRandomPolls={this.getRandomPolls} openAddPoll={this.openAddPoll} is_auth={this.state.is_auth}/>
                 <VoteList state={this.state} getVoted={this.getVoted} getRated={this.getRated}/>
-                <Panel state={this.state} getProfile={this.getProfile}/>
+                <Panel state={this.state} getProfile={this.getProfile} getPollsByUser={this.getPollsByUser} />
                 {this.state.adding && (
                     <div className="add-the-poll-window">
                         <div className="ui-inverse-bordered add-the-poll-content">
@@ -69,23 +70,30 @@ class App extends PureComponent {
     switch_show = () => this.setState({show: true})
 
     getPolls = (flow) => {
-        fetch("api/polls_by_flow/" + flow)
+        axios.get("api/polls_by_flow/" + flow)
             .then(response => {
-                return response.json();
+                return response.data;
             })
             .then(data => {
-                this.setState({data: data, plug: false, currFlow: flow, currRand: false});
+                this.setState({data: data, plug: false, currFlow: flow, currRand: false, currUser: false});
             });
     }
 
     getRandomPolls = () => {
-        fetch("api/polls/")
+        axios.get("api/polls/")
             .then(response => {
-                return response.json();
+                return response.data;
             })
             .then(data => {
-                this.setState({data: shuffle(data), plug: false, currFlow: null, currRand: true});
+                this.setState({data: shuffle(data), plug: false, currFlow: null, currRand: true, currUser: false});
             });
+    }
+
+    getPollsByUser = () => {
+        axios.get("api/polls_by_user/")
+        .then(response => {
+            this.setState({data: response.data, plug: false, currFlow: null, currRand: false, currUser: true})
+        })
     }
 
     openAddPoll = (flow) => {
@@ -101,7 +109,7 @@ class App extends PureComponent {
         statement.value.length > 9 && statement.value.length < 501 ? 
             axios.post('addPoll/', {'flow': this.state.adding, 'statement': statement.value}, {headers: {'X-CSRFTOKEN': Cookies.get('csrftoken')}})
             .then(response => {
-                return this.state.currFlow === this.state.adding ? this.getPolls(this.state.adding) : this.state.currRand ? this.getRandomPolls() : this.closeAddPoll();
+                return this.state.currFlow === this.state.adding ? this.getPolls(this.state.adding) : this.state.currRand ? this.getRandomPolls() : this.state.currUser ? this.getPollsByUser() : this.closeAddPoll();
             })
             .then(response => {
                 return this.closeAddPoll();

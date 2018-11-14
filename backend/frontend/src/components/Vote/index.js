@@ -35,7 +35,7 @@ class Vote extends PureComponent {
                         </div>
                     ) : (
                         <div className="Buttons">
-                            <div className="ui-inverse-bordered rate">{this.state.rate}%</div>
+                            <div className="ui-inverse-bordered self-rate">{this.state.rate}%</div>
                         </div>
                     )}
                 </div>
@@ -44,20 +44,21 @@ class Vote extends PureComponent {
     }
 
     yesClick = () => {
-        (this.state.voted === 2 && axios.post('unvoteNo/', {'id': this.props.poll.id}, {headers: {'X-CSRFTOKEN': Cookies.get('csrftoken')}}))
-        .then(response => {
+        let prom = new Promise((res, rej) => {
             this.state.voted === 1 ? 
                 axios.post('unvoteYes/', {'id': this.props.poll.id}, {headers: {'X-CSRFTOKEN': Cookies.get('csrftoken')}})
             : 
                 axios.post('voteYes/', {'id': this.props.poll.id}, {headers: {'X-CSRFTOKEN': Cookies.get('csrftoken')}})
         })
         .then(response => {
+            this.state.voted === 2 && axios.post('unvoteNo/', {'id': this.props.poll.id}, {headers: {'X-CSRFTOKEN': Cookies.get('csrftoken')}})
+        })
+        .finally(response => {
             axios.get('api/shortpoll_by_id/' + this.props.poll.id)
             .then(response => {
-                this.setState({agree_rate: response.data['agree_rate'], rate: response.data['rate']})
+                this.setState({agree_rate: response.data['agree_rate'], rate: response.data['rate'], voted: this.state.voted === 1 ? 3 : 1})
             })
         })
-        .then(response => {this.setState({voted: this.state.voted === 1 ? 3 : 1})})
     }
 
     noClick = () => {

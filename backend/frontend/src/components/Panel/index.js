@@ -15,6 +15,7 @@ class Panel extends PureComponent {
             <div className="Panel">
                 <div className="ui button">Hello, {this.props.state.username}!</div>
                 <div className="ui button clickable disable-select" onClick={this.signOut} >Sign out</div>
+                <div className="ui button clickable disable-select" onClick={this.props.getPollsByUser}>Your polls</div>
             </div>
         ) : (
             <div className="Panel">
@@ -31,7 +32,10 @@ class Panel extends PureComponent {
                         <input className="button input" type="text" placeholder="Enter Username" id="signup-username"></input>
                         <div id="password" className="ui button">Password</div>
                         <input className="button input" type="password" placeholder="Enter Password" id="signup-password"></input>
+                        <div id="rep-password" className="ui button">Password</div>
+                        <input className="button input" type="password" placeholder="Repeat Password" id="signup-rep-password"></input>
                         <button id="LogButt" className="ui button disable-select clickable" onClick={this.signUp}>Sign Up</button>
+                        <div className="ui-inverse message">{this.state.message}</div>
                     </div>
                 ) : this.state.process === 1 ? (
                     <div className="LogForm">
@@ -40,15 +44,16 @@ class Panel extends PureComponent {
                         <div id="password" className="ui button">Password</div>
                         <input id="signin-password" className="button input" type="password" placeholder="Enter Password"></input>
                         <button id="LogButt" className="ui button disable-select clickable" onClick={this.signIn}>Sign In</button>
+                        <div className="ui-inverse message">{this.state.message}</div>
                     </div>
                 ) : (
                     <div className="LogForm">
                         <div id="email" className="ui button">Email</div>
                         <input className="button input" type="email" placeholder="Enter Email" id="rp-email"></input>
                         <button id="LogButt" className="ui button disable-select clickable" onClick={this.resetPass}>Reset Password</button>
+                        <div className="ui-inverse message">{this.state.message}</div>
                     </div>
                 )}
-                <div className="ui-inverse message">{this.state.message}</div>
             </div>
         ) : (
             <div className="Panel"></div>)
@@ -77,14 +82,43 @@ class Panel extends PureComponent {
     }
 
     signUp = () => {
-        axios.post('signup/', {
-            'username': document.getElementById('signup-username').value,
-            'email': document.getElementById('signup-email').value,
-            'password': document.getElementById('signup-password').value
-        }, {headers: {'X-CSRFTOKEN': Cookies.get('csrftoken')}})
-        .then(response => {
-            this.props.getProfile()
-        })
+        let p1 = document.getElementById('signup-password').value
+        let p2 = document.getElementById('signup-rep-password').value
+        let em = document.getElementById('signup-email').value
+        let us = document.getElementById('signup-username').value
+        let validateEmail = (email) => {
+            let re = /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
+            return re.test(String(email).toLowerCase());
+        }
+        let f0 = /^[0-9a-zA-Z_]{5,}$/.test(us)
+        let f1 = validateEmail(em)
+        let f2 = p1 === p2
+        f0 && f1 && f2 ?
+            (axios.post('signup/', {
+                'username': us,
+                'email': em,
+                'password': p1
+            }, {headers: {'X-CSRFTOKEN': Cookies.get('csrftoken')}})
+            .then(response => {
+                this.props.getProfile()
+            }))
+        : !f0 && !f1 && !f2 ? this.setState({message: "Incorrect username, email and password repeat"})
+        : !f0 && !f1 ? this.setState({message: "Incorrect username and email"}) 
+        : !f0 && !f2 ? this.setState({message: "Invalid username and password repeat"})
+        : !f1 && !f2 ? this.setState({message: "Invalid email and password repeat"})
+        : !f0 ? this.setState({message: "Invalid username"})
+        : !f1 ? this.setState({message: "Invalid email"})
+        : this.setState({message: "Invalid username and password repeat"})
+        if (!f0) {
+            document.getElementById('signup-username').value = ""
+        } 
+        if (!f1) {
+            document.getElementById('signup-email').value = ""
+        }
+        if (!f2) {
+            document.getElementById('signup-password').value = ""
+            document.getElementById('signup-rep-password').value = ""
+        }
     }
 
     signIn = () => {

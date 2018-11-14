@@ -22,3 +22,9 @@
     color: white;     
     text-align: center;
 }
+
+.ui-selected-p {
+    background-color: #0010eb;
+    color: white;     
+    text-align: center;
+}

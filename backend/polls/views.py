@@ -47,6 +47,16 @@ class PollByFlowNameList(generics.ListAPIView):
             return HttpResponse(status=404)
 
 
+class PollByUserList(generics.ListAPIView):
+    serializer_class = PollSerializer
+
+    def get_queryset(self):
+        try:
+            return sorted(Poll.objects.filter(owner=self.request.user), reverse=True, key=lambda x: x.rate)
+        except:
+            return HttpResponse(status=404)
+
+
 class ShortPollById(generics.RetrieveAPIView):
     serializer_class = ShortPollSerializer
 
