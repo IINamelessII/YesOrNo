@@ -21,6 +21,10 @@ urlpatterns = [
     path('unvoteNo/', views.unvoteNo, name='unvoteNo'),
     path('unvoteLike/', views.unrateLike, name='unrateLike'),
     path('unvoteDislike/', views.unrateDislike, name='unrateDislike'),
+    path('switchtoYes/', views.switchtoYes, name='switchtoYes'),
+    path('switchtoNo/', views.switchtoNo, name='switchtoNo'),
+    path('switchtoLike/', views.switchtoLike, name='switchtoLike'),
+    path('switchtoDislike/', views.switchtoDislike, name='switchtoDislike'),
     path('addPoll/', views.addPoll, name='addPoll'),
     url(r'api/profile/', views.ProfileById.as_view())
 ]

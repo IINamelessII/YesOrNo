@@ -28,6 +28,22 @@ class Profile(models.Model):
         self.rated[poll_id] = False
         self.save()
 
+    def unvoteYes(self, poll_id):
+        self.voted.pop(poll_id, None)
+        self.save()
+    
+    def unvoteNo(self, poll_id):
+        self.voted.pop(poll_id, None)
+        self.save()
+
+    def unrateLike(self, poll_id):
+        self.rated.pop(poll_id, None)
+        self.save()
+    
+    def unrateDislike(self, poll_id):
+        self.rated.pop(poll_id, None)
+        self.save()
+
 
 def create_user_profile(sender, instance, created, **kwargs):
     if created:

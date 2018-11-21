@@ -11,8 +11,10 @@ class Vote extends PureComponent {
     state = {
         voted : this.props.voted,
         rated : this.props.rated,
-        rate: (this.props.poll.likes + this.props.poll.dislikes) > 0 ? Math.floor(this.props.poll.likes / (this.props.poll.likes + this.props.poll.dislikes) * 100) : 50,
-        agree_rate: (this.props.poll.agree + this.props.poll.disagree) > 0 ? Math.floor(this.props.poll.agree / (this.props.poll.agree + this.props.poll.disagree)* 100) : 50
+        likes: this.props.poll.likes,
+        dislikes: this.props.poll.dislikes,
+        agree: this.props.poll.agree,
+        disagree: this.props.poll.disagree
     }
 
     render() {
@@ -20,17 +22,18 @@ class Vote extends PureComponent {
             <div className="Wrap">
                 <div className="ui-inverse-bordered Vote">
                     <Pic pic={this.props.poll.flow} />
-                    <Statement poll={this.props.poll} agree_rate={this.state.agree_rate} />
+                    <Statement poll={this.props.poll} agree_rate={(this.props.poll.agree + this.props.poll.disagree) > 0 ? Math.floor(this.props.poll.agree / (this.props.poll.agree + this.props.poll.disagree)* 100) : 50} />
                     {this.props.voted ? (
                         <div className="Buttons">
                             <div className="left-buttons">
-                                <VoteButton yes={true} result={false} selected={this.state.voted == 1} onButtonClick={this.yesClick}/>
-                                <VoteButton yes={false} result={false} selected={this.state.voted == 2} onButtonClick={this.noClick}/>
+                                <VoteButton yes={true} result={false} selected={this.state.voted == 1} onButtonClick={() => {this.yesClick(this.state.voted)}}/>
+                                <div className="ui-inverse">or</div>
+                                <VoteButton yes={false} result={false} selected={this.state.voted == 2} onButtonClick={() => {this.noClick(this.state.voted)}}/>
                             </div>
                             <div className="right-buttons">
-                                <VoteButton yes={true} result={true} selected={this.state.rated == 1} onButtonClick={this.likeClick}/>
-                                <div className="ui-inverse-bordered rate">{this.state.rate}%</div>
-                                <VoteButton yes={false} result={true} selected={this.state.rated == 2} onButtonClick={this.dislikeClick}/>
+                                <VoteButton yes={true} result={true} selected={this.state.rated == 1} onButtonClick={() => {this.likeClick(this.state.rated)}}/>
+                                <div className="ui-inverse rate">{(this.props.poll.likes + this.props.poll.dislikes) > 0 ? Math.floor(this.props.poll.likes / (this.props.poll.likes + this.props.poll.dislikes) * 100) : 50}%</div>
+                                <VoteButton yes={false} result={true} selected={this.state.rated == 2} onButtonClick={() => {this.dislikeClick(this.state.rated)}}/>
                             </div>
                         </div>
                     ) : (
@@ -43,73 +46,40 @@ class Vote extends PureComponent {
         )
     }
 
-    yesClick = () => {
-        let prom = new Promise((res, rej) => {
-            this.state.voted === 1 ? 
-                axios.post('unvoteYes/', {'id': this.props.poll.id}, {headers: {'X-CSRFTOKEN': Cookies.get('csrftoken')}})
-            : 
-                axios.post('voteYes/', {'id': this.props.poll.id}, {headers: {'X-CSRFTOKEN': Cookies.get('csrftoken')}})
+    yesClick = (voted) => {
+        this.setState({
+            voted: voted === 1 ? 3 : 1,
+            agree: voted === 1 ? this.state.agree - 1 : this.state.agree + 1,
+            disagree: voted === 2 ? this.state.disagree - 1 : this.state.disagree
         })
-        .then(response => {
-            this.state.voted === 2 && axios.post('unvoteNo/', {'id': this.props.poll.id}, {headers: {'X-CSRFTOKEN': Cookies.get('csrftoken')}})
-        })
-        .finally(response => {
-            axios.get('api/shortpoll_by_id/' + this.props.poll.id)
-            .then(response => {
-                this.setState({agree_rate: response.data['agree_rate'], rate: response.data['rate'], voted: this.state.voted === 1 ? 3 : 1})
-            })
-        })
+        axios.post(voted === 1 ? 'unvoteYes/' : voted === 2 ? 'switchtoYes/' : 'voteYes/', {'id': this.props.poll.id}, {headers: {'X-CSRFTOKEN': Cookies.get('csrftoken')}})
     }
 
-    noClick = () => {
-        (this.state.voted === 1 && axios.post('unvoteYes/', {'id': this.props.poll.id}, {headers: {'X-CSRFTOKEN': Cookies.get('csrftoken')}}))
-        .then(response => {
-            this.state.voted === 2 ? 
-                axios.post('unvoteNo/', {'id': this.props.poll.id}, {headers: {'X-CSRFTOKEN': Cookies.get('csrftoken')}})
-            : 
-                axios.post('voteNo/', {'id': this.props.poll.id}, {headers: {'X-CSRFTOKEN': Cookies.get('csrftoken')}})
+    noClick = (voted) => {
+        this.setState({
+            voted: voted === 2 ? 3 : 2,
+            agree: voted === 1 ? this.state.agree - 1 : this.state.agree,
+            disagree: voted === 2 ? this.state.disagree - 1 : this.state.disagree + 1
         })
-        .then(response => {
-            axios.get('api/shortpoll_by_id/' + this.props.poll.id)
-            .then(response => {
-                this.setState({agree_rate: response.data['agree_rate'], rate: response.data['rate']})
-            })
-        })
-        .then(response => {this.setState({voted: this.state.voted === 2 ? 3 : 2})})
+        axios.post(voted === 1 ? 'switchtoNo/' : voted === 2 ? 'unvoteNo/' : 'voteNo/', {'id': this.props.poll.id}, {headers: {'X-CSRFTOKEN': Cookies.get('csrftoken')}})
     }
 
-    likeClick = () => {
-        (this.state.rated === 2 && axios.post('unvoteDislike/', {'id': this.props.poll.id}, {headers: {'X-CSRFTOKEN': Cookies.get('csrftoken')}}))
-        .then(response => {
-            this.state.rated === 1 ? 
-                axios.post('unvoteLike/', {'id': this.props.poll.id}, {headers: {'X-CSRFTOKEN': Cookies.get('csrftoken')}})
-            : 
-                axios.post('voteLike/', {'id': this.props.poll.id}, {headers: {'X-CSRFTOKEN': Cookies.get('csrftoken')}})
+    likeClick = (rated) => {
+        this.setState({
+            rated: rated === 1 ? 3 : 1,
+            likes: rated === 1 ? this.state.likes - 1 : this.state.likes + 1,
+            disagree: rated === 2 ? this.state.dislikes - 1 : this.state.dislikes
         })
-        .then(response => {
-            axios.get('api/shortpoll_by_id/' + this.props.poll.id)
-            .then(response => {
-                this.setState({agree_rate: response.data['agree_rate'], rate: response.data['rate']})
-            })
-        })
-        .then(response => {this.setState({rated: this.state.rated === 1 ? 3 : 1})})
+        axios.post(rated === 1 ? 'unvoteLike/' : rated === 2 ? 'switchtoLike/' : 'voteLike/', {'id': this.props.poll.id}, {headers: {'X-CSRFTOKEN': Cookies.get('csrftoken')}})
     }
 
-    dislikeClick = () => {
-        (this.state.voted === 1 && axios.post('unvoteLike/', {'id': this.props.poll.id}, {headers: {'X-CSRFTOKEN': Cookies.get('csrftoken')}}))
-        .then(response => {
-            this.state.voted === 2 ? 
-                axios.post('unvoteDislike/', {'id': this.props.poll.id}, {headers: {'X-CSRFTOKEN': Cookies.get('csrftoken')}})
-            : 
-                axios.post('voteDislike/', {'id': this.props.poll.id}, {headers: {'X-CSRFTOKEN': Cookies.get('csrftoken')}})
+    dislikeClick = (rated) => {
+        this.setState({
+            rated: rated === 2 ? 3 : 2,
+            likes: likes === 1 ? this.state.likes - 1 : this.state.likes,
+            dislikes: rated === 2 ? this.state.dislikes - 1 : this.state.dislikes + 1
         })
-        .then(response => {
-            axios.get('api/shortpoll_by_id/' + this.props.poll.id)
-            .then(response => {
-                this.setState({agree_rate: response.data['agree_rate'], rate: response.data['rate']})
-            })
-        })
-        .then(response => {this.setState({rated: this.state.rated === 2 ? 3 : 2})})
+        axios.post(rated === 1 ? 'switchtoDislike/' : rated === 2 ? 'unvoteDislike/' : 'voteDislike/', {'id': this.props.poll.id}, {headers: {'X-CSRFTOKEN': Cookies.get('csrftoken')}})
     }
 }
 

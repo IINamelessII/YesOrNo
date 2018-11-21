@@ -185,7 +185,7 @@ def voteYes(request):
     try:
         poll = Poll.objects.get(pk=data['id'])
         profile = Profile.objects.get(user=request.user)
-        profile.voteYes(poll.id)
+        profile.voteYes(int(poll.id))
         poll.voteYes()
     except:
         return HttpResponse(status=404)
@@ -198,7 +198,7 @@ def voteNo(request):
     try:
         poll = Poll.objects.get(pk=data['id'])
         profile = Profile.objects.get(user=request.user)
-        profile.voteNo(poll.id)
+        profile.voteNo(int(poll.id))
         poll.voteNo()
     except:
         return HttpResponse(status=404)
@@ -211,7 +211,7 @@ def rateLike(request):
     try:
         poll = Poll.objects.get(pk=data['id'])
         profile = Profile.objects.get(user=request.user)
-        profile.rateLike(poll.id)
+        profile.rateLike(int(poll.id))
         poll.rateLike()
     except:
         return HttpResponse(status=404)
@@ -224,7 +224,7 @@ def rateDislike(request):
     try:
         poll = Poll.objects.get(pk=data['id'])
         profile = Profile.objects.get(user=request.user)
-        profile.rateDislike(poll.id)
+        profile.rateDislike(int(poll.id))
         poll.rateDislike()
     except:
         return HttpResponse(status=404)
@@ -236,6 +236,8 @@ def unvoteYes(request):
     data = json.loads(request.body.decode('utf-8'))
     try:
         poll = Poll.objects.get(pk=data['id'])
+        profile = Profile.objects.get(user=request.user)
+        profile.unvoteYes(int(poll.id))
         poll.unvoteYes()
     except:
         return HttpResponse(status=404)
@@ -247,6 +249,8 @@ def unvoteNo(request):
     data = json.loads(request.body.decode('utf-8'))
     try:
         poll = Poll.objects.get(pk=data['id'])
+        profile = Profile.objects.get(user=request.user)
+        profile.unvoteNo(int(poll.id))
         poll.unvoteNo()
     except:
         return HttpResponse(status=404)
@@ -258,6 +262,8 @@ def unrateLike(request):
     data = json.loads(request.body.decode('utf-8'))
     try:
         poll = Poll.objects.get(pk=data['id'])
+        profile = Profile.objects.get(user=request.user)
+        profile.unrateLike(int(poll.id))
         poll.unrateLike()
     except:
         return HttpResponse(status=404)
@@ -269,7 +275,65 @@ def unrateDislike(request):
     data = json.loads(request.body.decode('utf-8'))
     try:
         poll = Poll.objects.get(pk=data['id'])
+        profile = Profile.objects.get(user=request.user)
+        profile.unrateDislike(int(poll.id))
         poll.unrateDislike()
+    except:
+        return HttpResponse(status=404)
+    else:
+        return HttpResponse(status=204)
+
+
+def switchtoYes(request):
+    data = json.loads(request.body.decode('utf-8'))
+    try:
+        poll = Poll.objects.get(pk=data['id'])
+        profile = Profile.objects.get(user=request.user)
+        profile.voteYes(int(poll.id))
+        poll.unvoteNo()
+        poll.voteYes()
+    except:
+        return HttpResponse(status=404)
+    else:
+        return HttpResponse(status=204)
+    
+
+def switchtoNo(request):
+    data = json.loads(request.body.decode('utf-8'))
+    try:
+        poll = Poll.objects.get(pk=data['id'])
+        profile = Profile.objects.get(user=request.user)
+        profile.voteNo(int(poll.id))
+        poll.unvoteYes()
+        poll.voteNo()
+    except:
+        return HttpResponse(status=404)
+    else:
+        return HttpResponse(status=204)
+
+
+def switchtoLike(request):
+    data = json.loads(request.body.decode('utf-8'))
+    try:
+        poll = Poll.objects.get(pk=data['id'])
+        profile = Profile.objects.get(user=request.user)
+        profile.voteLike(int(poll.id))
+        poll.unvoteDislike()
+        poll.voteLike()
+    except:
+        return HttpResponse(status=404)
+    else:
+        return HttpResponse(status=204)
+
+
+def switchtoDislike(request):
+    data = json.loads(request.body.decode('utf-8'))
+    try:
+        poll = Poll.objects.get(pk=data['id'])
+        profile = Profile.objects.get(user=request.user)
+        profile.voteDislike(int(poll.id))
+        poll.unvoteLike()
+        poll.voteDislike()
     except:
         return HttpResponse(status=404)
     else:
