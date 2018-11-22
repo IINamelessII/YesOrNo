@@ -8,7 +8,7 @@ from django.views.decorators.cache import cache_page
 from django.utils.http import urlsafe_base64_encode, urlsafe_base64_decode
 from django.utils.encoding import force_bytes
 from django.contrib.auth.tokens import default_token_generator
-from django.db import IntegrityError
+from django.db import IntegrityError, transaction
 from rest_framework import generics
 from polls.models import Poll, Flow
 from frontend.serializers import ProfileSerializer
@@ -180,6 +180,7 @@ def reset_password_form(request, uemailb64, token):
         return redirect('http://{}:{}'.format(request.META['SERVER_NAME'], request.META['SERVER_PORT']))
     
 
+@transaction.atomic
 def voteYes(request):
     data = json.loads(request.body.decode('utf-8'))
     try:
@@ -193,6 +194,7 @@ def voteYes(request):
         return HttpResponse(status=204)
     
 
+@transaction.atomic
 def voteNo(request):
     data = json.loads(request.body.decode('utf-8'))
     try:
@@ -206,6 +208,7 @@ def voteNo(request):
         return HttpResponse(status=204)
 
 
+@transaction.atomic
 def rateLike(request):
     data = json.loads(request.body.decode('utf-8'))
     try:
@@ -219,6 +222,7 @@ def rateLike(request):
         return HttpResponse(status=204)
 
 
+@transaction.atomic
 def rateDislike(request):
     data = json.loads(request.body.decode('utf-8'))
     try:
@@ -232,6 +236,7 @@ def rateDislike(request):
         return HttpResponse(status=204)
 
 
+@transaction.atomic
 def unvoteYes(request):
     data = json.loads(request.body.decode('utf-8'))
     try:
@@ -245,6 +250,7 @@ def unvoteYes(request):
         return HttpResponse(status=204)
     
 
+@transaction.atomic
 def unvoteNo(request):
     data = json.loads(request.body.decode('utf-8'))
     try:
@@ -258,6 +264,7 @@ def unvoteNo(request):
         return HttpResponse(status=204)
 
 
+@transaction.atomic
 def unrateLike(request):
     data = json.loads(request.body.decode('utf-8'))
     try:
@@ -271,6 +278,7 @@ def unrateLike(request):
         return HttpResponse(status=204)
 
 
+@transaction.atomic
 def unrateDislike(request):
     data = json.loads(request.body.decode('utf-8'))
     try:
@@ -284,56 +292,60 @@ def unrateDislike(request):
         return HttpResponse(status=204)
 
 
+@transaction.atomic
 def switchtoYes(request):
     data = json.loads(request.body.decode('utf-8'))
-    try:
-        poll = Poll.objects.get(pk=data['id'])
-        profile = Profile.objects.get(user=request.user)
-        profile.voteYes(int(poll.id))
-        poll.unvoteNo()
-        poll.voteYes()
-    except:
-        return HttpResponse(status=404)
-    else:
-        return HttpResponse(status=204)
+#try:
+    poll = Poll.objects.get(pk=data['id'])
+    profile = Profile.objects.get(user=request.user)
+    profile.voteYes(int(poll.id))
+    poll.unvoteNo()
+    poll.voteYes()
+#except:
+    #return HttpResponse(status=404)
+#else:
+    return HttpResponse(status=204)
     
 
+@transaction.atomic
 def switchtoNo(request):
     data = json.loads(request.body.decode('utf-8'))
-    try:
-        poll = Poll.objects.get(pk=data['id'])
-        profile = Profile.objects.get(user=request.user)
-        profile.voteNo(int(poll.id))
-        poll.unvoteYes()
-        poll.voteNo()
-    except:
-        return HttpResponse(status=404)
-    else:
-        return HttpResponse(status=204)
+#try:
+    poll = Poll.objects.get(pk=data['id'])
+    profile = Profile.objects.get(user=request.user)
+    profile.voteNo(int(poll.id))
+    poll.unvoteYes()
+    poll.voteNo()
+#except:
+    #return HttpResponse(status=404)
+#else:
+    return HttpResponse(status=204)
 
 
+@transaction.atomic
 def switchtoLike(request):
     data = json.loads(request.body.decode('utf-8'))
     try:
         poll = Poll.objects.get(pk=data['id'])
         profile = Profile.objects.get(user=request.user)
-        profile.voteLike(int(poll.id))
-        poll.unvoteDislike()
-        poll.voteLike()
+        profile.rateLike(int(poll.id))
+        poll.unrateDislike()
+        poll.rateLike()
     except:
         return HttpResponse(status=404)
     else:
         return HttpResponse(status=204)
 
 
+@transaction.atomic
 def switchtoDislike(request):
     data = json.loads(request.body.decode('utf-8'))
     try:
         poll = Poll.objects.get(pk=data['id'])
         profile = Profile.objects.get(user=request.user)
-        profile.voteDislike(int(poll.id))
-        poll.unvoteLike()
-        poll.voteDislike()
+        profile.rateDislike(int(poll.id))
+        poll.unrateLike()
+        poll.rateDislike()
     except:
         return HttpResponse(status=404)
     else:

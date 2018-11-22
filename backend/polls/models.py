@@ -13,14 +13,14 @@ class Poll(models.Model):
     @property
     def rate(self):
         """
-        Poll's property that return poll's rate in % (exp. poll3.rate => 67) if someones voted else return None
+        Poll's property that return poll's rate in % (exp. poll3.rate => 67) if someones voted else return 50
         """
         return int(self.likes / (self.likes + self.dislikes) * 100) if self.likes + self.dislikes else 50
     
     @property
     def agree_rate(self):
         """
-        Poll's property that return poll's agree rate in % (exp. poll3.agree_rate => 50) if someones rated else return None
+        Poll's property that return poll's agree rate in % (exp. poll3.agree_rate => 50) if someones rated else return 50
         """
         return int(self.agree / (self.agree + self.disagree) * 100) if self.agree + self.disagree else 50
 
@@ -28,37 +28,28 @@ class Poll(models.Model):
         return r'Poll #{} rate {}%'.format(self.id, self.rate)
     
     def voteYes(self):
-        self.agree = models.F('agree') + 1
-        self.save()
+        Poll.objects.filter(pk=self.pk).update(agree=models.F('agree') + 1)
     
     def voteNo(self):
-        self.disagree = models.F('disagree') + 1
-        self.save()
+        Poll.objects.filter(pk=self.pk).update(disagree=models.F('disagree') + 1)
     
     def rateLike(self):
-        self.likes = models.F('likes') + 1
-        self.save()
+        Poll.objects.filter(pk=self.pk).update(likes=models.F('likes') + 1)
     
     def rateDislike(self):
-        self.dislikes = models.F('dislikes') + 1
-        self.save()
+        Poll.objects.filter(pk=self.pk).update(dislikes=models.F('dislikes') + 1)
     
     def unvoteYes(self):
-        self.agree = models.F('agree') - 1
-        self.save()
+        Poll.objects.filter(pk=self.pk).update(agree=models.F('agree') - 1)
     
     def unvoteNo(self):
-        self.disagree = models.F('disagree') - 1
-        self.save()
+        Poll.objects.filter(pk=self.pk).update(disagree=models.F('disagree') - 1)
     
     def unrateLike(self):
-        self.likes = models.F('likes') - 1
-        self.save()
+        Poll.objects.filter(pk=self.pk).update(likes=models.F('likes') - 1)
     
     def unrateDislike(self):
-        self.dislikes = models.F('dislikes') - 1
-        self.save()
-
+        Poll.objects.filter(pk=self.pk).update(dislikes=models.F('dislikes') - 1)
 
 
 class Flow(models.Model):
