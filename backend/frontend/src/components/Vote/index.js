@@ -22,7 +22,7 @@ class Vote extends PureComponent {
             <div className="Wrap">
                 <div className="ui-inverse-bordered Vote">
                     <Pic pic={this.props.poll.flow} />
-                    <Statement poll={this.props.poll} agree_rate={(this.props.poll.agree + this.props.poll.disagree) > 0 ? Math.floor(this.props.poll.agree / (this.props.poll.agree + this.props.poll.disagree)* 100) : 50} />
+                    <Statement poll={this.props.poll} agree_rate={(this.state.agree + this.state.disagree) > 0 ? Math.floor(this.state.agree / (this.state.agree + this.state.disagree)* 100) : 50} />
                     {this.props.voted ? (
                         <div className="Buttons">
                             <div className="left-buttons">
@@ -32,7 +32,7 @@ class Vote extends PureComponent {
                             </div>
                             <div className="right-buttons">
                                 <VoteButton yes={true} result={true} selected={this.state.rated == 1} onButtonClick={() => {this.likeClick(this.state.rated)}}/>
-                                <div className="ui-inverse rate">{(this.props.poll.likes + this.props.poll.dislikes) > 0 ? Math.floor(this.props.poll.likes / (this.props.poll.likes + this.props.poll.dislikes) * 100) : 50}%</div>
+                                <div className="ui-inverse rate">{(this.state.likes + this.state.dislikes) > 0 ? Math.floor(this.state.likes / (this.state.likes + this.state.dislikes) * 100) : 50}%</div>
                                 <VoteButton yes={false} result={true} selected={this.state.rated == 2} onButtonClick={() => {this.dislikeClick(this.state.rated)}}/>
                             </div>
                         </div>
@@ -68,15 +68,16 @@ class Vote extends PureComponent {
         this.setState({
             rated: rated === 1 ? 3 : 1,
             likes: rated === 1 ? this.state.likes - 1 : this.state.likes + 1,
-            disagree: rated === 2 ? this.state.dislikes - 1 : this.state.dislikes
+            dislikes: rated === 2 ? this.state.dislikes - 1 : this.state.dislikes
         })
         axios.post(rated === 1 ? 'unvoteLike/' : rated === 2 ? 'switchtoLike/' : 'voteLike/', {'id': this.props.poll.id}, {headers: {'X-CSRFTOKEN': Cookies.get('csrftoken')}})
     }
 
     dislikeClick = (rated) => {
+        console.log('Debug: dislikeClick')
         this.setState({
             rated: rated === 2 ? 3 : 2,
-            likes: likes === 1 ? this.state.likes - 1 : this.state.likes,
+            likes: rated === 1 ? this.state.likes - 1 : this.state.likes,
             dislikes: rated === 2 ? this.state.dislikes - 1 : this.state.dislikes + 1
         })
         axios.post(rated === 1 ? 'switchtoDislike/' : rated === 2 ? 'unvoteDislike/' : 'voteDislike/', {'id': this.props.poll.id}, {headers: {'X-CSRFTOKEN': Cookies.get('csrftoken')}})
