@@ -10,6 +10,7 @@
 
 .ListWrap {
     overflow-y: scroll;
+    overflow-x: hidden;
     height: 100%;
     width: 100%;
 }
@@ -35,4 +36,17 @@
     margin: auto;
     margin-top: 3%;
     font-family: 'Chakra Petch', sans-serif;
+}
+
+.email {
+    color: black;
+}
+
+.tg-link {
+    color: black;
+    text-decoration: none;
+}
+
+em {
+    font-style: normal;
 }

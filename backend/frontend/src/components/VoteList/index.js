@@ -2,9 +2,6 @@ import React, {PureComponent} from 'react'
 import Vote from '../Vote'
 import './style.css'
 
-let text = "\tWelcome to YesOrNo close pre-alpha v.0.0.0!\nTo start choose Flow or just hit the crazy \"Random!\" button in left column.\nHave a nice time!\n\t\t\t(c)IINamelessII";
-let text2 = "There now polls, be first and create one or even more!";
-
 
 class VoteList extends PureComponent {
     render() {
@@ -14,7 +11,17 @@ class VoteList extends PureComponent {
                     this.props.state.plug ? (
                         <div className="VotePlug">
                             <div className="ui-inverse-bordered text">
-                                {text}
+                                Welcome to YesOrNo alpha v.0.1!
+                                <br/>
+                                To start choose Flow or just push "Random!" button in left column.
+                                <br/>
+                                To each alpha-tester is recommended to add at least 5 polls distributed among any flows and also vote in polls created by other users.
+                                <br/>
+                                Report problems found to <em className="email">theyesornoproject@gmail.com</em> or to <em><a className="tg-link no-selection clickable"href="https://web.telegram.org/#/im?p=@IInamelessII">me in Telegram</a></em>
+                                <br/>
+                                Have a nice time!
+                                <br/>
+                                IINamelessII
                             </div>
                         </div>
                     ) : this.props.state.data.length ? (
@@ -29,7 +36,7 @@ class VoteList extends PureComponent {
                     ) : (
                         <div className="VotePlug">
                             <div className="ui-inverse-bordered text">
-                                {text2}
+                            O_o There now polls, be first and create one or even more!
                             </div>
                         </div>
                     )
