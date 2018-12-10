@@ -38,7 +38,7 @@ class Vote extends PureComponent {
                         </div>
                     ) : (
                         <div className="Buttons">
-                            <div className="ui-inverse-bordered self-rate">{this.state.rate}%</div>
+                            
                         </div>
                     )}
                 </div>

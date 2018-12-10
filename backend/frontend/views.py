@@ -69,7 +69,8 @@ def signup(request):
                 user.save()
                 token = default_token_generator.make_token(user)
                 uid = urlsafe_base64_encode(force_bytes(user.pk)).decode()
-                link = "{}://{}:{}/{}/{}/{}".format(request.scheme, request.META['SERVER_NAME'], request.META['SERVER_PORT'], 'users/validate', uid, token)
+                #link = "{}://{}:{}/{}/{}/{}".format(request.scheme, request.META['SERVER_NAME'], request.META['SERVER_PORT'], 'users/validate', uid, token)
+                link = "{}://{}/{}/{}/{}".format(request.scheme, request.get_host(), 'users/validate', uid, token)
                 email = EmailMessage('Confirmation of registration in the YesOrNo', 'Greetings, {}!\nFollow the link below to confirm registration of your account.\n{}'.format(username, link), to=[email,])
                 email.send()
         except IntegrityError:
@@ -128,7 +129,8 @@ def reset_password(request):
             try:
                 token = default_token_generator.make_token(user)
                 uemail = urlsafe_base64_encode(force_bytes(user.pk)).decode()
-                link = "{}://{}:{}/{}/{}/{}".format(request.scheme, request.META['SERVER_NAME'], request.META['SERVER_PORT'], 'users/reset', uemail, token)
+                #link = "{}://{}:{}/{}/{}/{}".format(request.scheme, request.META['SERVER_NAME'], request.META['SERVER_PORT'], 'users/reset', uemail, token)
+                link = "{}://{}/{}/{}/{}".format(request.scheme, request.get_host(), 'users/reset', uemail, token)
                 email = EmailMessage('Account access recovery in the YesOrNo', 'Greetings, {}!\nFollow the link below to restore access to your account.\n{}\nIf you did not restore access to your account, ignore this email.'.format(\
                     user.username, link), to=[email,])
                 email.send()

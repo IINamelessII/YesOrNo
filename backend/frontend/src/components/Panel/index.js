@@ -14,8 +14,8 @@ class Panel extends PureComponent {
         return this.props.state.show ? this.props.state.is_auth ? (
             <div className="Panel">
                 <div className="ui button">Hello, {this.props.state.username}!</div>
-                <div className="ui button clickable disable-select" onClick={this.signOut} >Sign out</div>
                 <div className="ui button clickable disable-select" onClick={this.props.getPollsByUser}>Your polls</div>
+                <div className="ui button clickable disable-select" onClick={this.signOut} >Sign out</div>
             </div>
         ) : (
             <div className="Panel">
@@ -120,7 +120,7 @@ class Panel extends PureComponent {
             document.getElementById('signup-rep-password').value = ""
         }
     }
-
+    
     signIn = () => {
         axios.post('signin/', {
             'username': document.getElementById('signin-username').value,
