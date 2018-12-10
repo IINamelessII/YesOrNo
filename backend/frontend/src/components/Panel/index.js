@@ -75,7 +75,7 @@ class Panel extends PureComponent {
     })
 
     signOut = () => {
-        axios.get('logout/')
+        axios.get('logout/', {withCredentials: true})
         .then(response => {
             this.props.getProfile()
         })

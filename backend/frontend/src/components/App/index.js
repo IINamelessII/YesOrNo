@@ -70,7 +70,7 @@ class App extends PureComponent {
     switch_show = () => this.setState({show: true})
 
     getPolls = (flow) => {
-        axios.get("api/polls_by_flow/" + flow)
+        axios.get("api/polls_by_flow/" + flow, {withCredentials: true})
             .then(response => {
                 return response.data;
             })
@@ -80,7 +80,7 @@ class App extends PureComponent {
     }
 
     getRandomPolls = () => {
-        axios.get("api/polls/")
+        axios.get("api/polls/", {withCredentials: true})
             .then(response => {
                 return response.data;
             })
@@ -90,7 +90,7 @@ class App extends PureComponent {
     }
 
     getPollsByUser = () => {
-        axios.get("api/polls_by_user/")
+        axios.get("api/polls_by_user/", {withCredentials: true})
         .then(response => {
             this.setState({data: response.data, plug: false, currFlow: null, currRand: false, currUser: true})
         })
@@ -121,7 +121,7 @@ class App extends PureComponent {
     }
 
     getProfile = () => {
-        axios.get('api/profile/')
+        axios.get('api/profile/', {withCredentials: true})
         .then(response => {
             return response.data
         })
@@ -137,7 +137,7 @@ class App extends PureComponent {
     }
     
     getVoted = () => {
-        axios.get('api/profile/')
+        axios.get('api/profile/', {withCredentials: true})
         .then(response => {
             return response.data
         })
@@ -145,7 +145,7 @@ class App extends PureComponent {
     }
 
     getRated = () => {
-        axios.get('api/profile/')
+        axios.get('api/profile/', {withCredentials: true})
         .then(response => {
             return response.data
         })
