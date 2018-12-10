@@ -98,7 +98,7 @@ class Panel extends PureComponent {
                 'username': us,
                 'email': em,
                 'password': p1
-            }, {headers: {'X-CSRFTOKEN': Cookies.get('csrftoken')}})
+            }, {headers: {'X-CSRFTOKEN': Cookies.get('csrftoken')}}, {withCredentials: true})
             .then(response => {
                 this.props.getProfile()
             }))
@@ -125,14 +125,14 @@ class Panel extends PureComponent {
         axios.post('signin/', {
             'username': document.getElementById('signin-username').value,
             'password': document.getElementById('signin-password').value
-        }, {headers: {'X-CSRFTOKEN': Cookies.get('csrftoken')}})
+        }, {headers: {'X-CSRFTOKEN': Cookies.get('csrftoken')}}, {withCredentials: true})
         .then(response => {
             this.props.getProfile()
         })
     }
 
     resetPass = () => {
-        axios.post('resetpassword/', {'email': document.getElementById('rp-email').value}, {headers: {'X-CSRFTOKEN': Cookies.get('csrftoken')}})
+        axios.post('resetpassword/', {'email': document.getElementById('rp-email').value}, {headers: {'X-CSRFTOKEN': Cookies.get('csrftoken')}}, {withCredentials: true})
         .then(response => {
             this.props.getProfile()
         })

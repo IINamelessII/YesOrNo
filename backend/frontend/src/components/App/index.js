@@ -107,7 +107,7 @@ class App extends PureComponent {
     addPoll = () => {
         let statement = document.getElementById('statement-input')
         statement.value.length > 9 && statement.value.length < 501 ? 
-            axios.post('addPoll/', {'flow': this.state.adding, 'statement': statement.value}, {headers: {'X-CSRFTOKEN': Cookies.get('csrftoken')}})
+            axios.post('addPoll/', {'flow': this.state.adding, 'statement': statement.value}, {headers: {'X-CSRFTOKEN': Cookies.get('csrftoken')}}, {withCredentials: true})
             .then(response => {
                 return this.state.currFlow === this.state.adding ? this.getPolls(this.state.adding) : this.state.currRand ? this.getRandomPolls() : this.state.currUser ? this.getPollsByUser() : this.closeAddPoll();
             })
