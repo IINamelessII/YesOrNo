@@ -1,6 +1,6 @@
-import React, {PureComponent} from 'react'
-import Vote from '../Vote'
-import './style.css'
+import React, {PureComponent} from 'react';
+import Vote from '../Vote';
+import './style.css';
 
 
 class VoteList extends PureComponent {
@@ -46,7 +46,7 @@ class VoteList extends PureComponent {
             <div className="VoteList">
                 <p className="ui-inverse loading">Loading...</p>
             </div>
-        )
+        );
     }
 }
 

@@ -39,26 +39,26 @@ class App extends PureComponent {
         currFlow: null,
         currRand: false,
         currUser: false
-    }  
+    }
     render() {
-        !this.state.show && this.getProfile()
-        return(
+        (!this.state.show && this.getProfile())
+        return (
             <div className="App">
-                <Nav show={this.state.show} switcher={this.switch_show} getPolls={this.getPolls} getRandomPolls={this.getRandomPolls} openAddPoll={this.openAddPoll} is_auth={this.state.is_auth}/>
-                <VoteList state={this.state} getVoted={this.getVoted} getRated={this.getRated}/>
-                <Panel state={this.state} getProfile={this.getProfile} getPollsByUser={this.getPollsByUser} />
+                <Nav show={ this.state.show } switcher={ this.switch_show } getPolls={ this.getPolls } getRandomPolls={ this.getRandomPolls } openAddPoll={ this.openAddPoll } is_auth={ this.state.is_auth }/>
+                <VoteList state={ this.state } getVoted={ this.getVoted } getRated={ this.getRated }/>
+                <Panel state={ this.state } getProfile={ this.getProfile } getPollsByUser={ this.getPollsByUser }/>
                 {this.state.adding && (
                     <div className="add-the-poll-window">
                         <div className="ui-inverse-bordered add-the-poll-content">
                             <div className="labels">
-                                <div className="ui-inverse-bordered add-poll-label">Adding a poll to {this.state.adding} flow</div>
-                                <div className="ui exit disable-select clickable" onClick={this.closeAddPoll}>x</div>
+                                <div className="ui-inverse-bordered add-poll-label">Adding a poll to { this.state.adding } flow</div>
+                                <div className="ui exit disable-select clickable" onClick={ this.closeAddPoll }>x</div>
                             </div>
                             <div className="ui-inverse text advise">We advise you to formulate a statement in the yes-no question format without using negatives to avoid confusion.</div>
                             <textarea cols="50" rows="10" id="statement-input" className="ui-inverse-bordered" placeholder="What do you want to ask?"></textarea>
                             <div className="add-poll-container">
                                 <div id="AddPollMessage" text="message"></div>
-                                <div className="ui add-poll disable-select clickable" onClick={this.addPoll}>Add this poll to the flow</div>
+                                <div className="ui add-poll disable-select clickable" onClick={ this.addPoll }>Add this poll to the flow</div>
                             </div>
                         </div>
                     </div>
@@ -71,53 +71,69 @@ class App extends PureComponent {
 
     getPolls = (flow) => {
         axios.get("api/polls_by_flow/" + flow, {withCredentials: true})
-            .then(response => {
-                return response.data;
-            })
-            .then(data => {
-                this.setState({data: data, plug: false, currFlow: flow, currRand: false, currUser: false});
-            });
+            .then(response => response.data)
+            .then(data => this.setState(
+                {
+                    data: data, 
+                    plug: false, 
+                    currFlow: flow, 
+                    currRand: false, 
+                    currUser: false}
+            ));
     }
 
-    getRandomPolls = () => {
+    getRandomPolls = () => (
         axios.get("api/polls/", {withCredentials: true})
-            .then(response => {
-                return response.data;
-            })
-            .then(data => {
-                this.setState({data: shuffle(data), plug: false, currFlow: null, currRand: true, currUser: false});
-            });
-    }
+            .then(response => response.data)
+            .then(data => this.setState(
+                {
+                    data: shuffle(data), 
+                    plug: false, 
+                    currFlow: null, 
+                    currRand: true, 
+                    currUser: false
+                }
+        ))
+    )
 
-    getPollsByUser = () => {
-        axios.get("api/polls_by_user/", {withCredentials: true})
-        .then(response => {
-            this.setState({data: response.data, plug: false, currFlow: null, currRand: false, currUser: true})
-        })
-    }
+    getPollsByUser = () => (
+        axios.get("api/polls_by_user/", { withCredentials: true })
+        .then(response => (
+            this.setState(
+                {
+                    data: response.data, 
+                    plug: false, 
+                    currFlow: null, 
+                    currRand: false, 
+                    currUser: true
+                })
+        ))
+    )
 
-    openAddPoll = (flow) => {
-        this.setState({adding: flow});
-    }
+    openAddPoll = (flow) => this.setState({adding: flow});
 
-    closeAddPoll = () => {
-        this.setState({adding: null})
-    }
+    closeAddPoll = () => this.setState({adding: null})
 
     addPoll = () => {
-        let statement = document.getElementById('statement-input')
-        statement.value.length > 9 && statement.value.length < 501 ? 
-            axios.post('addPoll/', {'flow': this.state.adding, 'statement': statement.value}, {headers: {'X-CSRFTOKEN': Cookies.get('csrftoken')}}, {withCredentials: true})
-            .then(response => {
-                return this.state.currFlow === this.state.adding ? this.getPolls(this.state.adding) : this.state.currRand ? this.getRandomPolls() : this.state.currUser ? this.getPollsByUser() : this.closeAddPoll();
-            })
-            .then(response => {
-                return this.closeAddPoll();
-            })
-        : statement.value.length < 10 ? 
-            document.getElementById('AddPollMessage').innerHTML = "Statement must be 10 characters at least!"
-        :    
-          document.getElementById('AddPollMessage').innerHTML = "Statement must be no more than 500 characters!"
+        let statement = document.getElementById('statement-input');
+        
+        if (statement.value.length > 9 && statement.value.length < 501) {
+            axios.post('addPoll/', 
+            { 'flow': this.state.adding, 'statement': statement.value }, 
+            { headers: {'X-CSRFTOKEN': Cookies.get('csrftoken') } }, 
+            { withCredentials: true })
+                .then(response => {
+                    if (this.state.currFlow === this.state.adding) this.getPolls(this.state.adding);
+                    else if (this.state.currRand) this.getRandomPolls();
+                    else if (this.state.currUser) this.getPollsByUser();
+                    else this.closeAddPoll();
+                })
+                .then(response => this.closeAddPoll());
+        } else if (statement.value.length < 10) {
+            document.getElementById('AddPollMessage').innerHTML = "Statement must be 10 characters at least!";
+        } else {
+            document.getElementById('AddPollMessage').innerHTML = "Statement must be no more than 500 characters!"
+        };
     }
 
     getProfile = () => {
@@ -137,19 +153,15 @@ class App extends PureComponent {
     }
     
     getVoted = () => {
-        axios.get('api/profile/', {withCredentials: true})
-        .then(response => {
-            return response.data
-        })
+        axios.get('api/profile/', { withCredentials: true })
+        .then(response => response.data)
         .then(data => this.setState({voted: data['voted']}))
     }
 
     getRated = () => {
         axios.get('api/profile/', {withCredentials: true})
-        .then(response => {
-            return response.data
-        })
-        .then(data => this.setState({rated: data['rated']}))
+        .then(response => response.data)
+        .then(data => this.setState({ rated: data['rated'] }))
     }
 }
 
