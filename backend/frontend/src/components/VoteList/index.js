@@ -46,7 +46,7 @@ class VoteList extends PureComponent {
             <div className="VoteList">
                 <p className="ui-inverse loading">Loading...</p>
             </div>
-        )
+        );
     }
 }
 
