@@ -1,6 +1,6 @@
-import React, {PureComponent} from 'react'
-import Vote from '../Vote'
-import './style.css'
+import React, {PureComponent} from 'react';
+import Vote from '../Vote';
+import './style.css';
 
 
 class VoteList extends PureComponent {
