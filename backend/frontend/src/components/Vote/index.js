@@ -74,7 +74,6 @@ class Vote extends PureComponent {
     }
 
     dislikeClick = (rated) => {
-        console.log('Debug: dislikeClick')
         this.setState({
             rated: rated === 2 ? 3 : 2,
             likes: rated === 1 ? this.state.likes - 1 : this.state.likes,

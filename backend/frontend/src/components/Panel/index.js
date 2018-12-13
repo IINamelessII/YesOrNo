@@ -10,6 +10,11 @@ class Panel extends PureComponent {
         message: this.props.state.message
     }
 
+    componentDidUpdate(prevProps) {
+        if (prevProps.state.message !== this.props.state.message)
+            this.setState({message: this.props.state.message})
+    }
+
     render() {
         return this.props.state.show ? this.props.state.is_auth ? (
             <div className="Panel">
@@ -25,34 +30,40 @@ class Panel extends PureComponent {
                     <div className={this.state.process === 2 ? "ui-selected LogPanelTab clickable lh_2line" : "ui LogPanelTab clickable lh_2line"} onClick={this.openResetPassTab}>Reset Password</div>
                 </div>                
                 {this.state.process === 0 ? (
-                    <div className="LogForm">
+                    <form className="LogForm" onSubmit={this.signUp}>
                         <div id="email" className="ui button">Email</div>
-                        <input className="button input" type="email" placeholder="Enter Email" id="signup-email"></input>
+                        <input className="button input" type="email" placeholder="Enter Email" id="signup-email" autocomplete="email"></input>
                         <div id="username" className="ui button">Username</div>
-                        <input className="button input" type="text" placeholder="Enter Username" id="signup-username"></input>
+                        <input className="button input" type="text" placeholder="Enter Username" id="signup-username" autocomplete="username"></input>
                         <div id="password" className="ui button">Password</div>
-                        <input className="button input" type="password" placeholder="Enter Password" id="signup-password"></input>
+                        <input className="button input" type="password" placeholder="Enter Password" id="signup-password" autocomplete="new-password"></input>
                         <div id="rep-password" className="ui button">Password</div>
-                        <input className="button input" type="password" placeholder="Repeat Password" id="signup-rep-password"></input>
-                        <button id="LogButt" className="ui button disable-select clickable" onClick={this.signUp}>Sign Up</button>
-                        <div className="ui-inverse message">{this.state.message}</div>
-                    </div>
+                        <input className="button input" type="password" placeholder="Repeat Password" id="signup-rep-password" autocomplete="new-password"></input>
+                        <button id="LogButt" className="ui button disable-select clickable" type="submit">Sign Up</button>
+                        {this.state.message && (
+                            <div id="message" className="ui-inverse message">{this.state.message}</div>
+                        )}
+                    </form>
                 ) : this.state.process === 1 ? (
-                    <div className="LogForm">
+                    <form className="LogForm" onSubmit={this.signIn}>
                         <div id="username" className="ui button">Username</div>
-                        <input id="signin-username" className="button input" type="text" placeholder="Enter Username"></input>
+                        <input id="signin-username" className="button input" type="text" placeholder="Enter Username" autocomplete="username"></input>
                         <div id="password" className="ui button">Password</div>
-                        <input id="signin-password" className="button input" type="password" placeholder="Enter Password"></input>
-                        <button id="LogButt" className="ui button disable-select clickable" onClick={this.signIn}>Sign In</button>
-                        <div className="ui-inverse message">{this.state.message}</div>
-                    </div>
+                        <input id="signin-password" className="button input" type="password" placeholder="Enter Password" autocomplete="current-password"></input>
+                        <button id="LogButt" className="ui button disable-select clickable" type="submit">Sign In</button>
+                        {this.state.message && (
+                            <div id="message" className="ui-inverse message">{this.state.message}</div>
+                        )}
+                    </form>
                 ) : (
-                    <div className="LogForm">
+                    <form className="LogForm" onSubmit={this.resetPass}>
                         <div id="email" className="ui button">Email</div>
-                        <input className="button input" type="email" placeholder="Enter Email" id="rp-email"></input>
-                        <button id="LogButt" className="ui button disable-select clickable" onClick={this.resetPass}>Reset Password</button>
-                        <div className="ui-inverse message">{this.state.message}</div>
-                    </div>
+                        <input className="button input" type="email" placeholder="Enter Email" id="rp-email" autocomplete="email"></input>
+                        <button id="LogButt" className="ui button disable-select clickable" type="submit">Reset Password</button>
+                        {this.state.message && (
+                            <div id="message" className="ui-inverse message">{this.state.message}</div>
+                        )}
+                    </form>
                 )}
             </div>
         ) : (
@@ -81,7 +92,8 @@ class Panel extends PureComponent {
         })
     }
 
-    signUp = () => {
+    signUp = (e) => {
+        e.preventDefault()
         let p1 = document.getElementById('signup-password').value
         let p2 = document.getElementById('signup-rep-password').value
         let em = document.getElementById('signup-email').value
@@ -121,7 +133,8 @@ class Panel extends PureComponent {
         }
     }
     
-    signIn = () => {
+    signIn = (e) => {
+        e.preventDefault()
         axios.post('signin/', {
             'username': document.getElementById('signin-username').value,
             'password': document.getElementById('signin-password').value
@@ -131,7 +144,8 @@ class Panel extends PureComponent {
         })
     }
 
-    resetPass = () => {
+    resetPass = (e) => {
+        e.preventDefault()
         axios.post('resetpassword/', {'email': document.getElementById('rp-email').value}, {headers: {'X-CSRFTOKEN': Cookies.get('csrftoken')}}, {withCredentials: true})
         .then(response => {
             this.props.getProfile()
@@ -141,6 +155,3 @@ class Panel extends PureComponent {
 
 
 export default Panel
-
-//<div id="regkey" className="ui button">Registration Key</div>
-//<input className="button input" type="password" placeholder="Enter Registration Key" name="regkey" required></input>
