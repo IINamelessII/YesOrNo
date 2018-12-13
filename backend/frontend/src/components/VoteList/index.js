@@ -11,7 +11,7 @@ class VoteList extends PureComponent {
                     this.props.state.plug ? (
                         <div className="VotePlug">
                             <div className="ui-inverse-bordered text">
-                                Welcome to YesOrNo alpha v.0.1!
+                                Welcome to YesOrNo alpha v.1.0!
                                 <br/>
                                 To start choose Flow or just push "Random!" button in left column.
                                 <br/>
@@ -21,7 +21,7 @@ class VoteList extends PureComponent {
                                 <br/>
                                 Have a nice time!
                                 <br/>
-                                IINamelessII
+                                IINamelessII, 14.12.2018
                             </div>
                         </div>
                     ) : this.props.state.data.length ? (
