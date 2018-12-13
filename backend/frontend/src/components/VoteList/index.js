@@ -13,9 +13,9 @@ class VoteList extends PureComponent {
                             <div className="ui-inverse-bordered text">
                                 Welcome to YesOrNo alpha v.1.0!
                                 <br/>
-                                To start choose Flow or just push "Random!" button in left column.
-                                <br/>
                                 To each alpha-tester is recommended to add at least 5 polls distributed among any flows and also vote in polls created by other users.
+                                <br/>
+                                Choose Flow or just push "Random!" button in left column.
                                 <br/>
                                 Report problems found to <em className="email">theyesornoproject@gmail.com</em> or to <em><a className="tg-link no-selection clickable"href="https://web.telegram.org/#/im?p=@IInamelessII">me in Telegram</a></em>
                                 <br/>
