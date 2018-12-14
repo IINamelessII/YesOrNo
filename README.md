@@ -1,138 +1,127 @@
-# YesOrNo
-Django REST Framework &amp; React.js app [alpha v.1.0]
+# [YesOrNo](https://olehserikov.info/)
+---
 
+YesOrNo is a web project, made up using a Django REST framework &amp; React.js application.
+* Version: open alpha test.
+* Technical dependencies: API returns JSON only.
+* Alternative link: https://olehserikov.info/
 
-API return JSON only
+## Documentation
+---
+Soon.
 
+## Examples
+---
+### 1. List that represents all Poll objects in database.
 
-
-"""
-List represent all Poll objects in database
-"""
-/api/polls/$ - List of <dict> with fields:
-"id":<int>
-"flow":<str>
-"agree":<int>
-"disagree":<int>
-"likes":<int>
-"dislikes":<int>
+Dependencies: /api/polls/$ - list of ```<dict>``` with fields:
+* "id":```<int>```
+* "flow":```<str>```
+* "agree":```<int>```
+* "disagree":```<int>```
+* "likes":```<int>```
+* "dislikes":```<int>```
 
 Example:
-~~~~
+```python
 [{"id":17,"flow":"Code","statement":"Hello World?","agree":1024,"disagree":256,"likes":800,"dislikes":600},{"id":132,"flow":"World","statement":"Hello, Earth?","agree":123,"disagree":222,"likes":444,"dislikes":333}]
-~~~~
+```
 
+### 2. List that represents all Flow objects in database.
 
-
-"""
-List represent all Flow objects in database
-"""
-/api/flows/$ - List of <dict> with fields:
-"id":<int>
-"name":<str>
+Dependencies: /api/flows/$ - list of ```<dict>``` with fields:
+* "id":```<int>```
+* "name":```<str>```
 
 Example:
-~~~~
+```python
 [{"id":12,"name":"Code"},{"id":32,"name":"World"}]
-~~~~
+```
 
+### 3. List that represents all User objects in database.
 
-
-"""
-List represent all User objects in database
-"""
-/api/users/$ - List of <dict> with fields:
-"id":<int>
-"username":<str>
-"polls":<list>
-    <int>
+Dependencies: /api/users/$ - list of ```<dict>``` with fields:
+* "id":```<int>```
+* "username":```<str>```
+* "polls":```<list>```
+    ```<int>```
 
 Example:
-~~~~
+```python
 [{"id":232,"username":"Daniel","polls":[11,22,33,66]},{"id":444,"username":"FooBar","polls":[]}]
-~~~~
+```
 
+### 4. Dictionary that represents Profile object of current user.
 
-"""
-Dict represent Profile object of current user
-"""
-/api/profile/$ (if user is authenticated) - <dict> with fields:
-"is_auth":<bool>
-"message":<str> or null
-"voted":<dict>
-    "<int>":<bool>
-"rated":<dict>
-    "<int>":<bool>
+Dependencies: /api/profile/$ (if user is authenticated) - ```<dict>``` with fields:
+* "is_auth":```<bool>```
+* "message":```<str>``` or ```<null>```
+* "voted":```<dict>```
+    ```"<int>"```:```<bool>```
+* "rated":```<dict>```
+    ```"<int>"```:```<bool>```
 
 Example:
-~~~~
+```python
 {"username":"Daniel","is_auth":true,"message":null,"voted":{"2":false,"3":true,"4":true},"rated":{"4":true,"5":false,"6":false}}
-~~~~
+```
 
+### 5. Dictionary that represents Profile object of current user (not authentificated by far).
 
-
-"""
-Dict represent Profile object of current user(not authentificated by far)
-"""
-/api/profile/$ (if user is not authenticated) - <dict> with fields:
-"is_auth":<bool>
-"message":<str> or null
+Dependencies: /api/profile/$ (if user is not authenticated) - ```<dict>``` with fields:
+* "is_auth":```<bool>```
+* "message":```<str>``` or ```<null>```
 
 Example:
-~~~~
+```python
 {"is_auth":false,"message":"Wrong Username or Password, please try again or reset your Password"}
-~~~~
+```
 
+### 6. List that represent all Poll objects in database that were created by current user.
 
-
-"""
-List represent all Poll objects in database that was created by current user
-"""
-/api/polls_by_user/$ - List of <dict> with fields:
-"id":<int>
-"flow":<str>
-"agree":<int>
-"disagree":<int>
-"likes":<int>
-"dislikes":<int>
+Dependencies: /api/polls_by_user/$ - list of ```<dict>``` with fields:
+* "id":```<int>```
+* "flow":```<str>```
+* "agree":```<int>```
+* "disagree":```<int>```
+* "likes":```<int>```
+* "dislikes":```<int>```
 
 Example:
-~~~~
+```python
 [{"id":22,"flow":"Code","statement":"Hello World?","agree":1024,"disagree":256,"likes":800,"dislikes":600},{"id":144,"flow":"World","statement":"Hello, Earth?","agree":123,"disagree":222,"likes":444,"dislikes":333}]
-~~~~
+```
 
+### 7. Dictionary that represent Poll object fields (if Poll object with the id is in database) or empty dictionary (if Poll object with the id is not in database).
 
-
-"""
-Dict represent Poll objects fields(if Poll object with the id in database) or empty dict(if Poll object with the id not in database) 
-"""
-/api/shortpoll_by_id/(?P<id>.+)/$ - <dict> with fields:
-"agree_rate":<int>
-"rate":<int>
+Dependencies: /api/shortpoll_by_id/(?P<id>.+)/$ - ```<dict>``` with fields:
+* "agree_rate":```<int>```
+* "rate":```<int>```
 
 Examples:
-~~~~
+```python
 {"agree_rate":66,"rate":100}
-~~~~
+```
 
-~~~~
-{}
-~~~~
+### 8. List that represent all Poll objects in database with the flow.
 
-
-
-"""
-List represent all Poll objects in database with the flow
-"""
-/api/polls_by_flow/(?P<flow_name>.+)/$ - List of <dict> with fields:
-"id":<int>
-"flow":<str>
-"agree":<int>
-"disagree":<int>
-"likes":<int>
-"dislikes":<int>
+Dependencies: /api/polls_by_flow/(?P<flow_name>.+)/$ - list of ```<dict>``` with fields:
+* "id":```<int>```
+* "flow":```<str>```
+* "agree":```<int>```
+* "disagree":```<int>```
+* "likes":```<int>```
+* "dislikes":```<int>```
 
 Example:
-~~~~
+```python
 [{"id":22,"flow":"Code","statement":"Hello World?","agree":1024,"disagree":256,"likes":800,"dislikes":600},{"id":144,"flow":"Code","statement":"Hello, Earth?","agree":123,"disagree":222,"likes":444,"dislikes":333}]
-~~~~
+```
+
+## Contributing
+---
+Soon.
+
+## License
+---
+Soon.
