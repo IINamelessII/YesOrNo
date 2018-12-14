@@ -13,9 +13,9 @@ class Poll(models.Model):
     @property
     def rate(self):
         """
-        Poll's property that return poll's rate in % (exp. poll3.rate => 67) if someones voted else return 50
+        Poll's property that return poll's rate in % (exp. poll3.rate => 67) if someones voted else return 100
         """
-        return int(self.likes / (self.likes + self.dislikes) * 100) if self.likes + self.dislikes else 50
+        return int(self.likes / (self.likes + self.dislikes) * 100) if self.likes + self.dislikes else 100
     
     @property
     def agree_rate(self):

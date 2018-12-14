@@ -32,7 +32,7 @@ class Vote extends PureComponent {
                             </div>
                             <div className="right-buttons">
                                 <VoteButton yes={true} result={true} selected={this.state.rated == 1} onButtonClick={() => {this.likeClick(this.state.rated)}}/>
-                                <div className="ui-inverse rate">{(this.state.likes + this.state.dislikes) > 0 ? Math.floor(this.state.likes / (this.state.likes + this.state.dislikes) * 100) : 50}%</div>
+                                <div className="ui-inverse rate">{(this.state.likes + this.state.dislikes) > 0 ? Math.floor(this.state.likes / (this.state.likes + this.state.dislikes) * 100) : 100}%</div>
                                 <VoteButton yes={false} result={true} selected={this.state.rated == 2} onButtonClick={() => {this.dislikeClick(this.state.rated)}}/>
                             </div>
                         </div>
