@@ -32,13 +32,13 @@ class Panel extends PureComponent {
                 {this.state.process === 0 ? (
                     <form className="LogForm" onSubmit={this.signUp}>
                         <div id="email" className="ui button">Email</div>
-                        <input className="button input" type="email" placeholder="Enter Email" id="signup-email" autocomplete="email"></input>
+                        <input className="button input" type="email" placeholder="Enter Email" id="signup-email" autoComplete="email"></input>
                         <div id="username" className="ui button">Username</div>
-                        <input className="button input" type="text" placeholder="Enter Username" id="signup-username" autocomplete="username"></input>
+                        <input className="button input" type="text" placeholder="Enter Username" id="signup-username" autoComplete="username"></input>
                         <div id="password" className="ui button">Password</div>
-                        <input className="button input" type="password" placeholder="Enter Password" id="signup-password" autocomplete="new-password"></input>
+                        <input className="button input" type="password" placeholder="Enter Password" id="signup-password" autoComplete="new-password"></input>
                         <div id="rep-password" className="ui button">Password</div>
-                        <input className="button input" type="password" placeholder="Repeat Password" id="signup-rep-password" autocomplete="new-password"></input>
+                        <input className="button input" type="password" placeholder="Repeat Password" id="signup-rep-password" autoComplete="new-password"></input>
                         <button id="LogButt" className="ui button disable-select clickable" type="submit">Sign Up</button>
                         {this.state.message && (
                             <div id="message" className="ui-inverse message">{this.state.message}</div>
@@ -47,9 +47,9 @@ class Panel extends PureComponent {
                 ) : this.state.process === 1 ? (
                     <form className="LogForm" onSubmit={this.signIn}>
                         <div id="username" className="ui button">Username</div>
-                        <input id="signin-username" className="button input" type="text" placeholder="Enter Username" autocomplete="username"></input>
+                        <input id="signin-username" className="button input" type="text" placeholder="Enter Username" autoComplete="username"></input>
                         <div id="password" className="ui button">Password</div>
-                        <input id="signin-password" className="button input" type="password" placeholder="Enter Password" autocomplete="current-password"></input>
+                        <input id="signin-password" className="button input" type="password" placeholder="Enter Password" autoComplete="current-password"></input>
                         <button id="LogButt" className="ui button disable-select clickable" type="submit">Sign In</button>
                         {this.state.message && (
                             <div id="message" className="ui-inverse message">{this.state.message}</div>
@@ -58,7 +58,7 @@ class Panel extends PureComponent {
                 ) : (
                     <form className="LogForm" onSubmit={this.resetPass}>
                         <div id="email" className="ui button">Email</div>
-                        <input className="button input" type="email" placeholder="Enter Email" id="rp-email" autocomplete="email"></input>
+                        <input className="button input" type="email" placeholder="Enter Email" id="rp-email" autoComplete="email"></input>
                         <button id="LogButt" className="ui button disable-select clickable" type="submit">Reset Password</button>
                         {this.state.message && (
                             <div id="message" className="ui-inverse message">{this.state.message}</div>
@@ -86,7 +86,7 @@ class Panel extends PureComponent {
     })
 
     signOut = () => {
-        axios.get('logout/', {withCredentials: true})
+        axios.get('logout/')
         .then(response => {
             this.props.getProfile()
         })
@@ -110,7 +110,7 @@ class Panel extends PureComponent {
                 'username': us,
                 'email': em,
                 'password': p1
-            }, {headers: {'X-CSRFTOKEN': Cookies.get('csrftoken')}}, {withCredentials: true})
+            }, {headers: {'X-CSRFTOKEN': Cookies.get('csrftoken')}})
             .then(response => {
                 this.props.getProfile()
             }))
@@ -138,7 +138,7 @@ class Panel extends PureComponent {
         axios.post('signin/', {
             'username': document.getElementById('signin-username').value,
             'password': document.getElementById('signin-password').value
-        }, {headers: {'X-CSRFTOKEN': Cookies.get('csrftoken')}}, {withCredentials: true})
+        }, {headers: {'X-CSRFTOKEN': Cookies.get('csrftoken')}})
         .then(response => {
             this.props.getProfile()
         })
@@ -146,7 +146,7 @@ class Panel extends PureComponent {
 
     resetPass = (e) => {
         e.preventDefault()
-        axios.post('resetpassword/', {'email': document.getElementById('rp-email').value}, {headers: {'X-CSRFTOKEN': Cookies.get('csrftoken')}}, {withCredentials: true})
+        axios.post('resetpassword/', {'email': document.getElementById('rp-email').value}, {headers: {'X-CSRFTOKEN': Cookies.get('csrftoken')}})
         .then(response => {
             this.props.getProfile()
         })

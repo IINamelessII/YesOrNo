@@ -70,7 +70,7 @@ class App extends PureComponent {
     switch_show = () => this.setState({show: true})
 
     getPolls = (flow) => {
-        axios.get("api/polls_by_flow/" + flow, {withCredentials: true})
+        axios.get("api/polls_by_flow/" + flow)
             .then(response => response.data)
             .then(data => this.setState(
                 {
@@ -83,7 +83,7 @@ class App extends PureComponent {
     }
 
     getRandomPolls = () => (
-        axios.get("api/polls/", {withCredentials: true})
+        axios.get("api/polls/")
             .then(response => response.data)
             .then(data => this.setState(
                 {
@@ -137,7 +137,7 @@ class App extends PureComponent {
     }
 
     getProfile = () => {
-        axios.get('api/profile/', {withCredentials: true})
+        axios.get('api/profile/')
         .then(response => {
             return response.data
         })
@@ -159,7 +159,7 @@ class App extends PureComponent {
     }
 
     getRated = () => {
-        axios.get('api/profile/', {withCredentials: true})
+        axios.get('api/profile/')
         .then(response => response.data)
         .then(data => this.setState({ rated: data['rated'] }))
     }

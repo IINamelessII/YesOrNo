@@ -52,7 +52,7 @@ class Vote extends PureComponent {
             agree: voted === 1 ? this.state.agree - 1 : this.state.agree + 1,
             disagree: voted === 2 ? this.state.disagree - 1 : this.state.disagree
         })
-        axios.post(voted === 1 ? 'unvoteYes/' : voted === 2 ? 'switchtoYes/' : 'voteYes/', {'id': this.props.poll.id}, {headers: {'X-CSRFTOKEN': Cookies.get('csrftoken')}}, {withCredentials: true})
+        axios.post(voted === 1 ? 'unvoteYes/' : voted === 2 ? 'switchtoYes/' : 'voteYes/', {'id': this.props.poll.id}, {headers: {'X-CSRFTOKEN': Cookies.get('csrftoken')}})
     }
 
     noClick = (voted) => {
@@ -61,7 +61,7 @@ class Vote extends PureComponent {
             agree: voted === 1 ? this.state.agree - 1 : this.state.agree,
             disagree: voted === 2 ? this.state.disagree - 1 : this.state.disagree + 1
         })
-        axios.post(voted === 1 ? 'switchtoNo/' : voted === 2 ? 'unvoteNo/' : 'voteNo/', {'id': this.props.poll.id}, {headers: {'X-CSRFTOKEN': Cookies.get('csrftoken')}}, {withCredentials: true})
+        axios.post(voted === 1 ? 'switchtoNo/' : voted === 2 ? 'unvoteNo/' : 'voteNo/', {'id': this.props.poll.id}, {headers: {'X-CSRFTOKEN': Cookies.get('csrftoken')}})
     }
 
     likeClick = (rated) => {
@@ -70,7 +70,7 @@ class Vote extends PureComponent {
             likes: rated === 1 ? this.state.likes - 1 : this.state.likes + 1,
             dislikes: rated === 2 ? this.state.dislikes - 1 : this.state.dislikes
         })
-        axios.post(rated === 1 ? 'unvoteLike/' : rated === 2 ? 'switchtoLike/' : 'voteLike/', {'id': this.props.poll.id}, {headers: {'X-CSRFTOKEN': Cookies.get('csrftoken')}}, {withCredentials: true})
+        axios.post(rated === 1 ? 'unvoteLike/' : rated === 2 ? 'switchtoLike/' : 'voteLike/', {'id': this.props.poll.id}, {headers: {'X-CSRFTOKEN': Cookies.get('csrftoken')}})
     }
 
     dislikeClick = (rated) => {
@@ -79,7 +79,7 @@ class Vote extends PureComponent {
             likes: rated === 1 ? this.state.likes - 1 : this.state.likes,
             dislikes: rated === 2 ? this.state.dislikes - 1 : this.state.dislikes + 1
         })
-        axios.post(rated === 1 ? 'switchtoDislike/' : rated === 2 ? 'unvoteDislike/' : 'voteDislike/', {'id': this.props.poll.id}, {headers: {'X-CSRFTOKEN': Cookies.get('csrftoken')}}, {withCredentials: true})
+        axios.post(rated === 1 ? 'switchtoDislike/' : rated === 2 ? 'unvoteDislike/' : 'voteDislike/', {'id': this.props.poll.id}, {headers: {'X-CSRFTOKEN': Cookies.get('csrftoken')}})
     }
 }
 
