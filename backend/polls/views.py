@@ -54,7 +54,7 @@ class PollByUserList(generics.ListAPIView):
         try:
             return sorted(Poll.objects.filter(owner=self.request.user), reverse=True, key=lambda x: x.rate)
         except:
-            return HttpResponse(status=404)
+            return None
 
 
 class ShortPollById(generics.RetrieveAPIView):
