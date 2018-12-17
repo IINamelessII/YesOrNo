@@ -1,0 +1,10 @@
+.VoteButton {
+    width: 25%;
+    font-size: 1em;
+    font-variant: small-caps;
+    text-align: center;
+}
+
+#NoButton {
+    /* margin-left: 50%; */
+}

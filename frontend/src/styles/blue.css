@@ -1,0 +1,30 @@
+.ui {
+    background-color: #5c6aec;
+    color: white;       
+    text-align: center;
+}
+
+.ui-inverse {
+    background-color: white;
+    color: #5c6aec;
+    text-align: center;
+}
+
+.ui-inverse-bordered {
+    background-color: white;
+    color: #5c6aec;
+    text-align: center;
+    border: 2px solid #5c6aec;
+}
+
+.ui-selected {
+    background-color: #3a4be6;
+    color: white;     
+    text-align: center;
+}
+
+.ui-selected-p {
+    background-color: #0010eb;
+    color: white;     
+    text-align: center;
+}

@@ -1,0 +1,54 @@
+.Nav {
+    width: 25%;
+    height: 100%;
+    display: inline-block;
+    overflow: hidden;
+    z-index: 1;
+    position: relative;
+}
+
+.header {
+    height: 3.5vh;
+    width: 96%;
+    margin: auto;
+    margin-top: 3%;
+    font-size: 1.6em;
+    text-align: center;
+    vertical-align: middle;
+
+}
+
+.flowList {
+    width: 100%;
+    overflow-y: scroll;
+}
+
+.flowLabel {
+    width: 84%;
+    height: 3.5vh;
+    margin: auto;
+    margin-top: 3%;
+    margin-left: 2%;
+    font-size: 1.6em;
+    text-align: center;
+    vertical-align: middle;
+    display: inline-flex;
+}
+
+.flowText {
+    height: 100%;
+    width: 85%;
+    text-align: left;
+    margin-left: 2.5%;
+}
+
+.plus {
+    font-size: 1em;
+    height: 100%;
+    width: 15%;
+}
+
+.Random {
+    width: 80%;
+    margin-left: 2%;
+}

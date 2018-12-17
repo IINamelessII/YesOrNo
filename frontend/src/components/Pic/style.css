@@ -1,0 +1,11 @@
+.Pic {
+    height: 8%;
+    width: 100%;
+}
+
+.Flow {
+    margin: auto;
+    width: 30%;
+    height: 100%;
+    font-size: 2em;
+}

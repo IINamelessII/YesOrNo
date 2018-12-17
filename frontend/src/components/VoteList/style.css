@@ -1,0 +1,52 @@
+.VoteList {
+    height: 100%;
+    width: 100%;
+    display: block;
+    overflow-x: hidden;
+    overflow-y: hidden;
+    z-index: 1;
+    position: relative;
+}
+
+.ListWrap {
+    overflow-y: scroll;
+    overflow-x: hidden;
+    height: 100%;
+    width: 100%;
+}
+
+.loading {
+    position: absolute;
+    top: 30%;
+    left: 39%;
+    font-size: 4.4em;
+}
+
+.Placeholder, .VotePlug {
+    width: 100%;
+    height: 100vh;
+}
+
+.text {
+    font-size: 1.6em;
+    text-align: center;
+    border-radius: 0.15em;
+    height: 90%;
+    width: 90%;
+    margin: auto;
+    margin-top: 3%;
+    font-family: 'Chakra Petch', sans-serif;
+}
+
+.email {
+    color: black;
+}
+
+.tg-link {
+    color: black;
+    text-decoration: none;
+}
+
+em {
+    font-style: normal;
+}
