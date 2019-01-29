@@ -13,14 +13,14 @@ class Poll(models.Model):
     @property
     def rate(self):
         """
-        Poll's property that return poll's rate in % (exp. poll3.rate => 67) if someones voted else return 100
+        Poll's property that return poll's rate in % (exp. poll3.rate => 67) if someones rated else return 100
         """
         return int(self.likes / (self.likes + self.dislikes) * 100) if self.likes + self.dislikes else 100
     
     @property
     def agree_rate(self):
         """
-        Poll's property that return poll's agree rate in % (exp. poll3.agree_rate => 50) if someones rated else return 50
+        Poll's property that return poll's agree rate in % (exp. poll3.agree_rate => 50) if someones voted else return 50
         """
         return int(self.agree / (self.agree + self.disagree) * 100) if self.agree + self.disagree else 50
 
@@ -56,4 +56,4 @@ class Flow(models.Model):
     name = models.CharField(max_length=100)
 
     def __str__(self):
-        return r'FLow "{}"'.format(self.name)
+        return r'Flow "{}"'.format(self.name)
