@@ -10,7 +10,7 @@ YesOrNo is a web project, made up using a Django REST framework &amp; React.js a
 ---
 Soon.
 
-## Examples
+## API Examples
 ---
 ### 1. List that represents all Poll objects in database.
 
