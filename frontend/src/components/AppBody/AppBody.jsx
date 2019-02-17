@@ -1,7 +1,6 @@
 import React from 'react';
 
 import { YonApiService } from '../../services';
-import Spinner from '../Spinner';
 import PollsView from './PollsView';
 
 import './AppBody.scss';

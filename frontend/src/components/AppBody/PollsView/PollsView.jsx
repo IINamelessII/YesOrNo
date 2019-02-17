@@ -10,7 +10,7 @@ const PollsView = ({ polls, flowName }) => {
     <section className="polls">
       <h1 className="polls__flow-name">{flowName}</h1>
       {polls.length > 0 ? (
-        polls.map((poll) => <Poll poll={poll} />)
+        polls.map((poll) => <Poll poll={poll} key={poll.id} />)
       ) : (
         <span className="polls__empty-message">Whoops! No polls here!</span>
       )}

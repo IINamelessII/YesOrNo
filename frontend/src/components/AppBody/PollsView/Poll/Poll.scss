@@ -1,0 +1,37 @@
+.poll {
+
+  &__agrees {
+    --agree-width: 0.5;
+
+    width: 20em;
+
+    display: flex;
+    justify-content: space-between;
+
+    font-weight: bold;
+
+    &::before {
+      content: attr(data-agreed);
+
+      width: calc(20em * var(--agree-width));
+      min-width: 1em;
+
+      display: flex;
+      justify-content: center;
+
+      background: orange;
+    }
+
+    &::after {
+      content: attr(data-disagreed);
+
+      width: calc(20em * (1 - var(--agree-width)));
+      min-width: 1em;
+
+      display: flex;
+      justify-content: center;
+
+      background: cyan;
+    }
+  }
+}
