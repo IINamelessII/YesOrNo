@@ -1,0 +1,8 @@
+{
+  "rules": {
+    "no-duplicate-selectors": true,
+    "declaration-block-trailing-semicolon": "always",
+    "rule-empty-line-before": "always",
+    "declaration-block-no-duplicate-properties": true
+  }
+}
