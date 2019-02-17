@@ -5,24 +5,26 @@ import './LoginFormField.scss';
 
 interface LoginFormFieldProps {
   type: 'password' | 'text';
+  name: string;
   label: string;
   value: string;
   onChange: (event: React.ChangeEvent<HTMLInputElement>) => void;
 }
 
 const LoginFormField = (props: LoginFormFieldProps) => {
-  const { value, label, onChange, type } = props;
+  const { value, label, onChange, type, name } = props;
 
   return (
     <label
-      className={classNames('login-form__field', {
-        'login-form__field--not-empty': value,
+      className={classNames('form-field', {
+        'form-field--not-empty': !!value,
       })}
     >
-      <span className="login-form__field__label">{label}</span>
+      <span className="form-field__label">{label}</span>
       <input
+        className="form-field__input"
         type={type}
-        className="login-form__field__input"
+        name={name}
         value={value}
         onChange={onChange}
       />

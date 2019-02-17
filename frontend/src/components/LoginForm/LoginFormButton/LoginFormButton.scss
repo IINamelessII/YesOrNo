@@ -1,0 +1,44 @@
+@import 'src/utilities/variables';
+
+.form-button {
+  height: 2rem;
+  width: fit-content;
+
+  padding: 0 1rem;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  line-height: 2rem;
+  font-weight: bold;
+  color: #fff;
+  text-shadow: 0 1px 1px #000;
+
+  border-radius: 0.5rem;
+  border: 1px solid transparent;
+  background: transparentize(theme(pri), 0.6);
+  box-shadow: 0 2px 3px #222;
+
+  &:hover {
+    background: transparentize(theme(pri), 0.5);
+  }
+
+  &:active {
+    background: transparentize(theme(pri), 0.4);
+  }
+
+  &--flat {
+    @include stitched();
+
+    background: transparent;
+    box-shadow: none;
+
+    &:hover {
+      background: transparent;
+    }
+
+    &:active {
+      background: rgba(255, 255, 255, 0.05);
+    }
+  }
+}

@@ -1,76 +1,98 @@
 import React from 'react';
 
 import LoginFormField from './LoginFormField';
+import LoginFormButton from './LoginFormButton/';
+import { classNames } from '../../utilities';
 
 import './LoginForm.scss';
-import { classNames } from '../../utilities';
 
 // TODO: PASSWORD SHOULD BE ENCODED
 
 type InputEvent = React.ChangeEvent<HTMLInputElement>;
 
 interface State {
-  isExpanded: boolean;
+  isMinified: boolean;
   login: string;
   password: string;
 }
 
 class LoginForm extends React.Component {
   state: State = {
-    isExpanded: false,
+    isMinified: true,
     login: '',
     password: '',
   };
 
   // to keep login data or not to keep? (login: '', password: '' below)
   onToggleExpand = () => {
-    this.setState((prevState: State) => {
-      return {
-        isExpanded: !prevState.isExpanded,
-        login: '',
-        password: '',
-      };
-    });
+    this.setState(
+      (prevState: State) => {
+        return {
+          isMinified: !prevState.isMinified,
+          login: '',
+          password: '',
+        };
+      },
+      () =>
+        !this.state.isMinified
+          ? window.addEventListener('click', this.hideWhenClickSomewhereElse)
+          : window.removeEventListener('click', this.hideWhenClickSomewhereElse)
+    );
   };
 
-  onEnterLogin = (e: InputEvent): void => {
-    const target = e.target as HTMLInputElement;
-    this.setState({ login: target.value });
+  hideWhenClickSomewhereElse: EventListener = (e: Event): void => {
+    e.cancelBubble = true;
+
+    const target = e.target as HTMLElement;
+
+    console.log(target.className);
+
+    if (!target.className.includes('form')) {
+      this.onToggleExpand();
+    }
   };
 
-  onEnterPassword = (e: InputEvent): void => {
+  onInputChange = (e: InputEvent): void => {
     const target = e.target as HTMLInputElement;
-    this.setState({ password: target.value });
+    const { name, value } = target;
+
+    this.setState({ [name]: value });
   };
 
   render() {
-    const { isExpanded, login, password } = this.state;
+    const { isMinified, login, password } = this.state;
 
     return (
       <div
         className={classNames('login-form', {
-          'login-form--minified': !isExpanded,
+          'login-form--minified': isMinified,
         })}
       >
-        <button
-          className="login-form__btn login-form__btn--sign-in"
+        <LoginFormButton
+          label={isMinified ? 'Sign in' : 'X'}
           onClick={this.onToggleExpand}
-        >
-          Sign in
-        </button>
+          flat={!isMinified}
+          style={{ justifySelf: 'flex-end' }}
+        />
 
-        <LoginFormField
-          type="text"
-          label="Nickname"
-          value={login}
-          onChange={this.onEnterLogin}
-        />
-        <LoginFormField
-          type="password"
-          label="Password"
-          value={password}
-          onChange={this.onEnterPassword}
-        />
+        {!isMinified && (
+          <React.Fragment>
+            <LoginFormField
+              type="text"
+              name="login"
+              label="Username"
+              value={login}
+              onChange={this.onInputChange}
+            />
+            <LoginFormField
+              type="password"
+              name="password"
+              label="Password"
+              value={password}
+              onChange={this.onInputChange}
+            />
+          </React.Fragment>
+        )}
       </div>
     );
   }

@@ -1,4 +1,4 @@
-.login-form__field {
+.form-field {
   width: fit-content;
   height: fit-content;
 
@@ -7,6 +7,7 @@
   justify-content: flex-start;
   align-items: center;
 
+  background: inherit;
   border: 1px solid #fff;
   border-radius: 0.7rem;
 
@@ -20,9 +21,11 @@
 
     color: rgb(94, 94, 94);
     font-weight: bold;
-    font-size: 0.85rem;
+    user-select: none;
 
-    transition: 0.15s, background 0.1s cubic-bezier(0, 1, 0, 1);
+    cursor: text;
+
+    transition: 0.15s, background 0.1s cubic-bezier(0, 1, 0, 1), color 0s;
   }
 
   &__input {
@@ -33,6 +36,7 @@
 
     font-family: 'Courier New', monospace;
     font-weight: bold;
+    font-size: 1rem;
 
     border-radius: 0.5rem;
     border: none;
@@ -44,11 +48,11 @@
 
   &--not-empty {
 
-    .login-form__field__input {
+    .form-field__input {
       border-color: theme(sec);
     }
 
-    .login-form__field__label {
+    .form-field__label {
       margin-top: -1.3rem;
 
       padding: 0 0.15rem;
@@ -56,7 +60,9 @@
       color: #fff;
       font-size: 0.7em;
 
-      background: rgb(68, 68, 66);
+      background: inherit;
+
+      cursor: default;
 
       transition: 0.15s, background 0.1s cubic-bezier(1, 0, 1, 0);
     }
