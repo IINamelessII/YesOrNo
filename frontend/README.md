@@ -2,4 +2,4 @@
 
 ...a front-end part at least
 
-(c) yugisu aka corontorr
+(c) yugisu a.k.a corontorr
