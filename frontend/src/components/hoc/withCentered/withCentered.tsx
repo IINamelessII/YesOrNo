@@ -24,9 +24,9 @@ type TriggerButtonGenerator = (
  * @param triggerButtonGenerator function which takes two
  * arguments: "toggleShow" function and property "isShown"
  */
-const withCentered = (
-  Wrapped: React.FunctionComponent | React.ComponentClass
-) => (triggerButtonGenerator: TriggerButtonGenerator) =>
+const withCentered = (Wrapped: React.ReactType) => (
+  triggerButtonGenerator: TriggerButtonGenerator
+) =>
   class extends React.Component<Props, State> {
     state = {
       isShown: false,
@@ -48,7 +48,9 @@ const withCentered = (
       const { centered, ...wrappedProps } = this.props as Props;
       const { isShown } = this.state as State;
 
-      const wrapped = <Wrapped {...wrappedProps} />;
+      const wrapped = (
+        <Wrapped {...wrappedProps} onToggleShow={this.onToggleShow} />
+      );
       const withContainer = (
         <div className="center-container" onClick={this.onClickOnBg}>
           {wrapped}

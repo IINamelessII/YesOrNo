@@ -1,4 +1,5 @@
 import React from 'react';
+
 import { classNames } from '../../../utilities';
 
 import './LoginFormField.scss';
@@ -12,7 +13,7 @@ interface LoginFormFieldProps {
 }
 
 const LoginFormField = (props: LoginFormFieldProps) => {
-  const { value, label, onChange, type, name } = props;
+  const { value, label, onChange, type, name, ...otherProps } = props;
 
   return (
     <label
@@ -27,6 +28,8 @@ const LoginFormField = (props: LoginFormFieldProps) => {
         name={name}
         value={value}
         onChange={onChange}
+        autoComplete="off"
+        {...otherProps}
       />
     </label>
   );

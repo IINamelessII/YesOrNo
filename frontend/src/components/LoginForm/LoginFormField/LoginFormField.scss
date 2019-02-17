@@ -15,17 +15,16 @@
     position: absolute;
     margin-left: 0.5rem;
 
-    display: block;
     height: 0.8rem;
     line-height: 0.8rem;
 
     color: rgb(94, 94, 94);
-    font-weight: bold;
+    font-weight: normal;
     user-select: none;
 
     cursor: text;
 
-    transition: 0.15s, background 0.1s cubic-bezier(0, 1, 0, 1), color 0s;
+    transition: 0.1s, background 0s, color 0s;
   }
 
   &__input {
@@ -46,25 +45,30 @@
     transition: border-color 0.25s;
   }
 
-  &--not-empty {
+  &--not-empty,
+  &:focus-within {
 
     .form-field__input {
       border-color: theme(sec);
     }
 
     .form-field__label {
-      margin-top: -1.3rem;
+      transform: translate(0, -120%);
+      align-self: flex-start;
 
-      padding: 0 0.15rem;
+      height: 0.5rem;
+
+      padding: 0 0.05rem;
 
       color: #fff;
-      font-size: 0.7em;
+      font-size: 0.7rem;
+      line-height: 0.5rem;
 
       background: inherit;
 
       cursor: default;
 
-      transition: 0.15s, background 0.1s cubic-bezier(1, 0, 1, 0);
+      transition: 0.2s, background 0.1s cubic-bezier(1, 0, 1, 0);
     }
   }
 }

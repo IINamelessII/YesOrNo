@@ -20,6 +20,8 @@
   background: transparentize(theme(pri), 0.6);
   box-shadow: 0 2px 3px #222;
 
+  cursor: pointer;
+
   &:hover {
     background: transparentize(theme(pri), 0.5);
   }

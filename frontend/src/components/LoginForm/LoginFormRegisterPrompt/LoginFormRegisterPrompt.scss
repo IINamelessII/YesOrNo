@@ -1,0 +1,23 @@
+@import 'src/utilities/variables';
+
+.register-prompt {
+  align-self: end;
+
+  display: flex;
+  flex-direction: column;
+
+  text-align: center;
+  user-select: none;
+
+  font-size: 0.8rem;
+
+  &__action {
+    color: theme(pri);
+
+    cursor: pointer;
+
+    &:hover {
+      background: rgba(255, 255, 255, 0.05);
+    }
+  }
+}
