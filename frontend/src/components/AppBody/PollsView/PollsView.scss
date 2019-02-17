@@ -27,4 +27,10 @@
     border-radius: 0.5rem;
     box-shadow: 0 2px 3px #222;
   }
+
+  &__empty-message {
+    grid-area: 2 / 1 / 2 / 3;
+
+    text-align: center;
+  }
 }

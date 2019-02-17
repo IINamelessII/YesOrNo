@@ -4,8 +4,7 @@ import './LikeSection.scss';
 
 // TODO: IMPLEMENT VOTE!
 
-
-const LikeSection = ({ liked, disliked }) => {
+const LikeSection = ({ liked }) => {
   const pressed = !!Math.floor(Math.random() * 2);
 
   return (

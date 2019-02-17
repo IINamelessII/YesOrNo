@@ -1,9 +1,9 @@
 import React from 'react';
 
 import VoteBar from './VoteBar';
+import LikeSection from './LikeSection';
 
 import './Poll.scss';
-import LikeSection from './LikeSection';
 
 const Poll = ({ poll }) => {
   return (

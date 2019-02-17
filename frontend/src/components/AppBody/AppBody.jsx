@@ -51,4 +51,31 @@ class AppBody extends React.Component {
   }
 }
 
+// const usePollsByFlow = (flow) => {
+//   const yonApi = new YonApiService();
+
+//   const [polls, setPolls] = useState([]);
+
+//   const updatePolls = () => {
+//     setPolls([]);
+//     yonApi.getPollsByFlow(flow).then((polls) => setPolls(polls));
+//   };
+
+//   return [polls, updatePolls];
+// };
+
+// const AppBody = ({ selectedFlow }) => {
+//   const [polls, updatePolls] = usePollsByFlow(selectedFlow);
+
+//   return (
+//     <div className="app-body">
+//       <PollsView
+//         isLoading={polls.length > 0}
+//         polls={polls}
+//         flowName={selectedFlow}
+//       />
+//     </div>
+//   );
+// };
+
 export default AppBody;
