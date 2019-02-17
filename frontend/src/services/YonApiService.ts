@@ -1,6 +1,5 @@
 import axios, { AxiosRequestConfig } from 'axios';
 import { Flow, Poll, User } from '../types';
-// Symbol descriptors for truly private class fields
 const fetchUrl = Symbol();
 const sendData = Symbol();
 
