@@ -1,11 +1,18 @@
 @import 'src/utilities/variables';
 
 .polls {
-  display: flex;
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  grid-template-areas: 'polls-header polls-header';
 
-  flex-direction: column;
+  gap: 0.5rem;
+
+  overflow-y: auto;
+  overflow-x: hidden;
 
   &__flow-name {
+    grid-area: polls-header;
+
     width: 100%;
     margin: 0 0 0.5rem;
 

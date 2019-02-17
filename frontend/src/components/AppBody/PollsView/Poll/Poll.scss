@@ -1,51 +1,40 @@
 @import 'src/utilities/variables';
 
 .poll {
+  height: fit-content;
+  min-height: 10em;
 
-  &__agrees {
-    --agree-width: 0.5;
+  padding: 0.5em;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: space-between;
 
-    width: 20rem;
-    padding: 0.2rem;
+  background: rgba(255, 255, 255, 0.05);
+  box-shadow: 0 2px 3px #222;
+  border-radius: 0.5rem;
+  @include stitched();
 
+  &__name {
+    width: 100%;
+    margin: 0 0 0.5rem;
+
+    padding: 0.25rem;
+    padding-bottom: 0.1rem;
     display: flex;
-    justify-content: space-between;
+    justify-content: center;
+    align-items: center;
 
+    font-size: 1.35rem;
     font-weight: bold;
-    color: rgba(255, 255, 255, 0.3);
+    text-align: center;
 
-    background: rgba(255, 255, 255, 0.05);
     @include stitched();
     border-radius: 0.5rem;
-    box-shadow: 0 1px 2px #222;
+    // background: rgba(255, 255, 255, 0.05);
+    // box-shadow: 0 1px 2px #222;
+  }
 
-    transition: color 0.25s;
-
-    &:hover {
-      color: rgba(255, 255, 255, 0.8);
-    }
-
-    &::before {
-      content: attr(data-agreed);
-
-      width: calc(20em * var(--agree-width));
-      min-width: 1rem;
-
-      display: flex;
-      justify-content: center;
-
-      background: transparentize(theme(pri), 0.5);
-      border-radius: 0.25rem;
-    }
-
-    &::after {
-      content: attr(data-disagreed);
-
-      width: calc(20em * (1 - var(--agree-width)));
-      min-width: 0.75rem;
-
-      display: flex;
-      justify-content: center;
-    }
+  &__likes {
   }
 }
