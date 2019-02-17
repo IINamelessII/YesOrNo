@@ -5,6 +5,8 @@ import LikeSection from './LikeSection';
 
 import './Poll.scss';
 
+// TODO: Implement cool loading dummy poll component wow cool
+
 const Poll = ({ poll }) => {
   return (
     <article className="poll">

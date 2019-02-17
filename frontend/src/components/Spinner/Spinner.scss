@@ -12,7 +12,10 @@
   justify-content: center;
   align-items: center;
 
-  animation: spinning 1.5s ease-in-out 0s infinite;
+  opacity: 0;
+
+  animation: fadingIn 3s ease-in 1s 1, spinning 1.5s ease-in-out 0s infinite;
+  animation-fill-mode: forwards;
 
   @keyframes spinning {
 
@@ -22,6 +25,17 @@
 
     100% {
       transform: rotate(360deg);
+    }
+  }
+
+  @keyframes fadingIn {
+
+    0% {
+      opacity: 0;
+    }
+
+    100% {
+      opacity: 1;
     }
   }
 }

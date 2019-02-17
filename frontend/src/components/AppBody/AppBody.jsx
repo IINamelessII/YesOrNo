@@ -41,11 +41,8 @@ class AppBody extends React.Component {
 
     return (
       <div className="app-body">
-        <PollsView
-          isLoading={pollsLoading}
-          polls={polls}
-          flowName={selectedFlow}
-        />
+        <h1 className="polls__flow-name">{selectedFlow}</h1>
+        <PollsView isLoading={pollsLoading} polls={polls} />
       </div>
     );
   }

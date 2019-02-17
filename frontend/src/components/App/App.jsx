@@ -7,6 +7,8 @@ import AppBody from '../AppBody';
 
 import './App.scss';
 
+// TODO: implement cool loading animation
+
 // in case of no internet connection
 // #region
 const pollId = ((counter = 0) => () => counter++)();
