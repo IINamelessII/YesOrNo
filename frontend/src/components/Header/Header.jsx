@@ -5,13 +5,13 @@ import LoginForm from '../LoginForm';
 
 import './Header.scss';
 
-function Header() {
+const Header = () => {
   return (
     <header className="app-header">
       <Logo />
-      <LoginForm />
+      <LoginForm centered />
     </header>
   );
-}
+};
 
 export default Header;

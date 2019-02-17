@@ -20,7 +20,7 @@
     "no-unused-vars": [
       "error",
       {
-        "varsIgnorePattern": "[rR]eact||[A-Z][\\w]+||props||_"
+        "varsIgnorePattern": "[rR]eact||[A-Z][\\w]+||props||_||Wrapped"
       }
     ]
   }

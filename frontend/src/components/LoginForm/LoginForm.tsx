@@ -1,101 +1,78 @@
 import React from 'react';
 
 import LoginFormField from './LoginFormField';
-import LoginFormButton from './LoginFormButton/';
+import LoginFormButton from './LoginFormButton';
+import withCentered from '../hoc/withCentered';
 import { classNames } from '../../utilities';
 
 import './LoginForm.scss';
+
+// TODO: MOVE LOGINFORM TO SEPARATE COMPONENT AND MAKE THIS ONE HOC
 
 // TODO: PASSWORD SHOULD BE ENCODED
 
 type InputEvent = React.ChangeEvent<HTMLInputElement>;
 
+interface Props {
+  login?: string;
+  password?: string;
+  children?: never;
+}
+
 interface State {
-  isMinified: boolean;
   login: string;
   password: string;
 }
 
-class LoginForm extends React.Component {
-  state: State = {
-    isMinified: true,
-    login: '',
-    password: '',
-  };
+const getInitialState = (props: Props) => ({
+  login: props.login || '',
+  password: props.password || '',
+});
 
-  // to keep login data or not to keep? (login: '', password: '' below)
-  onToggleExpand = () => {
-    this.setState(
-      (prevState: State) => {
-        return {
-          isMinified: !prevState.isMinified,
-          login: '',
-          password: '',
-        };
-      },
-      () =>
-        !this.state.isMinified
-          ? window.addEventListener('click', this.hideWhenClickSomewhereElse)
-          : window.removeEventListener('click', this.hideWhenClickSomewhereElse)
-    );
-  };
-
-  hideWhenClickSomewhereElse: EventListener = (e: Event): void => {
-    e.cancelBubble = true;
-
-    const target = e.target as HTMLElement;
-
-    console.log(target.className);
-
-    if (!target.className.includes('form')) {
-      this.onToggleExpand();
-    }
-  };
+class LoginForm extends React.Component<Props, State> {
+  state: State = getInitialState(this.props);
 
   onInputChange = (e: InputEvent): void => {
     const target = e.target as HTMLInputElement;
     const { name, value } = target;
 
-    this.setState({ [name]: value });
+    this.setState((prevState) => ({ ...prevState, [name]: value }));
   };
 
   render() {
-    const { isMinified, login, password } = this.state;
+    const { login, password } = this.state;
+
+    // #region Input Components
+    const passwordInput = (
+      <LoginFormField
+        type="password"
+        name="password"
+        label="Password"
+        value={password}
+        onChange={this.onInputChange}
+      />
+    );
+
+    const loginInput = (
+      <LoginFormField
+        type="text"
+        name="login"
+        label="Username"
+        value={login}
+        onChange={this.onInputChange}
+      />
+    );
+    // #endregion
 
     return (
-      <div
-        className={classNames('login-form', {
-          'login-form--minified': isMinified,
-        })}
-      >
-        <LoginFormButton
-          label={isMinified ? 'Sign in' : 'X'}
-          onClick={this.onToggleExpand}
-          flat={!isMinified}
-          style={{ justifySelf: 'flex-end' }}
-        />
-
-        {!isMinified && (
-          <React.Fragment>
-            <LoginFormField
-              type="text"
-              name="login"
-              label="Username"
-              value={login}
-              onChange={this.onInputChange}
-            />
-            <LoginFormField
-              type="password"
-              name="password"
-              label="Password"
-              value={password}
-              onChange={this.onInputChange}
-            />
-          </React.Fragment>
-        )}
-      </div>
+      <form className="login-form">
+        {loginInput}
+        {passwordInput}
+      </form>
     );
   }
 }
 
-export default LoginForm;
+export default withCentered(LoginForm)((onToggleShow, isShown) => (
+  <LoginFormButton label="Sign in" onClick={onToggleShow} flat={isShown} />
+));

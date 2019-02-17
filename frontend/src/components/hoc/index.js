@@ -1,3 +1,4 @@
 import withSpinner from './withSpinner.jsx';
+import withCentered from './withCentered';
 
-export { withSpinner };
+export { withSpinner, withCentered };

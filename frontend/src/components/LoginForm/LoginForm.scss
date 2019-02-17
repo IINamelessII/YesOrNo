@@ -1,32 +1,18 @@
 @import 'src/utilities/variables';
 
 .login-form {
-  // position: fixed;
-  // top: 30%;
-  // left: 50%;
-
-  width: 20rem;
-  height: 20rem;
+  width: 30rem;
+  height: 40rem;
 
   padding: 0.5rem;
   display: grid;
 
   background: rgb(68, 68, 66);
+  box-shadow: 0 2px 3px #222;
   border-radius: 0.5rem;
 
-  box-shadow: 0 2px 3px #222;
-
-  &--minified {
-    height: 2rem;
-    width: fit-content;
-
-    padding: 0;
-
-    .login-form__btn {
-
-      &--expand {
-      }
-    }
+  &--hidden {
+    display: none;
   }
 
   &:not(&--minified) {

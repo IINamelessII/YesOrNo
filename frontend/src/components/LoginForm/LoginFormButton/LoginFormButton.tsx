@@ -4,7 +4,7 @@ import { classNames } from '../../../utilities';
 
 import './LoginFormButton.scss';
 
-interface LoginFormButtonProps {
+export interface LoginFormButtonProps {
   label: string;
   flat: boolean;
 }
