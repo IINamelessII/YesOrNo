@@ -7,10 +7,11 @@ import AppBody from '../AppBody';
 
 import './App.scss';
 
+// in case of no internet connection
+// #region
 const pollId = ((counter = 0) => () => counter++)();
 const flowId = ((counter = 0) => () => counter++)();
 
-// in case of no internet connection
 const pollsMy = [
   {
     id: pollId(),
@@ -50,8 +51,7 @@ const flowsMy = [
   { id: flowId(), name: 'Health' },
   { id: flowId(), name: 'Videogames' },
 ];
-
-// FIXME: pls fix a lot of things, buddy i beg you
+// #endregion
 
 class App extends Component {
   yonApi = new YonApiService();
@@ -75,8 +75,7 @@ class App extends Component {
     this.yonApi.getFlows().then(this.onFlowsLoaded);
   };
 
-  handleOpenFlow = (flow) => {
-    console.log('switched flow to:', flow.name);
+  handleSelectFlow = (flow) => {
     this.setState({ openedFlow: flow.name });
   };
 
@@ -86,7 +85,7 @@ class App extends Component {
     const flowsViewProps = {
       isLoading: flowsLoading,
       flows,
-      handleOpenFlow: this.handleOpenFlow,
+      handleSelectFlow: this.handleSelectFlow,
     };
 
     return (

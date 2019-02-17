@@ -10,7 +10,7 @@ class SideMenu extends React.Component {
     flowsViewProps: PropTypes.shape({
       isLoading: PropTypes.bool,
       flows: PropTypes.array,
-      handleOpenFlow: PropTypes.func,
+      handleSelectFlow: PropTypes.func,
     }).isRequired,
   };
 

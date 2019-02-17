@@ -1,13 +1,21 @@
 import React from 'react';
 
-const PollsView = ({ polls }) => {
-  return polls.map((poll) => (
-    <article key={poll.id}>
-      <h1 className="poll__name">{poll.statement}</h1>
-      {`Agreed: ${poll.agree} Disagree: ${poll.disagree}`}
-      {`Likes: ${poll.likes} Dislikes: ${poll.dislikes}`}
-    </article>
-  ));
+import { withSpinner } from '../../hoc';
+import Poll from './Poll';
+
+import './PollsView.scss';
+
+const PollsView = ({ polls, flowName }) => {
+  return (
+    <section className="polls">
+      <h1 className="polls__flow-name">{flowName}</h1>
+      {polls.length > 0 ? (
+        polls.map((poll) => <Poll poll={poll} />)
+      ) : (
+        <span className="polls__empty-message">Whoops! No polls here!</span>
+      )}
+    </section>
+  );
 };
 
-export default PollsView;
+export default withSpinner(PollsView);

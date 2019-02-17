@@ -7,14 +7,14 @@ import './FlowsView.scss';
 
 class FlowsView extends React.Component {
   render() {
-    const { flows, handleOpenFlow } = this.props;
+    const { flows, handleSelectFlow } = this.props;
     return (
       <div className="flows">
         {flows.map((flow) => (
           <Flow
             key={`flow-${flow.id}`}
             flow={flow}
-            handleOpenFlow={handleOpenFlow}
+            handleSelectFlow={handleSelectFlow}
           />
         ))}
       </div>

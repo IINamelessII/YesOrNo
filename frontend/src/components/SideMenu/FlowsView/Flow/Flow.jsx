@@ -8,9 +8,9 @@ class Flow extends React.Component {
   }
 
   onChangeFlow = () => {
-    const { flow, handleOpenFlow } = this.props;
+    const { flow, handleSelectFlow } = this.props;
 
-    handleOpenFlow(flow);
+    handleSelectFlow(flow);
   };
 
   render() {

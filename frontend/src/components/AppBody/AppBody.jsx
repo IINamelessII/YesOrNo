@@ -11,27 +11,44 @@ class AppBody extends React.Component {
 
   state = {
     polls: [],
+    pollsLoading: true,
   };
+
+  componentDidUpdate(prevProps) {
+    if (this.props.openedFlow !== prevProps.openedFlow) {
+      this.updatePolls();
+    }
+  }
 
   componentDidMount() {
     this.updatePolls();
   }
 
   onPollsUpdated = (polls) => {
-    this.setState({ polls });
+    this.setState({ polls, pollsLoading: false });
   };
 
   updatePolls = () => {
-    this.yonApi.getPollsByFlow(this.props.openedFlow).then(this.onPollsUpdated);
+    this.setState({ polls: [], pollsLoading: true }, () => {
+      this.yonApi
+        .getPollsByFlow(this.props.openedFlow)
+        .then(this.onPollsUpdated);
+    });
   };
 
   render() {
-    const { polls, isLoading } = this.state;
+    const { polls, pollsLoading } = this.state;
+    const { openedFlow } = this.props;
 
-    const spinner = isLoading && <Spinner />;
-    const pollsContent = <PollsView polls={polls} />;
-
-    return <div className="app-body">{spinner || pollsContent}</div>;
+    return (
+      <div className="app-body">
+        <PollsView
+          isLoading={pollsLoading}
+          polls={polls}
+          flowName={openedFlow}
+        />
+      </div>
+    );
   }
 }
 
