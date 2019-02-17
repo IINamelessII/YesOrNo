@@ -1,37 +1,51 @@
+@import 'src/utilities/variables';
+
 .poll {
 
   &__agrees {
     --agree-width: 0.5;
 
-    width: 20em;
+    width: 20rem;
+    padding: 0.2rem;
 
     display: flex;
     justify-content: space-between;
 
     font-weight: bold;
+    color: rgba(255, 255, 255, 0.3);
+
+    background: rgba(255, 255, 255, 0.05);
+    @include stitched();
+    border-radius: 0.5rem;
+    box-shadow: 0 1px 2px #222;
+
+    transition: color 0.25s;
+
+    &:hover {
+      color: rgba(255, 255, 255, 0.8);
+    }
 
     &::before {
       content: attr(data-agreed);
 
       width: calc(20em * var(--agree-width));
-      min-width: 1em;
+      min-width: 1rem;
 
       display: flex;
       justify-content: center;
 
-      background: orange;
+      background: transparentize(theme(pri), 0.5);
+      border-radius: 0.25rem;
     }
 
     &::after {
       content: attr(data-disagreed);
 
       width: calc(20em * (1 - var(--agree-width)));
-      min-width: 1em;
+      min-width: 0.75rem;
 
       display: flex;
       justify-content: center;
-
-      background: cyan;
     }
   }
 }
