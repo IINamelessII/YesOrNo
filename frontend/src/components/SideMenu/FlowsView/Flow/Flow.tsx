@@ -1,11 +1,18 @@
 import React from 'react';
 
 import { classNames } from '../../../../utilities';
+import { Flow } from '../../../../types';
 
 import './Flow.scss';
 
-class Flow extends React.Component {
-  shouldComponentUpdate({ flow: { id }, selected }) {
+type Props = {
+  flow: Flow;
+  selected: boolean;
+  handleSelectFlow: (flow: Flow) => void;
+};
+
+export default class extends React.Component<Props, {}> {
+  shouldComponentUpdate({ flow: { id }, selected }: Props) {
     return id !== this.props.flow.id || selected !== this.props.selected;
   }
 
@@ -29,5 +36,3 @@ class Flow extends React.Component {
     );
   }
 }
-
-export default Flow;

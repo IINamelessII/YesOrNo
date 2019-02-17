@@ -4,7 +4,13 @@ import './LikeSection.scss';
 
 // TODO: IMPLEMENT VOTE!
 
-const LikeSection = ({ liked }) => {
+type Props = {
+  pollId: number;
+  liked: number;
+  disliked: number;
+};
+
+const LikeSection = ({ liked }: Props) => {
   const pressed = !!Math.floor(Math.random() * 2);
 
   return (

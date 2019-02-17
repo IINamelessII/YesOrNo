@@ -4,17 +4,22 @@ import { classNames } from '../../../utilities';
 
 import './LoginFormField.scss';
 
-interface LoginFormFieldProps {
+type Props = {
   type: 'password' | 'text';
   name: string;
   label: string;
   value: string;
   onChange: (event: React.ChangeEvent<HTMLInputElement>) => void;
-}
+};
 
-const LoginFormField = (props: LoginFormFieldProps) => {
-  const { value, label, onChange, type, name, ...otherProps } = props;
-
+const LoginFormField = <P extends object>({
+  value,
+  label,
+  onChange,
+  type,
+  name,
+  ...otherProps
+}: React.HTMLProps<HTMLInputElement> & Props) => {
   return (
     <label
       className={classNames('form-field', {
@@ -29,7 +34,7 @@ const LoginFormField = (props: LoginFormFieldProps) => {
         value={value}
         onChange={onChange}
         autoComplete="off"
-        {...otherProps}
+        {...otherProps as P}
       />
     </label>
   );

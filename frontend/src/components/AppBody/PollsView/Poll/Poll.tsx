@@ -7,7 +7,11 @@ import './Poll.scss';
 
 // TODO: Implement cool loading dummy poll component wow cool
 
-const Poll = ({ poll }) => {
+type Props = {
+  poll: any;
+};
+
+const Poll = ({ poll }: Props) => {
   return (
     <article className="poll">
       <h2 className="poll__name">{poll.statement}</h2>

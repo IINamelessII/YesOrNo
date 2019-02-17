@@ -2,10 +2,20 @@ import React from 'react';
 
 import { YonApiService } from '../../services';
 import PollsView from './PollsView';
+import { Poll } from '../../types';
 
 import './AppBody.scss';
 
-class AppBody extends React.Component {
+type Props = {
+  selectedFlow: string;
+};
+
+type State = {
+  polls: Poll[];
+  pollsLoading: boolean;
+};
+
+class AppBody extends React.Component<Props, State> {
   yonApi = new YonApiService();
 
   state = {
@@ -13,7 +23,7 @@ class AppBody extends React.Component {
     pollsLoading: true,
   };
 
-  componentDidUpdate(prevProps) {
+  componentDidUpdate(prevProps: Props) {
     if (this.props.selectedFlow !== prevProps.selectedFlow) {
       this.updatePolls();
     }
@@ -23,7 +33,7 @@ class AppBody extends React.Component {
     this.updatePolls();
   }
 
-  onPollsUpdated = (polls) => {
+  onPollsUpdated = (polls: Poll[]) => {
     this.setState({ polls, pollsLoading: false });
   };
 
@@ -36,13 +46,23 @@ class AppBody extends React.Component {
   };
 
   render() {
-    const { polls, pollsLoading } = this.state;
-    const { selectedFlow } = this.props;
+    const { polls, pollsLoading } = this.state as State;
+    const { selectedFlow } = this.props as Props;
+
+    const pollsView = (
+      <>
+        <h1 className="polls__flow-name">{selectedFlow}</h1>
+        <PollsView loading={pollsLoading} polls={polls} />
+      </>
+    );
+
+    const greetingMessage = (
+      <div className="app-body__greeting-message">Greeting!</div>
+    );
 
     return (
       <div className="app-body">
-        <h1 className="polls__flow-name">{selectedFlow}</h1>
-        <PollsView isLoading={pollsLoading} polls={polls} />
+        {selectedFlow ? pollsView : greetingMessage}
       </div>
     );
   }
@@ -67,7 +87,7 @@ class AppBody extends React.Component {
 //   return (
 //     <div className="app-body">
 //       <PollsView
-//         isLoading={polls.length > 0}
+//         loading={polls.length > 0}
 //         polls={polls}
 //         flowName={selectedFlow}
 //       />

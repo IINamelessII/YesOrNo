@@ -13,21 +13,21 @@ import './LoginForm.scss';
 
 type InputEvent = React.ChangeEvent<HTMLInputElement>;
 
-interface Props {
+type Props = {
   login?: string;
   password?: string;
   email?: string;
   children?: never;
   onToggleShow?: Function;
-}
+};
 
-interface State {
+type State = {
   login: string;
   password: string;
   email: string;
   registering: boolean;
   canSubmit: boolean;
-}
+};
 
 const getInitialState = (props: Props): State => ({
   login: props.login || '',
@@ -85,23 +85,22 @@ class LoginForm extends React.Component<Props, State> {
     const nameOfProcedure = registering ? 'Sign up' : 'Sign in';
 
     // #region Input Elements
+    const usernameInput = (
+      <LoginFormField
+        type="text"
+        name="login"
+        label="Username"
+        value={login}
+        onChange={this.onInputChange}
+      />
+    );
+
     const passwordInput = (
       <LoginFormField
         type="password"
         name="password"
         label="Password"
         value={password}
-        onChange={this.onInputChange}
-        required
-      />
-    );
-
-    const loginInput = (
-      <LoginFormField
-        type="text"
-        name="login"
-        label="Username"
-        value={login}
         onChange={this.onInputChange}
       />
     );
@@ -118,21 +117,21 @@ class LoginForm extends React.Component<Props, State> {
     // #endregion
 
     return (
-      <form className="login-form">
+      <form className="login-form" onSubmit={this.onSubmit}>
         <DjangoReactCSRFToken />
 
         <h2 className="login-form__splash">{nameOfProcedure}</h2>
         <div className="login-form__fields">
           {registering && emailInput}
-          {loginInput}
+          {usernameInput}
           {passwordInput}
         </div>
-        <LoginFormButton label={nameOfProcedure} onClick={this.onSubmit} />
+        <LoginFormButton label={nameOfProcedure} />
         <LoginFormRegisterPrompt
           messages={
             registering
               ? ['Already have an account?', 'Sign in then!']
-              : ['Don\'t have an account yet?', 'Create a new one!']
+              : ["Don't have an account yet?", 'Create a new one!']
           }
           onClick={this.toggleRegistration}
         />
@@ -141,8 +140,6 @@ class LoginForm extends React.Component<Props, State> {
   }
 }
 
-export default withCentered(LoginForm)(
-  (onToggleShow: Function, isShown: boolean) => (
-    <LoginFormButton label="Sign in" onClick={onToggleShow} flat={isShown} />
-  )
-);
+export default withCentered(LoginForm)((onToggleShow, isShown) => (
+  <LoginFormButton label="Sign in" onClick={onToggleShow} flat={isShown} />
+));

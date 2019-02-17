@@ -1,19 +1,20 @@
 import React from 'react';
-import PropTypes from 'prop-types';
 
 import FlowsView from './FlowsView';
+import { Flow } from '../../types';
 
 import './SideMenu.scss';
 
-class SideMenu extends React.Component {
-  static propTypes = {
-    flowsViewProps: PropTypes.shape({
-      isLoading: PropTypes.bool,
-      flows: PropTypes.array,
-      handleSelectFlow: PropTypes.func,
-    }).isRequired,
+type Props = {
+  flowsViewProps: {
+    loading: boolean;
+    flows: Flow[];
+    selectedFlow: string;
+    handleSelectFlow: (flow: Flow) => void;
   };
+};
 
+class SideMenu extends React.Component<Props, {}> {
   render() {
     const { flowsViewProps } = this.props;
 

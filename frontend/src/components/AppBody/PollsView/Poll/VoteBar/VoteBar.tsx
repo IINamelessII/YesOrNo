@@ -1,15 +1,21 @@
-import React from 'react';
+import React, { CSSProperties } from 'react';
 
 import './VoteBar.scss';
 
 // TODO: IMPLEMENT VOTE!
 
-class VoteBar extends React.Component {
-  shouldComponentUpdate({ agreed, disagreed }) {
-    return agreed !== this.props.agree || disagreed !== this.props.disagree;
+type Props = {
+  pollId: number;
+  agreed: number;
+  disagreed: number;
+};
+
+class VoteBar extends React.Component<Props, {}> {
+  shouldComponentUpdate({ agreed, disagreed }: Props) {
+    return agreed !== this.props.agreed || disagreed !== this.props.disagreed;
   }
 
-  onVote = (pollId, agreed) => {
+  onVote = (pollId: number, agreed: boolean) => {
     console.log(`VOTED: ${pollId} agreed:${agreed}`);
   };
 
@@ -32,7 +38,9 @@ class VoteBar extends React.Component {
           data-agreed={agreed}
           data-disagreed={disagreed}
           data-voted={voted}
-          style={{ '--agree-width': agreed / (agreed + disagreed) }}
+          style={
+            { '--agree-width': agreed / (agreed + disagreed) } as CSSProperties
+          }
         />
         <div
           className="votebar__btn votebar__btn--disagree"

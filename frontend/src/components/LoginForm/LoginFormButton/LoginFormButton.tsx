@@ -4,16 +4,16 @@ import { classNames } from '../../../utilities';
 
 import './LoginFormButton.scss';
 
-export interface LoginFormButtonProps {
+type Props = {
   label: string;
-  flat: boolean;
-}
+  flat?: boolean;
+};
 
 const LoginFormButton = ({
   label = 'Button',
   flat = false,
   ...buttonProps
-}: LoginFormButtonProps) => {
+}: React.HTMLProps<HTMLButtonElement> & Props) => {
   return (
     <button
       className={classNames('form-button', { 'form-button--flat': flat })}

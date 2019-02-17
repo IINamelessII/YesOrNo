@@ -1,9 +1,10 @@
-import React, { Component } from 'react';
+import React from 'react';
 import { YonApiService } from '../../services';
 
 import Header from '../Header';
 import SideMenu from '../SideMenu';
 import AppBody from '../AppBody';
+import { Flow } from '../../types';
 
 import './App.scss';
 
@@ -14,6 +15,7 @@ import './App.scss';
 const pollId = ((counter = 0) => () => counter++)();
 const flowId = ((counter = 0) => () => counter++)();
 
+// eslint-disable-next-line
 const pollsMy = [
   {
     id: pollId(),
@@ -43,6 +45,7 @@ const pollsMy = [
     dislikes: 0,
   },
 ];
+// eslint-disable-next-line
 const flowsMy = [
   { id: flowId(), name: 'Ukraine' },
   { id: flowId(), name: 'Bikes' },
@@ -55,10 +58,16 @@ const flowsMy = [
 ];
 // #endregion
 
-class App extends Component {
+type State = {
+  flows: Array<Flow>;
+  flowsLoading: boolean;
+  selectedFlow: string;
+};
+
+class App extends React.Component<{}, State> {
   yonApi = new YonApiService();
 
-  state = {
+  state: State = {
     flows: [],
     flowsLoading: true,
     selectedFlow: 'Ukraine',
@@ -69,7 +78,7 @@ class App extends Component {
     this.updateFlows();
   }
 
-  onFlowsLoaded = (flows) => {
+  onFlowsLoaded = (flows: Flow[] = []) => {
     this.setState({ flows, flowsLoading: false });
   };
 
@@ -77,7 +86,7 @@ class App extends Component {
     this.yonApi.getFlows().then(this.onFlowsLoaded);
   };
 
-  handleSelectFlow = (flow) => {
+  handleSelectFlow = (flow: Flow) => {
     this.setState({ selectedFlow: flow.name });
   };
 
@@ -85,7 +94,7 @@ class App extends Component {
     const { flows, flowsLoading, selectedFlow } = this.state;
 
     const flowsViewProps = {
-      isLoading: flowsLoading,
+      loading: flowsLoading,
       flows,
       selectedFlow,
       handleSelectFlow: this.handleSelectFlow,

@@ -2,12 +2,12 @@ import React from 'react';
 
 import './LoginFormRegisterPrompt.scss';
 
-interface RegisterPromptProps {
+type Props = {
   messages: Array<string>;
   onClick: (e: React.MouseEvent<HTMLElement>) => void;
-}
+};
 
-const LoginFormRegisterPrompt = (props: RegisterPromptProps) => {
+const LoginFormRegisterPrompt = (props: Props) => {
   const {
     messages: [first, second],
     onClick,

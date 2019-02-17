@@ -2,17 +2,18 @@ import React from 'react';
 
 import './withCentered.scss';
 
-interface Props {
+type Props = {
   centered: boolean;
-  children: Function;
-}
+};
 
-interface State {
+type State = {
   isShown: boolean;
-}
+};
 
 type TriggerButtonGenerator = (
-  onToggleShow: Function,
+  onToggleShow: (
+    e: React.MouseEvent<HTMLElement> | React.FocusEvent<HTMLElement>
+  ) => void,
   isShown: boolean
 ) => React.ReactElement<any, any>;
 
@@ -24,15 +25,15 @@ type TriggerButtonGenerator = (
  * @param triggerButtonGenerator function which takes two
  * arguments: "toggleShow" function and property "isShown"
  */
-const withCentered = (Wrapped: React.ReactType) => (
+const withCentered = <P extends object>(Wrapped: React.ComponentType<P>) => (
   triggerButtonGenerator: TriggerButtonGenerator
 ) =>
-  class extends React.Component<Props, State> {
+  class extends React.Component<P & Props, State> {
     state = {
       isShown: false,
     };
 
-    onToggleShow = () => {
+    onToggleShow = (e: any) => {
       this.setState(({ isShown }) => ({ isShown: !isShown }));
     };
 
@@ -45,11 +46,11 @@ const withCentered = (Wrapped: React.ReactType) => (
     };
 
     render() {
-      const { centered, ...wrappedProps } = this.props as Props;
+      const { centered, ...wrappedProps } = this.props;
       const { isShown } = this.state as State;
 
       const wrapped = (
-        <Wrapped {...wrappedProps} onToggleShow={this.onToggleShow} />
+        <Wrapped {...wrappedProps as P} onToggleShow={this.onToggleShow} />
       );
       const withContainer = (
         <div className="center-container" onClick={this.onClickOnBg}>

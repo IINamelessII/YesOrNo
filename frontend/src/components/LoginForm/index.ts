@@ -1,4 +1,4 @@
-import LoginForm from './LoginForm.tsx';
+import LoginForm from './LoginForm';
 import LoginFormButton from './LoginFormButton';
 import LoginFormField from './LoginFormField';
 
