@@ -1,12 +1,13 @@
 @import 'src/utilities/variables';
 
 .sidemenu {
+  position: relative;
+  z-index: 50;
+
   margin: 0;
 
-  padding: 1em;
-  padding-right: 0;
+  padding-top: 1rem;
 
   display: flex;
-  justify-content: center;
-  align-items: flex-start;
+  flex-direction: column;
 }

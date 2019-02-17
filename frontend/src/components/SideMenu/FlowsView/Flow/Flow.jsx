@@ -1,10 +1,12 @@
 import React from 'react';
 
+import { classNames } from '../../../../utilities';
+
 import './Flow.scss';
 
 class Flow extends React.Component {
-  shouldComponentUpdate({ flow: { id } }) {
-    return id !== this.props.id;
+  shouldComponentUpdate({ flow: { id }, selected }) {
+    return id !== this.props.flow.id || selected !== this.props.selected;
   }
 
   onChangeFlow = () => {
@@ -14,9 +16,14 @@ class Flow extends React.Component {
   };
 
   render() {
-    const { flow } = this.props;
+    const { flow, selected } = this.props;
     return (
-      <div className="flows__flow" onClick={this.onChangeFlow}>
+      <div
+        className={classNames('flows__flow', {
+          'flows__flow--selected': selected,
+        })}
+        onClick={this.onChangeFlow}
+      >
         {flow.name}
       </div>
     );

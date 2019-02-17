@@ -1,9 +1,30 @@
 @import 'src/utilities/variables';
 
 .flows {
+  padding: 0 1rem;
+  padding-right: 0.5rem;
   display: flex;
   flex-direction: row;
   justify-content: flex-start;
   align-items: flex-start;
   flex-wrap: wrap;
+
+  &__splash {
+    width: 100%;
+    margin: 0 0.25rem 0.5rem;
+
+    padding: 0.25rem;
+    padding-bottom: 0.1rem;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+
+    font-size: 1.5rem;
+    font-weight: bold;
+
+    background: rgba(255, 255, 255, 0.05);
+    @include stitched();
+    border-radius: 0.5rem;
+    box-shadow: 0 2px 3px #222;
+  }
 }

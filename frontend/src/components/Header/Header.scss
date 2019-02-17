@@ -1,10 +1,11 @@
 @import 'src/utilities/variables';
 
 .app-header {
+  position: relative;
   z-index: 1000;
-  height: 3em;
+  height: 3rem;
 
-  padding: 0 1em;
+  padding: 0 1rem;
   display: flex;
   justify-content: space-between;
   align-items: center;

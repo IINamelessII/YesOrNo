@@ -59,7 +59,7 @@ class App extends Component {
   state = {
     flows: [],
     flowsLoading: true,
-    openedFlow: 'Ukraine',
+    selectedFlow: 'Ukraine',
   };
 
   componentDidMount() {
@@ -76,15 +76,16 @@ class App extends Component {
   };
 
   handleSelectFlow = (flow) => {
-    this.setState({ openedFlow: flow.name });
+    this.setState({ selectedFlow: flow.name });
   };
 
   render() {
-    const { flows, flowsLoading, openedFlow } = this.state;
+    const { flows, flowsLoading, selectedFlow } = this.state;
 
     const flowsViewProps = {
       isLoading: flowsLoading,
       flows,
+      selectedFlow,
       handleSelectFlow: this.handleSelectFlow,
     };
 
@@ -92,7 +93,7 @@ class App extends Component {
       <div className="app">
         <Header />
         <SideMenu flowsViewProps={flowsViewProps} />
-        <AppBody openedFlow={openedFlow} />
+        <AppBody selectedFlow={selectedFlow} />
       </div>
     );
   }

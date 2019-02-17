@@ -15,7 +15,7 @@ class AppBody extends React.Component {
   };
 
   componentDidUpdate(prevProps) {
-    if (this.props.openedFlow !== prevProps.openedFlow) {
+    if (this.props.selectedFlow !== prevProps.selectedFlow) {
       this.updatePolls();
     }
   }
@@ -31,21 +31,21 @@ class AppBody extends React.Component {
   updatePolls = () => {
     this.setState({ polls: [], pollsLoading: true }, () => {
       this.yonApi
-        .getPollsByFlow(this.props.openedFlow)
+        .getPollsByFlow(this.props.selectedFlow)
         .then(this.onPollsUpdated);
     });
   };
 
   render() {
     const { polls, pollsLoading } = this.state;
-    const { openedFlow } = this.props;
+    const { selectedFlow } = this.props;
 
     return (
       <div className="app-body">
         <PollsView
           isLoading={pollsLoading}
           polls={polls}
-          flowName={openedFlow}
+          flowName={selectedFlow}
         />
       </div>
     );
