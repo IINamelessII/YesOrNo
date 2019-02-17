@@ -1,9 +1,12 @@
 import axios from 'axios';
 
-export default class YonApiService {
-  _API_URL = 'http://olehserikov.info/api';
+const fetchUrlDesc = Symbol();
+const sendDataDesc = Symbol();
 
-  _fetchURL = async (url: string): Promise<{}> => {
+export default class YonApiService {
+  API_URL = 'http://olehserikov.info/api';
+
+  [fetchUrlDesc] = async (url: string): Promise<any> => {
     const response = await axios.get(url);
 
     if (!/2[0-9]{2}/.test(response.status.toString())) {
@@ -13,10 +16,20 @@ export default class YonApiService {
     return await response.data;
   };
 
-  getFlows = () => this._fetchURL(`${this._API_URL}/flows`);
+  [sendDataDesc] = async (
+    url: string,
+    data: {},
+    ...settings: {}[]
+  ): Promise<any> => await axios.post(url, data, ...settings);
 
-  getAllPolls = () => this._fetchURL(`${this._API_URL}/polls`);
+  getFlows = () => this[fetchUrlDesc](`${this.API_URL}/flows`);
+
+  getAllPolls = () => this[fetchUrlDesc](`${this.API_URL}/polls`);
 
   getPollsByFlow = (flow: string) =>
-    this._fetchURL(`${this._API_URL}/polls_by_flow/${flow}`);
+    this[fetchUrlDesc](`${this.API_URL}/polls_by_flow/${flow}`);
+
+  sendData = (url: string, data: {}, ...settings: {}[]) => {
+    this[sendDataDesc](`${this.API_URL}/${url}`, data, ...settings);
+  };
 }
