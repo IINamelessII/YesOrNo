@@ -5,7 +5,7 @@
  * @param {boolean} condition Condition to be checked.
  * @param {string} message Message to display if an assertion failed.
  */
-const assert = (condition, message) => {
+const assert = (condition: boolean, message: string) => {
   if (!condition) {
     throw message || 'Assertion failed!';
   }

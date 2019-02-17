@@ -1,13 +1,13 @@
-export const classNames = (...names) => {
+export const classNames = (...names: any[]) => {
   return names.reduce((res, val, idx) => {
     const className =
       typeof val === 'string'
         ? val
         : typeof val === 'object'
-          ? val[Object.keys(val)[0]]
-            ? Object.keys(val)[0]
-            : ''
-          : '';
+        ? val[Object.keys(val)[0]]
+          ? Object.keys(val)[0]
+          : ''
+        : '';
     return res + (idx === 0 || !className ? className : ' ' + className);
   }, '');
 };
