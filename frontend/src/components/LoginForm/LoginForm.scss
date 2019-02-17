@@ -1,0 +1,78 @@
+@import 'src/utilities/variables';
+
+@mixin btn($color, $isOpaque) {
+  height: 2rem;
+  width: fit-content;
+
+  padding: 0 1rem;
+  display: flex;
+  align-items: center;
+
+  font-weight: bold;
+  color: #fff;
+  text-shadow: 0 1px 1px #000;
+
+  background: transparent;
+  border-radius: 0.5rem;
+  border: none;
+
+  @if ($isOpaque == true) {
+    background: transparentize($color, 0.6);
+    box-shadow: 0 2px 3px #222;
+  }
+
+  @if ($isOpaque == false) {
+    @include stitched();
+  }
+
+  &:hover {
+    background: transparentize($color, 0.5);
+  }
+
+  &:active {
+    background: transparentize($color, 0.4);
+  }
+}
+
+.login-form {
+  // position: fixed;
+  // top: 30%;
+  // left: 50%;
+
+  width: 20rem;
+  height: 20rem;
+
+  padding: 0.5rem;
+  display: grid;
+
+  background: rgb(68, 68, 66);
+  border-radius: 0.5rem;
+
+  box-shadow: 0 2px 3px #222;
+
+  &__btn {
+    @include btn(theme(pri), true);
+
+    &--sign-in {
+      justify-self: flex-end;
+    }
+  }
+
+  &--minified {
+    height: 2rem;
+    width: fit-content;
+
+    padding: 0;
+
+    > *:not(.login-form__btn) {
+      display: none;
+    }
+  }
+
+  &:not(&--minified) {
+    align-self: flex-start;
+    margin-right: -0.5rem;
+
+    transition: height 0.5s;
+  }
+}

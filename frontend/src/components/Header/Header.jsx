@@ -1,7 +1,7 @@
 import React from 'react';
 
 import Logo from './Logo';
-import LoginButton from './LoginButton/LoginButton';
+import LoginForm from '../LoginForm';
 
 import './Header.scss';
 
@@ -9,7 +9,7 @@ function Header() {
   return (
     <header className="app-header">
       <Logo />
-      <LoginButton />
+      <LoginForm />
     </header>
   );
 }

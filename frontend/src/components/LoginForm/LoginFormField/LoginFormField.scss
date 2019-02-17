@@ -1,0 +1,64 @@
+.login-form__field {
+  width: fit-content;
+  height: fit-content;
+
+  padding: 0.15rem;
+  display: flex;
+  justify-content: flex-start;
+  align-items: center;
+
+  border: 1px solid #fff;
+  border-radius: 0.7rem;
+
+  &__label {
+    position: absolute;
+    margin-left: 0.5rem;
+
+    display: block;
+    height: 0.8rem;
+    line-height: 0.8rem;
+
+    color: rgb(94, 94, 94);
+    font-weight: bold;
+    font-size: 0.85rem;
+
+    transition: 0.15s, background 0.1s cubic-bezier(0, 1, 0, 1);
+  }
+
+  &__input {
+    height: 1.75rem;
+    width: 15rem;
+
+    padding: 0 0.5rem;
+
+    font-family: 'Courier New', monospace;
+    font-weight: bold;
+
+    border-radius: 0.5rem;
+    border: none;
+    border-bottom: 2px solid theme(pri);
+    box-shadow: 0 2px 3px #222;
+
+    transition: border-color 0.25s;
+  }
+
+  &--not-empty {
+
+    .login-form__field__input {
+      border-color: theme(sec);
+    }
+
+    .login-form__field__label {
+      margin-top: -1.3rem;
+
+      padding: 0 0.15rem;
+
+      color: #fff;
+      font-size: 0.7em;
+
+      background: rgb(68, 68, 66);
+
+      transition: 0.15s, background 0.1s cubic-bezier(1, 0, 1, 0);
+    }
+  }
+}
