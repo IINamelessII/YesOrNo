@@ -7,8 +7,6 @@ import { classNames } from '../../utilities';
 
 import './LoginForm.scss';
 
-// TODO: MOVE LOGINFORM TO SEPARATE COMPONENT AND MAKE THIS ONE HOC
-
 // TODO: PASSWORD SHOULD BE ENCODED
 
 type InputEvent = React.ChangeEvent<HTMLInputElement>;
