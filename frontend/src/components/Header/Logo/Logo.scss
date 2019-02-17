@@ -1,0 +1,28 @@
+@import 'src/utilities/variables';
+
+.logo {
+  display: flex;
+  align-items: center;
+
+  user-select: none;
+
+  &__icon {
+    margin-right: 0.5em;
+    height: 2em;
+    width: 2em;
+
+    background: url(Logo.png);
+    background-size: 100%;
+    @include stitched();
+    border-radius: 50%;
+
+    filter: sepia(70%);
+  }
+
+  &__splash {
+    color: theme(header-text);
+    font-size: 2em;
+    line-height: 2em;
+    font-family: 'Courier New', monospace;
+  }
+}

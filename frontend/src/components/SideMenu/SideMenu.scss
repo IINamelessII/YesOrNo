@@ -1,0 +1,12 @@
+@import 'src/utilities/variables';
+
+.sidemenu {
+  margin: 0;
+
+  padding: 1em;
+  padding-right: 0;
+
+  display: flex;
+  justify-content: center;
+  align-items: flex-start;
+}

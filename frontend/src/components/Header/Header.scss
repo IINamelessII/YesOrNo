@@ -1,0 +1,14 @@
+@import 'src/utilities/variables';
+
+.app-header {
+  z-index: 1000;
+  height: 3em;
+
+  padding: 0 1em;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+
+  background: theme(header-bg);
+  box-shadow: theme(header-shadow);
+}

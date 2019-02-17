@@ -1,0 +1,42 @@
+$screen-break: 60em;
+$screen-break-small: 30em;
+$border-radius: 0.8em;
+
+$theme: (
+  bg: #4a4a48,
+  text: #fff,
+  text-shadow: none,
+  header-bg: darken(rgba(74, 74, 72, 0.5), 5%),
+  header-shadow: 0 0 3px #222,
+  header-text: #fff,
+  header-text-shadow: (
+    -0.1vh -0.1vh 0.1vh rgba(255, 166, 0, 0.8),
+    0.1vh 0.1vh 0.1vh rgba(0, 255, 255, 0.8),
+  ),
+  tile-bg: transparent,
+  tile-bg--hover: rgba(0, 0, 0, 0.05),
+  tile-shadow: none,
+  tile-text: #ffffff,
+  tile-label-bg: rgba(255, 146, 79, 0.7),
+  tile-label-bg-tile--other-month: rgba(238, 238, 238, 0.466),
+  tile-label-text: #fff,
+  tile-label-text-shadow: 0.3vh 0.3vh 0 rgb(0, 0, 0),
+  tile-roundness: 0,
+  selection-color: rgba(173, 216, 230, 0.288),
+  pri: #ff934f,
+  sec: #d6f1f5,
+  acc: #e54b4b,
+);
+
+@function theme($color-name) {
+  @return map-get($map: $theme, $key: $color-name);
+}
+
+@mixin aberredText($sizeOfShadow) {
+  text-shadow: $sizeOfShadow $sizeOfShadow 0 #00f1e5,
+    0 - $sizeOfShadow 0 - $sizeOfShadow 0 #ff00ae;
+}
+
+@mixin stitched() {
+  border: 1px dashed #656565;
+}
