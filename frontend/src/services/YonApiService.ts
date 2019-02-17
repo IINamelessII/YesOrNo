@@ -1,13 +1,18 @@
-import axios from 'axios';
+import axios, { AxiosRequestConfig } from 'axios';
+import { Flow, Poll, User } from '../types';
 
-const fetchUrlDesc = Symbol();
-const sendDataDesc = Symbol();
+const fetchUrl = Symbol();
+const sendData = Symbol();
 
 export default class YonApiService {
-  API_URL = 'http://olehserikov.info/api';
+  URL = 'https://olehserikov.info';
+  API_URL = `${this.URL}/api`;
 
-  [fetchUrlDesc] = async (url: string): Promise<any> => {
-    const response = await axios.get(url);
+  [fetchUrl] = async (
+    url: string,
+    settings?: AxiosRequestConfig
+  ): Promise<any> => {
+    const response = await axios.get(url, settings);
 
     if (!/2[0-9]{2}/.test(response.status.toString())) {
       throw new Error(`Fetching '${url}' failed, received ${response.status}`);
@@ -16,20 +21,52 @@ export default class YonApiService {
     return await response.data;
   };
 
-  [sendDataDesc] = async (
+  [sendData] = async (
     url: string,
     data: {},
-    ...settings: {}[]
-  ): Promise<any> => await axios.post(url, data, ...settings);
+    settings?: AxiosRequestConfig
+  ): Promise<any> => await axios.post(url, data, settings);
 
-  getFlows = () => this[fetchUrlDesc](`${this.API_URL}/flows`);
+  auth = (username: string, password: string) =>
+    this[sendData](`${this.URL}/signin/`, { username, password });
 
-  getAllPolls = () => this[fetchUrlDesc](`${this.API_URL}/polls`);
+  register = (email: string, username: string, password: string) =>
+    this[sendData](`${this.API_URL}/signup/`, { email, username, password });
 
-  getPollsByFlow = (flow: string) =>
-    this[fetchUrlDesc](`${this.API_URL}/polls_by_flow/${flow}`);
+  resetPassword = (email: string) =>
+    this[sendData](`${this.API_URL}/resetpassword/`, { email });
 
-  sendData = (url: string, data: {}, ...settings: {}[]) => {
-    this[sendDataDesc](`${this.API_URL}/${url}`, data, ...settings);
-  };
+  /**
+   * Returns a response Promise containing array of Flow objects
+   */
+  getFlows = (settings?: AxiosRequestConfig): Promise<Flow[]> =>
+    this[fetchUrl](`${this.API_URL}/flows`, settings);
+
+  /**
+   * Returns a response Promise containing array of all Poll objects
+   */
+  getAllPolls = (settings?: AxiosRequestConfig): Promise<Poll[]> =>
+    this[fetchUrl](`${this.API_URL}/polls`, settings);
+
+  /**
+   * Returns a response Promise containing array of Poll objects specified by given flow
+   * @param flow flow name
+   */
+  getPollsByFlow = (
+    flow: string,
+    settings?: AxiosRequestConfig
+  ): Promise<Poll[]> =>
+    this[fetchUrl](`${this.API_URL}/polls_by_flow/${flow}`, settings);
+
+  /**
+   * Returns a response Promise containing array of Poll objects added by given username
+   * @param username user's name
+   */
+  getPollsByUser = (
+    username: string,
+    settings?: AxiosRequestConfig
+  ): Promise<Poll[]> =>
+    this[fetchUrl](`${this.API_URL}/polls_by_user/${username}`, settings);
+
+  getUserdata = (): Promise<User> => this[fetchUrl](`${this.API_URL}/profile/`);
 }
