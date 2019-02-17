@@ -2,9 +2,11 @@ import React from 'react';
 
 import './VoteBar.scss';
 
+// TODO: IMPLEMENT VOTE!
+
 class VoteBar extends React.Component {
-  shouldComponentUpdate({ agree, disagree }) {
-    return agree !== this.props.agree || disagree !== this.props.disagree;
+  shouldComponentUpdate({ agreed, disagreed }) {
+    return agreed !== this.props.agree || disagreed !== this.props.disagree;
   }
 
   onVote = (pollId, agreed) => {
@@ -12,7 +14,7 @@ class VoteBar extends React.Component {
   };
 
   render() {
-    const { pollId, agree, disagree } = this.props;
+    const { pollId, agreed, disagreed } = this.props;
     const voted = ['AGREE', 'DISAGREE', null][Math.floor(Math.random() * 3)];
 
     const votedAgree = voted === 'AGREE';
@@ -27,10 +29,10 @@ class VoteBar extends React.Component {
         />
         <div
           className="votebar__bar"
-          data-agreed={agree}
-          data-disagreed={disagree}
+          data-agreed={agreed}
+          data-disagreed={disagreed}
           data-voted={voted}
-          style={{ '--agree-width': agree / (agree + disagree) }}
+          style={{ '--agree-width': agreed / (agreed + disagreed) }}
         />
         <div
           className="votebar__btn votebar__btn--disagree"

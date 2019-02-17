@@ -1,0 +1,76 @@
+@import 'src/utilities/variables';
+
+.likesection {
+  $height: 1.4rem;
+
+  display: flex;
+  align-items: center;
+
+  &__btn {
+    height: $height;
+    width: $height;
+    margin: 0;
+
+    padding: 0.25rem;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+
+    border-radius: 0.4rem;
+    background: rgba(255, 255, 255, 0.05);
+    box-shadow: 0 1px 1px #222;
+
+    transition: 0.15s;
+
+    &::before,
+    &::after {
+      opacity: 0.3;
+      transition: opacity 0.15s;
+    }
+
+    &::before {
+      content: '';
+
+      display: block;
+      height: 100%;
+      width: 100%;
+
+      background-size: 100%;
+      background-repeat: no-repeat;
+      background-position: 50%;
+    }
+
+    &::after {
+      content: attr(data-liked);
+
+      display: block;
+      position: absolute;
+      margin-left: 0 - $height + 0.25rem;
+
+      font-size: 0.8rem;
+    }
+
+    &:hover {
+
+      &::before,
+      &::after {
+        opacity: 0.8;
+      }
+    }
+
+    &--like {
+
+      &::before {
+        filter: grayscale(0.5);
+        background-image: url(sparkling-heart.png);
+      }
+    }
+
+    &[data-pressed='true'] {
+      @include stitched();
+      padding: 0.15rem;
+      background: transparent;
+      box-shadow: none;
+    }
+  }
+}

@@ -1,10 +1,9 @@
 @import 'src/utilities/variables';
 
 .votebar {
-  $bar-height: 1.65rem;
+  $height: 1.65rem;
 
-  width: 90%;
-
+  width: 100%;
   display: flex;
   align-items: center;
 
@@ -19,7 +18,7 @@
     --votebar-width: 100%;
     --agree-width: 0.5;
 
-    height: $bar-height;
+    height: $height;
     width: var(--votebar-width);
     margin: 0 0.25em;
 
@@ -30,8 +29,8 @@
     font-weight: bold;
     color: rgba(255, 255, 255, 0.3);
 
-    background: rgba(255, 255, 255, 0.05);
     border-radius: 0.5rem;
+    background: rgba(255, 255, 255, 0.05);
     box-shadow: 0 1px 1px #222;
 
     transition: color 0.25s;
@@ -65,78 +64,80 @@
     }
 
     &[data-voted='AGREE'] {
+      box-shadow: inset 2px 0 6px -3px theme(pri), 0 1px 1px #222;
 
       &::before {
         color: rgba(255, 255, 255, 0.8);
-        box-shadow: -1px 0 3px -1px theme(acc);
       }
     }
 
     &[data-voted='DISAGREE'] {
+      box-shadow: inset -2px 0 6px -3px theme(sec), 0 1px 1px #222;
 
       &::after {
         color: rgba(255, 255, 255, 0.8);
-        box-shadow: 1px 0 3px -1px theme(acc);
       }
     }
   }
 
   &__btn {
-    height: $bar-height - 0.15rem;
-    width: $bar-height;
+    height: $height - 0.15rem;
+    width: $height;
     margin: 0;
 
-    padding: 0.1em;
+    padding: 0.2rem;
     display: flex;
     justify-content: center;
     align-items: center;
 
-    background: transparent;
     border-radius: 0.4rem;
-    @include stitched();
+    background: rgba(255, 255, 255, 0.05);
+    box-shadow: 0 1px 1px #222;
 
-    &[data-voted='true'] {
-      opacity: 0.2;
+    transition: 0.15s;
+
+    &::before {
+      content: '';
+
+      display: block;
+      height: 100%;
+      width: 100%;
+
+      background-size: 100%;
+      background-repeat: no-repeat;
+      background-position: 50%;
+
+      opacity: 0.3;
+      transition: opacity 0.15s;
     }
 
-    &--agree,
-    &--disagree {
+    &:hover {
 
       &::before {
-        content: '';
-
-        display: block;
-        height: 100%;
-        width: 100%;
-
-        background-size: 100%;
-        background-repeat: no-repeat;
-        background-position: 50%;
-
-        opacity: 0.3;
-        transition: opacity 0.15s;
-      }
-
-      &:hover {
-
-        &::before {
-          opacity: 0.8;
-        }
+        opacity: 0.8;
       }
     }
 
     &--agree {
 
       &::before {
-        background-image: url(fire.png);
+        background-image: url(thumbs-up.png);
       }
     }
 
     &--disagree {
 
       &::before {
-        background-image: url(poop.png);
+        background-image: url(thumbs-down.png);
       }
+    }
+
+    &[data-voted='true'] {
+      @include stitched();
+      opacity: 1;
+      padding: 0.1rem;
+      background: transparent;
+      box-shadow: none;
     }
   }
 }

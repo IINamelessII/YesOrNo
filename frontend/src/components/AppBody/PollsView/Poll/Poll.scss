@@ -35,6 +35,20 @@
     // box-shadow: 0 1px 2px #222;
   }
 
-  &__likes {
+  &__votes {
+    width: 100%;
+
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+
+    > .votebar {
+      width: 90%;
+    }
+
+    > .likesection {
+      margin-top: 0.5rem;
+      align-self: flex-end;
+    }
   }
 }
