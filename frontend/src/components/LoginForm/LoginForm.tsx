@@ -1,4 +1,5 @@
 import React from 'react';
+import DjangoReactCSRFToken from 'django-react-csrftoken';
 
 import LoginFormField from './LoginFormField';
 import LoginFormButton from './LoginFormButton';
@@ -118,6 +119,8 @@ class LoginForm extends React.Component<Props, State> {
 
     return (
       <form className="login-form">
+        <DjangoReactCSRFToken />
+
         <h2 className="login-form__splash">{nameOfProcedure}</h2>
         <div className="login-form__fields">
           {registering && emailInput}
