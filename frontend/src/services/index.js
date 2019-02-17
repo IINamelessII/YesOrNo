@@ -1,3 +1,3 @@
-import YonApiService from './YonApiService';
+import YonApiService from './YonApiService.ts';
 
 export { YonApiService };
