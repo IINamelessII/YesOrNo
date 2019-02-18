@@ -4,7 +4,7 @@ const fetchUrl = Symbol();
 const sendData = Symbol();
 
 export default class YonApiService {
-  URL = 'https://olehserikov.info';
+  URL = '';
   API_URL = `${this.URL}/api`;
 
   [fetchUrl] = async (
