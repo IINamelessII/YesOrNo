@@ -1,7 +1,7 @@
 declare module 'django-react-csrftoken' {
   import { ReactElement } from 'react';
 
-  const DjangoReactCSRFToken: ReactElement;
+  const DjangoReactCSRFToken: any;
 
   export default DjangoReactCSRFToken;
 }

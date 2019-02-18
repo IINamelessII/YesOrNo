@@ -59,7 +59,7 @@ const flowsMy = [
 // #endregion
 
 type State = {
-  flows: Array<Flow>;
+  flows: Flow[];
   flowsLoading: boolean;
   selectedFlow: string;
 };

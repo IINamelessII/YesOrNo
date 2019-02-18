@@ -24,4 +24,4 @@ const LoginFormButton = ({
   );
 };
 
-export default LoginFormButton;
+export default React.memo(LoginFormButton);

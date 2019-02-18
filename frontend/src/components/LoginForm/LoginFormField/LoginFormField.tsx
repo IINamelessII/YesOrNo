@@ -12,7 +12,7 @@ type Props = {
   onChange: (event: React.ChangeEvent<HTMLInputElement>) => void;
 };
 
-const LoginFormField = <P extends object>({
+const LoginFormField = ({
   value,
   label,
   onChange,
@@ -34,10 +34,13 @@ const LoginFormField = <P extends object>({
         value={value}
         onChange={onChange}
         autoComplete="off"
-        {...otherProps as P}
+        {...otherProps}
       />
     </label>
   );
 };
 
-export default LoginFormField;
+export default React.memo(
+  LoginFormField,
+  (prevProps: Props, nextProps: Props) => prevProps.value === nextProps.value
+);

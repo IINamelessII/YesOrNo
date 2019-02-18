@@ -7,12 +7,10 @@ type Props = {
   onClick: (e: React.MouseEvent<HTMLElement>) => void;
 };
 
-const LoginFormRegisterPrompt = (props: Props) => {
-  const {
-    messages: [first, second],
-    onClick,
-  } = props;
-
+const LoginFormRegisterPrompt = ({
+  messages: [first, second],
+  onClick,
+}: Props) => {
   return (
     <span className="register-prompt">
       <span>{first}</span>
@@ -23,4 +21,8 @@ const LoginFormRegisterPrompt = (props: Props) => {
   );
 };
 
-export default LoginFormRegisterPrompt;
+export default React.memo(
+  LoginFormRegisterPrompt,
+  ({ messages: [lfirst, lsecond] }, { messages: [nfirst, nsecond] }) =>
+    lfirst === nfirst || lsecond === nsecond
+);
