@@ -12,9 +12,9 @@
     "ecmaVersion": 2018,
     "sourceType": "module"
   },
-  "plugins": ["react", "jsx-a11y"],
+  "plugins": ["react", "jsx-a11y", "react-hooks"],
   "rules": {
-    "indent": ["error", 2],
+    "indent": ["warn", 2],
     "linebreak-style": ["error", "windows"],
     "quotes": ["error", "single"],
     "no-unused-vars": [
@@ -23,6 +23,7 @@
         "varsIgnorePattern": "[rR]eact||[A-Z][\\w]+||props||_||Wrapped"
       }
     ],
-    "react/jsx-fragments": ["error", "syntax"]
+    "react/jsx-fragments": ["error", "syntax"],
+    "react-hooks/rules-of-hooks": "error"
   }
 }
