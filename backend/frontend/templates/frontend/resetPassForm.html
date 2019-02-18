@@ -10,7 +10,7 @@
 </head>
 <body>
     <form action="form/" method="post">
-        {% csrf_token %}
+        {% comment %} {% csrf_token %} {% endcomment %}
         <div class="ui">New Password</div>
         <div class="container">
             <input type="password" placeholder="Enter new Password" name="password" required>

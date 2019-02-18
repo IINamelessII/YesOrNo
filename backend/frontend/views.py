@@ -180,6 +180,7 @@ def reset_password_form(request, uemailb64, token):
         return redirect('index')
     
 
+@ensure_csrf_cookie
 @transaction.atomic
 def voteYes(request):
     data = json.loads(request.body.decode('utf-8'))
@@ -194,6 +195,7 @@ def voteYes(request):
         return HttpResponse(status=204)
     
 
+@ensure_csrf_cookie
 @transaction.atomic
 def voteNo(request):
     data = json.loads(request.body.decode('utf-8'))
@@ -208,6 +210,7 @@ def voteNo(request):
         return HttpResponse(status=204)
 
 
+@ensure_csrf_cookie
 @transaction.atomic
 def rateLike(request):
     data = json.loads(request.body.decode('utf-8'))
@@ -222,6 +225,7 @@ def rateLike(request):
         return HttpResponse(status=204)
 
 
+@ensure_csrf_cookie
 @transaction.atomic
 def rateDislike(request):
     data = json.loads(request.body.decode('utf-8'))
@@ -236,6 +240,7 @@ def rateDislike(request):
         return HttpResponse(status=204)
 
 
+@ensure_csrf_cookie
 @transaction.atomic
 def unvoteYes(request):
     data = json.loads(request.body.decode('utf-8'))
@@ -250,6 +255,7 @@ def unvoteYes(request):
         return HttpResponse(status=204)
     
 
+@ensure_csrf_cookie
 @transaction.atomic
 def unvoteNo(request):
     data = json.loads(request.body.decode('utf-8'))
@@ -264,6 +270,7 @@ def unvoteNo(request):
         return HttpResponse(status=204)
 
 
+@ensure_csrf_cookie
 @transaction.atomic
 def unrateLike(request):
     data = json.loads(request.body.decode('utf-8'))
@@ -278,6 +285,7 @@ def unrateLike(request):
         return HttpResponse(status=204)
 
 
+@ensure_csrf_cookie
 @transaction.atomic
 def unrateDislike(request):
     data = json.loads(request.body.decode('utf-8'))
@@ -292,6 +300,7 @@ def unrateDislike(request):
         return HttpResponse(status=204)
 
 
+@ensure_csrf_cookie
 @transaction.atomic
 def switchtoYes(request):
     data = json.loads(request.body.decode('utf-8'))
@@ -307,6 +316,7 @@ def switchtoYes(request):
         return HttpResponse(status=204)
     
 
+@ensure_csrf_cookie
 @transaction.atomic
 def switchtoNo(request):
     data = json.loads(request.body.decode('utf-8'))
@@ -322,6 +332,7 @@ def switchtoNo(request):
         return HttpResponse(status=204)
 
 
+@ensure_csrf_cookie
 @transaction.atomic
 def switchtoLike(request):
     data = json.loads(request.body.decode('utf-8'))
@@ -337,6 +348,7 @@ def switchtoLike(request):
         return HttpResponse(status=204)
 
 
+@ensure_csrf_cookie
 @transaction.atomic
 def switchtoDislike(request):
     data = json.loads(request.body.decode('utf-8'))
@@ -352,6 +364,7 @@ def switchtoDislike(request):
         return HttpResponse(status=204)
 
 
+@ensure_csrf_cookie
 def addPoll(request):
     data = json.loads(request.body.decode('utf-8'))
     try:
