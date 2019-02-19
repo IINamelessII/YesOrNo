@@ -2,8 +2,12 @@ import React from 'react';
 
 import './Spinner.scss';
 
-const Spinner = () => {
-  return <div className="loader" />;
+type Props = {
+  mimicClass?: string;
+};
+
+const Spinner = ({ mimicClass = '' }: Props) => {
+  return <div className={`loader ${mimicClass}`} />;
 };
 
 export default Spinner;

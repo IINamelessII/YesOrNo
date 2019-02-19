@@ -10,6 +10,7 @@ html {
 *::before,
 *::after {
   box-sizing: inherit;
+  font-family: 'Courier New', monospace;
 }
 
 body {
@@ -27,6 +28,29 @@ body {
 input,
 button {
   outline: none;
+}
+
+a {
+  color: transparentize(theme(pri), 0.3);
+
+  &:hover {
+    color: theme(pri);
+  }
+
+  &:active {
+    color: theme(sec);
+  }
+}
+
+.text {
+
+  &--accent {
+    color: transparentize(theme(pri), 0.1);
+
+    &:hover {
+      color: theme(pri);
+    }
+  }
 }
 
 ::selection {

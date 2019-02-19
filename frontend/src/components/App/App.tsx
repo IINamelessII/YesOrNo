@@ -1,10 +1,12 @@
 import React from 'react';
+
 import { YonApiService } from '../../services';
+import { Flow, User } from '../../types';
+import { UserdataContext, ProfileUpdateContext } from '../../contexts';
 
 import Header from '../Header';
 import SideMenu from '../SideMenu';
 import AppBody from '../AppBody';
-import { Flow } from '../../types';
 
 import './App.scss';
 
@@ -59,52 +61,61 @@ const flowsMy = [
 // #endregion
 
 type State = {
-  flows: Flow[];
-  flowsLoading: boolean;
-  selectedFlow: string;
+  selectedFlow: string | null;
+  userdata: User;
 };
 
 class App extends React.Component<{}, State> {
   yonApi = new YonApiService();
 
   state: State = {
-    flows: [],
-    flowsLoading: true,
-    selectedFlow: 'Ukraine',
+    selectedFlow: null,
+    userdata: {
+      is_auth: false,
+    },
+    // userdata: {
+    //   is_auth: true,
+    //   username: 'BANANAN_CHIK',
+    //   voted: { 0: true, 5: true, 6: true, 7: false, 8: false, 10: false },
+    //   rated: { 0: true, 5: true, 6: true, 7: false, 8: false, 10: false },
+    // },
   };
 
   componentDidMount() {
-    // fetch flows
-    this.updateFlows();
+    this.updateProfile();
   }
 
-  onFlowsLoaded = (flows: Flow[] = []) => {
-    this.setState({ flows, flowsLoading: false });
+  updateProfile = () => {
+    this.yonApi
+      .getUserdata()
+      .then((userdata) =>
+        this.setState({ userdata }, () => console.log(this.state.userdata))
+      );
   };
 
-  updateFlows = () => {
-    this.yonApi.getFlows().then(this.onFlowsLoaded);
-  };
-
-  handleSelectFlow = (flow: Flow) => {
-    this.setState({ selectedFlow: flow.name });
+  handleSelectFlow = (flowName: string) => {
+    this.setState({ selectedFlow: flowName });
   };
 
   render() {
-    const { flows, flowsLoading, selectedFlow } = this.state;
+    const { selectedFlow, userdata } = this.state;
 
-    const flowsViewProps = {
-      loading: flowsLoading,
-      flows,
+    const flowsProps = {
       selectedFlow,
       handleSelectFlow: this.handleSelectFlow,
     };
 
     return (
       <div className="app">
-        <Header />
-        <SideMenu flowsViewProps={flowsViewProps} />
-        <AppBody selectedFlow={selectedFlow} />
+        <UserdataContext.Provider value={userdata}>
+          <ProfileUpdateContext.Provider value={this.updateProfile}>
+            <Header />
+          </ProfileUpdateContext.Provider>
+
+          <SideMenu flowsProps={flowsProps} loggedIn={userdata.is_auth} />
+
+          <AppBody selectedFlow={selectedFlow} userdata={userdata} />
+        </UserdataContext.Provider>
       </div>
     );
   }

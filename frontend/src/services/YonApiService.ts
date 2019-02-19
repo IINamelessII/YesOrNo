@@ -35,6 +35,12 @@ export default class YonApiService {
   resetPassword = (email: string) =>
     this[sendData](`${this.API_URL}/resetpassword/`, { email });
 
+  sendData = (
+    url: string,
+    data: {},
+    settings?: AxiosRequestConfig
+  ): Promise<any> => this[sendData](`${this.URL}/${url}`, data, settings);
+
   /**
    * Returns a response Promise containing array of Flow objects
    */

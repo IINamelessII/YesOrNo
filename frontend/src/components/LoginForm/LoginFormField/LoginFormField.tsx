@@ -5,26 +5,34 @@ import { classNames } from '../../../utilities';
 import './LoginFormField.scss';
 
 type Props = {
-  type: 'password' | 'text';
-  name: string;
   label: string;
   value: string;
+  name: string;
+  type: 'password' | 'text';
+  error?: boolean;
   onChange: (event: React.ChangeEvent<HTMLInputElement>) => void;
 };
 
 const LoginFormField = ({
-  value,
   label,
-  onChange,
-  type,
+  value,
   name,
+  type,
+  error = false,
+  onChange,
   ...otherProps
 }: React.HTMLProps<HTMLInputElement> & Props) => {
   return (
     <label
-      className={classNames('form-field', {
-        'form-field--not-empty': !!value,
-      })}
+      className={classNames(
+        'form-field',
+        {
+          'form-field--not-empty': !!value,
+        },
+        {
+          'form-field--error': error,
+        }
+      )}
     >
       <span className="form-field__label">{label}</span>
       <input
@@ -36,6 +44,9 @@ const LoginFormField = ({
         autoComplete="off"
         {...otherProps}
       />
+      {error && (
+        <div className="form-field__error-message">Invalid {name}!</div>
+      )}
     </label>
   );
 };

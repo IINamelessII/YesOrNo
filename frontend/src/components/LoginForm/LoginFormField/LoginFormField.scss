@@ -1,4 +1,7 @@
+@import 'src/utilities/variables';
+
 .form-field {
+  position: relative;
   width: fit-content;
   height: fit-content;
 
@@ -11,6 +14,8 @@
   border: 1px solid #fff;
   border-radius: 0.7rem;
 
+  user-select: none;
+
   &__label {
     position: absolute;
     margin-left: 0.5rem;
@@ -20,7 +25,6 @@
 
     color: rgb(94, 94, 94);
     font-weight: normal;
-    user-select: none;
 
     cursor: text;
 
@@ -43,6 +47,31 @@
     box-shadow: 0 2px 3px #222;
 
     transition: border-color 0.25s;
+  }
+
+  &__error-message {
+    position: absolute;
+    right: 0;
+    // transform: translate(200%, 0);
+
+    padding: 0.5rem;
+
+    color: red;
+    font-size: 0.8rem;
+
+    border-radius: 0.5rem;
+    background: transparentize(theme(acc), 0.8);
+  }
+
+  &:hover {
+
+    .form-field__error-message {
+    }
+  }
+
+  &--error {
+    // background: tomato;
+    box-shadow: 0 0 5px theme(acc);
   }
 
   &--not-empty,
