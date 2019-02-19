@@ -1,8 +1,8 @@
 import React from 'react';
 import DjangoReactCSRFToken from 'django-react-csrftoken';
 
+import Button from '../Button';
 import LoginFormField from './LoginFormField';
-import LoginFormButton from './LoginFormButton';
 import LoginFormRegisterPrompt from './LoginFormRegisterPrompt';
 
 import withCentered from '../hoc/withCentered';
@@ -126,7 +126,7 @@ class LoginForm extends React.Component<Props, State> {
           {usernameInput}
           {passwordInput}
         </div>
-        <LoginFormButton label={nameOfProcedure} />
+        <Button label={nameOfProcedure} />
         <LoginFormRegisterPrompt
           messages={
             registering
@@ -141,5 +141,5 @@ class LoginForm extends React.Component<Props, State> {
 }
 
 export default withCentered(LoginForm)((onToggleShow, isShown) => (
-  <LoginFormButton label="Sign in" onClick={onToggleShow} flat={isShown} />
+  <Button label="Sign in" onClick={onToggleShow} flat={isShown} />
 ));
