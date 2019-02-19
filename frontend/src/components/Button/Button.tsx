@@ -8,12 +8,16 @@ type Props = {
   label: string;
   flat?: boolean;
   secondary?: boolean;
+  small?: boolean;
+  large?: boolean;
 };
 
 const Button = ({
   label = 'Button',
   flat,
   secondary,
+  small,
+  large,
   className = '',
   ...buttonProps
 }: React.HTMLProps<HTMLButtonElement> & Props) => {
@@ -23,6 +27,8 @@ const Button = ({
         'button',
         { 'button--flat': flat },
         { 'button--secondary': secondary },
+        { 'button--small': small },
+        { 'button--large': large },
         className
       )}
       {...buttonProps}

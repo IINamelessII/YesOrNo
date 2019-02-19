@@ -29,6 +29,18 @@
     background: transparentize(theme(pri), 0.4);
   }
 
+  &--small {
+    height: 1rem;
+    min-width: 1rem;
+    font-size: 0.7rem;
+  }
+
+  &--large {
+    height: 3rem;
+    min-width: 3rem;
+    font-size: 1.1rem;
+  }
+
   &--flat {
     @include stitched();
 
