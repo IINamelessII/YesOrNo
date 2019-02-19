@@ -1,6 +1,12 @@
-export type User = {
+export type AuthenticatedUser = {
+  is_auth: true;
   username: string;
-  is_auth: boolean;
   voted: any;
   rated: any;
 };
+
+export type UnauthenticatedUser = {
+  is_auth: false;
+};
+
+export type User = UnauthenticatedUser | AuthenticatedUser;
