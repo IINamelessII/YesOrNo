@@ -59,43 +59,26 @@ const flowsMy = [
 // #endregion
 
 type State = {
-  flows: Flow[];
-  flowsLoading: boolean;
-  selectedFlow: string;
+  selectedFlow: string | null;
+  loggedIn: boolean;
 };
 
 class App extends React.Component<{}, State> {
   yonApi = new YonApiService();
 
   state: State = {
-    flows: [],
-    flowsLoading: true,
-    selectedFlow: 'Ukraine',
+    selectedFlow: null,
+    loggedIn: false,
   };
 
-  componentDidMount() {
-    // fetch flows
-    this.updateFlows();
-  }
-
-  onFlowsLoaded = (flows: Flow[] = []) => {
-    this.setState({ flows, flowsLoading: false });
-  };
-
-  updateFlows = () => {
-    this.yonApi.getFlows().then(this.onFlowsLoaded);
-  };
-
-  handleSelectFlow = (flow: Flow) => {
-    this.setState({ selectedFlow: flow.name });
+  handleSelectFlow = (flowName: string) => {
+    this.setState({ selectedFlow: flowName });
   };
 
   render() {
-    const { flows, flowsLoading, selectedFlow } = this.state;
+    const { selectedFlow, loggedIn } = this.state;
 
-    const flowsViewProps = {
-      loading: flowsLoading,
-      flows,
+    const flowsProps = {
       selectedFlow,
       handleSelectFlow: this.handleSelectFlow,
     };
@@ -103,7 +86,7 @@ class App extends React.Component<{}, State> {
     return (
       <div className="app">
         <Header />
-        <SideMenu flowsViewProps={flowsViewProps} />
+        <SideMenu flowsProps={flowsProps} loggedIn={loggedIn} />
         <AppBody selectedFlow={selectedFlow} />
       </div>
     );

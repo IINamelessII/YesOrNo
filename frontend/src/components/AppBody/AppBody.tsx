@@ -7,7 +7,7 @@ import { Poll } from '../../types';
 import './AppBody.scss';
 
 type Props = {
-  selectedFlow: string;
+  selectedFlow: string | null;
 };
 
 type State = {
@@ -38,11 +38,13 @@ class AppBody extends React.Component<Props, State> {
   };
 
   updatePolls = () => {
-    this.setState({ polls: [], pollsLoading: true }, () => {
-      this.yonApi
-        .getPollsByFlow(this.props.selectedFlow)
-        .then(this.onPollsUpdated);
-    });
+    if (this.props.selectedFlow) {
+      this.setState({ polls: [], pollsLoading: true }, () => {
+        this.yonApi
+          .getPollsByFlow(this.props.selectedFlow as string)
+          .then(this.onPollsUpdated);
+      });
+    }
   };
 
   render() {
