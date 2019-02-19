@@ -1,9 +1,8 @@
-import React, { useContext } from 'react';
+import React from 'react';
 import DjangoReactCSRFToken from 'django-react-csrftoken';
 
 import withCentered from '../hoc/withCentered';
 import { YonApiService } from '../../services';
-import { ProfileUpdateContext } from '../../contexts';
 
 import Button from '../Button';
 import LoginFormField from './LoginFormField';
@@ -21,6 +20,7 @@ type Props = {
   email?: string;
   children?: never;
   onToggleShow?: Function;
+  profileUpdate?: () => void;
 };
 
 type State = {
@@ -69,10 +69,11 @@ class LoginForm extends React.Component<Props, State> {
 
   onSubmit = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
-    const profileUpdate = useContext(ProfileUpdateContext);
 
     const { login, password, email, canSubmit, registering } = this
       .state as State;
+
+    const { profileUpdate } = this.props;
 
     if (canSubmit) {
       if (registering) {
@@ -81,7 +82,9 @@ class LoginForm extends React.Component<Props, State> {
         this.yonApi.auth(login, password);
       }
 
-      this.setState(getInitialState({}), () => profileUpdate());
+      this.setState(getInitialState({}), () => {
+        profileUpdate && profileUpdate();
+      });
 
       // this.props.onToggleShow && this.props.onToggleShow();
     }
