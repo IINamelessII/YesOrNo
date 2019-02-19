@@ -1,24 +1,26 @@
 import React from 'react';
 
+import { Votable } from '../../../../../types';
+
 import './LikeSection.scss';
 
-// TODO: IMPLEMENT VOTE!
-
 type Props = {
-  pollId: number;
   liked: number;
   disliked: number;
+  rated?: Votable;
+  onRate: (rate: Votable) => void;
 };
 
-const LikeSection = ({ liked }: Props) => {
-  const pressed = !!Math.floor(Math.random() * 2);
+const LikeSection = ({ liked, rated, onRate }: Props) => {
+  const ratedLike = rated === '+';
 
   return (
     <div className="likesection">
       <div
         className="likesection__btn likesection__btn--like"
         data-liked={liked}
-        data-pressed={pressed}
+        data-pressed={ratedLike}
+        onClick={() => onRate('+')}
       />
     </div>
   );

@@ -63,7 +63,7 @@
       width: calc(var(--votebar-width) * (1 - var(--agree-width)));
     }
 
-    &[data-voted='AGREE'] {
+    &[data-voted='+'] {
       box-shadow: inset 2px 0 6px -3px theme(pri), 0 1px 1px #222;
 
       &::before {
@@ -71,7 +71,7 @@
       }
     }
 
-    &[data-voted='DISAGREE'] {
+    &[data-voted='-'] {
       box-shadow: inset -2px 0 6px -3px theme(sec), 0 1px 1px #222;
 
       &::after {

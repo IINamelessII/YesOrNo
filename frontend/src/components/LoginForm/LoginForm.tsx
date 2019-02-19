@@ -1,11 +1,13 @@
-import React from 'react';
+import React, { useContext } from 'react';
 import DjangoReactCSRFToken from 'django-react-csrftoken';
+
+import withCentered from '../hoc/withCentered';
+import { YonApiService } from '../../services';
+import { ProfileUpdateContext } from '../../contexts';
 
 import Button from '../Button';
 import LoginFormField from './LoginFormField';
 import LoginFormRegisterPrompt from './LoginFormRegisterPrompt';
-
-import withCentered from '../hoc/withCentered';
 
 import './LoginForm.scss';
 
@@ -38,6 +40,8 @@ const getInitialState = (props: Props): State => ({
 });
 
 class LoginForm extends React.Component<Props, State> {
+  yonApi = new YonApiService();
+
   state: State = getInitialState(this.props);
 
   onInputChange = (e: InputEvent): void => {
@@ -65,17 +69,21 @@ class LoginForm extends React.Component<Props, State> {
 
   onSubmit = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
+    const profileUpdate = useContext(ProfileUpdateContext);
 
-    const { login, password, email, canSubmit } = this.state as State;
+    const { login, password, email, canSubmit, registering } = this
+      .state as State;
 
     if (canSubmit) {
-      console.log(
-        `SUCCESSFULLY submitted email:${email}, ${login}:${password}`
-      );
+      if (registering) {
+        this.yonApi.register(email, login, password);
+      } else {
+        this.yonApi.auth(login, password);
+      }
 
-      this.setState(getInitialState({}));
+      this.setState(getInitialState({}), () => profileUpdate());
 
-      this.props.onToggleShow && this.props.onToggleShow();
+      // this.props.onToggleShow && this.props.onToggleShow();
     }
   };
 

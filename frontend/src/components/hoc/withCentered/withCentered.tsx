@@ -30,7 +30,7 @@ const withCentered = <P extends object>(Wrapped: React.ComponentType<P>) => (
 ) =>
   class extends React.Component<P & Props, State> {
     state = {
-      isShown: false,
+      isShown: true,
     };
 
     onToggleShow = (e: any) => {
