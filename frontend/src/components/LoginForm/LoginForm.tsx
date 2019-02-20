@@ -10,9 +10,13 @@ import LoginFormRegisterPrompt from './LoginFormRegisterPrompt';
 
 import './LoginForm.scss';
 
-// TODO: PASSWORD SHOULD BE ENCODED
-
 type InputEvent = React.ChangeEvent<HTMLInputElement>;
+
+type FieldErrors = {
+  login?: boolean | string;
+  password?: boolean | string;
+  email?: boolean | string;
+};
 
 type Props = {
   login?: string;
@@ -27,6 +31,7 @@ type State = {
   login: string;
   password: string;
   email: string;
+  errors: FieldErrors;
   registering: boolean;
   canSubmit: boolean;
 };
@@ -37,7 +42,10 @@ const getInitialState = (props: Props): State => ({
   email: props.email || '',
   registering: !!props.email || false,
   canSubmit: false,
+  errors: {},
 });
+
+// TODO: IMPLEMENT SERVER RESPONSE ERRORS WHEN SUBMIT LOGIN DATA
 
 class LoginForm extends React.Component<Props, State> {
   yonApi = new YonApiService();
@@ -48,23 +56,54 @@ class LoginForm extends React.Component<Props, State> {
     const target = e.target as HTMLInputElement;
     const { name, value } = target;
 
+    const errors: FieldErrors = {};
+
+    switch (name) {
+      case 'login':
+        errors.login = false;
+        break;
+      case 'password':
+        errors.password = value
+          ? this.state.registering && (value.length < 8 ? 'Too short' : false)
+          : false;
+        break;
+      case 'email':
+        errors.email = value ? !/^[\w.+-]+@[\w-]+\.\w{2,}$/.test(value) : false;
+        break;
+    }
+
     this.setState(
       (prevState): State => ({
         ...prevState,
         [name]: value,
-        canSubmit: this.inputValid(prevState),
-      })
+        errors: { ...prevState.errors, ...errors },
+      }),
+      () =>
+        this.setState((prevState) => ({
+          canSubmit: this.allInputsValid(prevState),
+        }))
     );
   };
 
-  inputValid = (stateObj: State = this.state): boolean => {
-    const { login, password, email, registering } = stateObj;
+  allInputsValid = (stateObj: State = this.state): boolean => {
+    const { login, password, email, registering, errors } = stateObj;
 
-    return !!login && !!password && (!registering || !!email);
+    return (
+      !!login &&
+      !errors.login &&
+      (!!password && !errors.password) &&
+      (!registering || (!!email && !errors.email))
+    );
   };
 
   toggleRegistration = () => {
-    this.setState(({ registering }) => ({ registering: !registering }));
+    this.setState(
+      ({ registering }) => ({ registering: !registering }),
+      () =>
+        this.setState((prevState) => ({
+          canSubmit: this.allInputsValid(prevState),
+        }))
+    );
   };
 
   onSubmit = (e: React.FormEvent<HTMLFormElement>) => {
@@ -73,14 +112,15 @@ class LoginForm extends React.Component<Props, State> {
     const { login, password, email, canSubmit, registering } = this
       .state as State;
 
-    const { profileUpdate } = this.props;
-
     if (canSubmit) {
-      if (registering) {
-        this.yonApi.register(email, login, password);
-      } else {
-        this.yonApi.auth(login, password);
-      }
+      const { profileUpdate } = this.props;
+
+      (registering
+        ? this.yonApi.register(email, login, password)
+        : this.yonApi.auth(login, password)
+      )
+        .then((res) => console.log(res.status))
+        .catch((res) => console.log(res));
 
       this.setState(getInitialState({}), () => {
         profileUpdate && profileUpdate();
@@ -91,7 +131,14 @@ class LoginForm extends React.Component<Props, State> {
   };
 
   render() {
-    const { login, password, email, registering } = this.state;
+    const {
+      login,
+      password,
+      email,
+      registering,
+      canSubmit,
+      errors,
+    } = this.state;
 
     const nameOfProcedure = registering ? 'Sign up' : 'Sign in';
 
@@ -101,6 +148,7 @@ class LoginForm extends React.Component<Props, State> {
         type="text"
         name="login"
         label="Username"
+        error={errors.login}
         value={login}
         onChange={this.onInputChange}
       />
@@ -111,6 +159,7 @@ class LoginForm extends React.Component<Props, State> {
         type="password"
         name="password"
         label="Password"
+        error={errors.password}
         value={password}
         onChange={this.onInputChange}
       />
@@ -121,6 +170,7 @@ class LoginForm extends React.Component<Props, State> {
         type="text"
         name="email"
         label="Email"
+        error={errors.email}
         value={email}
         onChange={this.onInputChange}
       />
@@ -137,7 +187,7 @@ class LoginForm extends React.Component<Props, State> {
           {usernameInput}
           {passwordInput}
         </div>
-        <Button label={nameOfProcedure} />
+        <Button label={nameOfProcedure} flat={!canSubmit} />
         <LoginFormRegisterPrompt
           messages={
             registering
