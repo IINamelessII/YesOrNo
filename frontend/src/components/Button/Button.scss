@@ -19,6 +19,8 @@
   background: transparentize(theme(pri), 0.5);
   box-shadow: 0 2px 3px #222;
 
+  transition: background 0.25s, border-color 0.5s;
+
   cursor: pointer;
 
   &:hover {
