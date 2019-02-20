@@ -9,7 +9,7 @@ type Props = {
   value: string;
   name: string;
   type: 'password' | 'text';
-  error?: boolean;
+  error?: boolean | string;
   onChange: (event: React.ChangeEvent<HTMLInputElement>) => void;
 };
 
@@ -45,7 +45,9 @@ const LoginFormField = ({
         {...otherProps}
       />
       {error && (
-        <div className="form-field__error-message">Invalid {name}!</div>
+        <div className="form-field__error-message">
+          {typeof error === 'boolean' ? `Invalid ${name}` : error}
+        </div>
       )}
     </label>
   );

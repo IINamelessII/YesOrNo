@@ -51,27 +51,31 @@
 
   &__error-message {
     position: absolute;
-    right: 0;
-    // transform: translate(200%, 0);
+    right: -0.5rem;
+    transform: translate(100%, 0);
+    max-width: 7rem;
+    height: fit-content;
 
-    padding: 0.5rem;
+    padding: 0.25rem;
+    display: flex;
+    align-items: flex-end;
 
-    color: red;
-    font-size: 0.8rem;
+    color: #fff;
+    font-size: 0.7rem;
+    line-height: 0.7rem;
+    font-weight: bold;
 
-    border-radius: 0.5rem;
-    background: transparentize(theme(acc), 0.8);
+    border-radius: 0.25rem;
+    // background: transparentize(theme(acc), 0.5);
+    background: #913b41;
+
+    box-shadow: 0 2px 3px #222;
   }
 
   &:hover {
 
     .form-field__error-message {
     }
-  }
-
-  &--error {
-    // background: tomato;
-    box-shadow: 0 0 5px theme(acc);
   }
 
   &--not-empty,
@@ -82,7 +86,8 @@
     }
 
     .form-field__label {
-      transform: translate(0, -120%);
+      transform: translate(0, -90%);
+      top: 0;
       align-self: flex-start;
 
       height: 0.5rem;
@@ -98,6 +103,22 @@
       cursor: default;
 
       transition: 0.2s, background 0.1s cubic-bezier(1, 0, 1, 0);
+    }
+  }
+
+  &--error {
+    // background: tomato;
+    // box-shadow: 0 0 5px theme(acc);
+
+    .form-field__input {
+      border-color: theme(acc);
+    }
+
+    &:focus-within {
+
+      .form-field__input {
+        border-color: theme(acc);
+      }
     }
   }
 }
