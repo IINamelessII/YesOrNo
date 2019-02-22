@@ -4,6 +4,7 @@ const fetchUrl = Symbol();
 const sendData = Symbol();
 
 export default class YonApiService {
+  // URL = 'http://olehserikov.info';
   URL = '';
   API_URL = `${this.URL}/api`;
 
@@ -30,10 +31,10 @@ export default class YonApiService {
     this[sendData](`${this.URL}/signin/`, { username, password });
 
   register = (email: string, username: string, password: string) =>
-    this[sendData](`${this.API_URL}/signup/`, { email, username, password });
+    this[sendData](`${this.URL}/signup/`, { email, username, password });
 
   resetPassword = (email: string) =>
-    this[sendData](`${this.API_URL}/resetpassword/`, { email });
+    this[sendData](`${this.URL}/resetpassword/`, { email });
 
   sendData = (
     url: string,
