@@ -6,7 +6,7 @@ const Logo = () => {
   return (
     <div className="logo">
       <div className="logo__icon" />
-      <span className="logo__splash">yes-or-no</span>
+      <span className="logo__splash">YesOrNo</span>
     </div>
   );
 };
