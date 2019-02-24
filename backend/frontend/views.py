@@ -1,3 +1,5 @@
+import json
+import os
 from django.shortcuts import render, redirect
 from django.core import serializers
 from django.core.mail import EmailMessage
@@ -9,23 +11,21 @@ from django.utils.http import urlsafe_base64_encode, urlsafe_base64_decode
 from django.utils.encoding import force_bytes
 from django.contrib.auth.tokens import default_token_generator
 from django.db import IntegrityError, transaction
+from django.views.generic import View
+from django.conf import settings
 from rest_framework import generics
 from polls.models import Poll, Flow
 from frontend.serializers import ProfileSerializer
 from frontend.models import Profile
-import json
-import os
-import logging
-
-from django.views.generic import View
-from django.conf import settings
 
 
+@ensure_csrf_cookie
 def index(request):
     request.session['message_was_showed'] = True
     return render(request, os.path.join(settings.REACT_APP_DIR, 'build', 'index.html'))
 
 
+@ensure_csrf_cookie
 def logout(request):
     try:
         auth.logout(request)
@@ -90,6 +90,7 @@ def signup(request):
         return HttpResponse(status=200)
 
 
+@ensure_csrf_cookie
 def activation(request, uidb64, token):
     if uidb64 is not None and token is not None:
         uid = urlsafe_base64_decode(uidb64)
