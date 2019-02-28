@@ -47,3 +47,36 @@ class TestProfile(TestCase):
         self.model.voteNo(poll_id)
         self.assertEquals(self.model.voted[poll_id], False)
     
+    def test_rateLike_rated_was_false(self):
+        poll_id = randint(1, 2147483647)
+        self.model.rated[poll_id] = False
+        self.model.rateLike(poll_id)
+        self.assertEquals(self.model.rated[poll_id], True)
+
+    def test_rateLike_rated_was_true(self):
+        poll_id = randint(1, 2147483647)
+        self.model.rated[poll_id] = True
+        self.model.rateLike(poll_id)
+        self.assertEquals(self.model.rated[poll_id], True)
+    
+    def test_rateLike_rated_wasnt(self):
+        poll_id = randint(1, 2147483647)
+        self.model.rateLike(poll_id)
+        self.assertEquals(self.model.rated[poll_id], True)
+    
+    def test_rateDislike_rated_was_false(self):
+        poll_id = randint(1, 2147483647)
+        self.model.rated[poll_id] = False
+        self.model.rateDislike(poll_id)
+        self.assertEquals(self.model.rated[poll_id], False)    
+    
+    def test_rateDislike_rated_was_true(self):
+        poll_id = randint(1, 2147483647)
+        self.model.rated[poll_id] = True
+        self.model.rateDislike(poll_id)
+        self.assertEquals(self.model.rated[poll_id], False)
+
+    def test_rateDislike_rated_wasnt(self):
+        poll_id = randint(1, 2147483647)
+        self.model.rateDislike(poll_id)
+        self.assertEquals(self.model.rated[poll_id], False)
