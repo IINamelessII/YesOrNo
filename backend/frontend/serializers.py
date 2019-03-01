@@ -4,10 +4,10 @@ from frontend.models import Profile
 
 class ProfileSerializer(serializers.ModelSerializer):
     username = serializers.ReadOnlyField(source='user.username')
-    is_auth = serializers.SerializerMethodField()
+    is_authenticated = serializers.SerializerMethodField()
     message = serializers.SerializerMethodField()
 
-    def get_is_auth(self, obj):
+    def get_is_authenticated(self, obj):
         return self.context['request'].user.is_authenticated
     
     def get_message(self, obj):
@@ -15,4 +15,4 @@ class ProfileSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = Profile
-        fields = ('username', 'is_auth', 'message', 'voted', 'rated')
+        fields = ('username', 'is_authenticated', 'message', 'voted', 'rated')
