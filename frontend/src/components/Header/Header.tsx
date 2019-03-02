@@ -11,7 +11,7 @@ const Header = () => {
     <header className="app-header">
       <Logo />
       <ProfileUpdateContext.Consumer>
-        {(value) => <LoginForm profileUpdate={value} centered />}
+        {(value) => <LoginForm profileUpdate={value} centered showAsPopup />}
       </ProfileUpdateContext.Consumer>
     </header>
   );

@@ -4,11 +4,18 @@ import './withCentered.scss';
 
 type Props = {
   centered: boolean;
+  showAsPopup?: boolean;
 };
 
 type State = {
   isShown: boolean;
 };
+
+const getInitialState = <P extends object>({
+  showAsPopup = false,
+}: P & Props): State => ({
+  isShown: showAsPopup,
+});
 
 type TriggerButtonGenerator = (
   onToggleShow: (
@@ -29,9 +36,7 @@ const withCentered = <P extends object>(Wrapped: React.ComponentType<P>) => (
   triggerButtonGenerator: TriggerButtonGenerator
 ) =>
   class extends React.Component<P & Props, State> {
-    state = {
-      isShown: true,
-    };
+    state = getInitialState(this.props);
 
     onToggleShow = (e: any) => {
       this.setState(({ isShown }) => ({ isShown: !isShown }));
