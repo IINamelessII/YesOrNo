@@ -38,25 +38,25 @@ class Poll extends React.Component<Props, State> {
       poll: { id },
     } = this.props;
 
-    let res: string = '';
+    let actionUrl: string = '';
 
     switch (voted) {
-      case null:
-        res = vote === '+' ? 'voteYes/' : 'voteNo/';
+      case undefined:
+        actionUrl = vote === '+' ? 'voteYes/' : 'voteNo/';
         break;
       case '-':
-        res = vote === '+' ? 'switchtoYes/' : 'unvoteNo/';
+        actionUrl = vote === '+' ? 'switchtoYes/' : 'unvoteNo/';
         break;
       case '+':
-        res = vote === '+' ? 'unvoteYes/' : 'switchtoNo/';
+        actionUrl = vote === '+' ? 'unvoteYes/' : 'switchtoNo/';
         break;
     }
 
-    this.setState(({ voted }) => {
-      rated: vote === voted ? null : vote;
-    });
+    this.setState(({ voted }) => ({
+      voted: vote === voted ? undefined : vote,
+    }));
 
-    this.yonAPI.sendData(res, { id });
+    this.yonAPI.sendData(actionUrl, { id });
   };
 
   onRate = (rate: Votable) => {
@@ -65,25 +65,25 @@ class Poll extends React.Component<Props, State> {
       poll: { id },
     } = this.props;
 
-    let res: string = '';
+    let actionUrl: string = '';
 
     switch (rated) {
-      case null:
-        res = rate === '+' ? 'voteLike/' : 'voteDislike/';
+      case undefined:
+        actionUrl = rate === '+' ? 'voteLike/' : 'voteDislike/';
         break;
       case '-':
-        res = rate === '+' ? 'switchtoLike/' : 'unvoteDislike/';
+        actionUrl = rate === '+' ? 'switchtoLike/' : 'unvoteDislike/';
         break;
       case '+':
-        res = rate === '+' ? 'unvoteLike/' : 'switchtoDislike/';
+        actionUrl = rate === '+' ? 'unvoteLike/' : 'switchtoDislike/';
         break;
     }
 
-    this.setState(({ rated }) => {
-      rated: rate === rated ? null : rate;
-    });
+    this.setState(({ rated }) => ({
+      rated: rate === rated ? undefined : rate,
+    }));
 
-    this.yonAPI.sendData(res, { id });
+    this.yonAPI.sendData(actionUrl, { id });
   };
 
   render() {
