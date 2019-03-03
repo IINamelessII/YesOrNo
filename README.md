@@ -54,7 +54,7 @@ Example:
 ### 4. Dictionary that represents Profile object of current user.
 
 Dependencies: /api/profile/$ (if user is authenticated) - ```<dict>``` with fields:
-* "is_authenticated":```<bool>```
+* "is_auth":```<bool>```
 * "message":```<str>``` or ```<null>```
 * "voted":```<dict>```
     ```"<int>"```:```<bool>```
@@ -63,18 +63,18 @@ Dependencies: /api/profile/$ (if user is authenticated) - ```<dict>``` with fiel
 
 Example:
 ```python
-{"username":"Daniel","is_authenticated":true,"message":null,"voted":{"2":false,"3":true,"4":true},"rated":{"4":true,"5":false,"6":false}}
+{"username":"Daniel","is_auth":true,"message":null,"voted":{"2":false,"3":true,"4":true},"rated":{"4":true,"5":false,"6":false}}
 ```
 
 ### 5. Dictionary that represents Profile object of current user (not authentificated by far).
 
 Dependencies: /api/profile/$ (if user is not authenticated) - ```<dict>``` with fields:
-* "is_authenticated":```<bool>```
+* "is_auth":```<bool>```
 * "message":```<str>``` or ```<null>```
 
 Example:
 ```python
-{"is_authenticated":false,"message":"Wrong Username or Password, please try again or reset your Password"}
+{"is_auth":false,"message":"Wrong Username or Password, please try again or reset your Password"}
 ```
 
 ### 6. List that represent all Poll objects in database that were created by current user.
