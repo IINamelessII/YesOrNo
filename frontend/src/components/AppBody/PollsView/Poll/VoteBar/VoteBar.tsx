@@ -15,14 +15,6 @@ type Props = {
 };
 
 class VoteBar extends React.Component<Props, {}> {
-  shouldComponentUpdate({ agreed, disagreed, voted }: Props) {
-    return (
-      voted !== this.props.voted ||
-      agreed !== this.props.agreed ||
-      disagreed !== this.props.disagreed
-    );
-  }
-
   onVoteYes = () => {
     this.props.onVote('+');
   };

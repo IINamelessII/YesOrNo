@@ -95,16 +95,16 @@ class Poll extends React.Component<Props, State> {
         <h2 className="poll__name">{poll.statement}</h2>
         <div className="poll__votes">
           <VoteBar
-            agreed={poll.agree}
-            disagreed={poll.disagree}
+            agreed={poll.agree + +(voted === '+')}
+            disagreed={poll.disagree + +(voted === '-')}
             voted={voted}
             is_auth={is_auth}
             onVote={this.onVote}
           />
           {is_auth && (
             <LikeSection
-              liked={poll.likes}
-              disliked={poll.dislikes}
+              liked={poll.likes + +(rated === '+')}
+              disliked={poll.dislikes + +(rated === '-')}
               rated={rated}
               onRate={this.onRate}
             />
