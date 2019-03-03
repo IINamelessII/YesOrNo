@@ -1,8 +1,8 @@
 import React from 'react';
 import DjangoReactCSRFToken from 'django-react-csrftoken';
 
-import withCentered from '../hoc/withCentered';
 import { YonApiService } from '../../services';
+import withCentered from '../hoc/withCentered';
 
 import Button from '../Button';
 import LoginFormField from './LoginFormField';
@@ -45,7 +45,7 @@ const getInitialState = (props: Props): State => ({
   errors: {},
 });
 
-// TODO: IMPLEMENT SERVER RESPONSE ERRORS WHEN SUBMIT LOGIN DATA
+// TODO: IMPLEMENT SERVER RESPONSE ERRORS WHEN SUBMITTING LOGIN DATA
 
 class LoginForm extends React.Component<Props, State> {
   yonApi = new YonApiService();
