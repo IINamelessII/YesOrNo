@@ -21,7 +21,7 @@ class TestProfileSerializer(TestCase):
         request.session = engine.SessionStore(session_key)
         response = self.view(request)
         is_authenticated = request.user.is_authenticated
-        self.assertEquals(is_authenticated, response.data['is_authenticated'])
+        self.assertEquals(is_authenticated, response.data['is_auth'])
     
     def test_get_is_auth_true(self):
         request = self.factory.get('/api/')
@@ -31,7 +31,7 @@ class TestProfileSerializer(TestCase):
         request.session = engine.SessionStore(session_key)
         response = self.view(request)
         is_authenticated = request.user.is_authenticated
-        self.assertEquals(is_authenticated, response.data['is_authenticated'])
+        self.assertEquals(is_authenticated, response.data['is_auth'])
     
     def test_get_message_was_showed_false(self):
         request = self.factory.get('/api/')
