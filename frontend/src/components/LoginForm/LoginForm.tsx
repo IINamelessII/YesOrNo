@@ -119,12 +119,12 @@ class LoginForm extends React.Component<Props, State> {
         ? this.yonApi.register(email, login, password)
         : this.yonApi.auth(login, password)
       )
-        .then((res) => console.log(res.status))
+        .then((res) => {
+          console.log(res.status);
+          this.setState(getInitialState({}));
+          profileUpdate && profileUpdate();
+        })
         .catch((res) => console.log(res));
-
-      this.setState(getInitialState({}), () => {
-        profileUpdate && profileUpdate();
-      });
 
       // this.props.onToggleShow && this.props.onToggleShow();
     }

@@ -52,11 +52,14 @@ class Poll extends React.Component<Props, State> {
         break;
     }
 
-    this.setState(({ voted }) => ({
-      voted: vote === voted ? undefined : vote,
-    }));
-
-    this.yonAPI.sendData(actionUrl, { id });
+    this.yonAPI
+      .sendData(actionUrl, { id })
+      .then(() => {
+        this.setState(({ voted }) => ({
+          voted: vote === voted ? undefined : vote,
+        }));
+      })
+      .catch((err) => console.warn(err));
   };
 
   onRate = (rate: Votable) => {
@@ -79,11 +82,14 @@ class Poll extends React.Component<Props, State> {
         break;
     }
 
-    this.setState(({ rated }) => ({
-      rated: rate === rated ? undefined : rate,
-    }));
-
-    this.yonAPI.sendData(actionUrl, { id });
+    this.yonAPI
+      .sendData(actionUrl, { id })
+      .then(() => {
+        this.setState(({ rated }) => ({
+          rated: rate === rated ? undefined : rate,
+        }));
+      })
+      .catch((err) => console.warn(err));
   };
 
   render() {
