@@ -110,11 +110,11 @@ class App extends React.Component<{}, State> {
         <UserdataContext.Provider value={userdata}>
           <ProfileUpdateContext.Provider value={this.updateProfile}>
             <Header />
+
+            <SideMenu flowsProps={flowsProps} loggedIn={userdata.is_auth} />
+
+            <AppBody selectedFlow={selectedFlow} userdata={userdata} />
           </ProfileUpdateContext.Provider>
-
-          <SideMenu flowsProps={flowsProps} loggedIn={userdata.is_auth} />
-
-          <AppBody selectedFlow={selectedFlow} userdata={userdata} />
         </UserdataContext.Provider>
       </div>
     );

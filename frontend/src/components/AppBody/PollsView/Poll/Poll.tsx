@@ -15,6 +15,7 @@ type Props = {
   is_auth: boolean;
   voted?: Votable;
   rated?: Votable;
+  profileUpdate?: () => void;
 };
 
 type State = {
@@ -36,6 +37,7 @@ class Poll extends React.Component<Props, State> {
     const { voted } = this.state;
     const {
       poll: { id },
+      profileUpdate,
     } = this.props;
 
     let actionUrl: string = '';
@@ -58,6 +60,7 @@ class Poll extends React.Component<Props, State> {
         this.setState(({ voted }) => ({
           voted: vote === voted ? undefined : vote,
         }));
+        profileUpdate && profileUpdate();
       })
       .catch((err) => console.warn(err));
   };
@@ -66,6 +69,7 @@ class Poll extends React.Component<Props, State> {
     const { rated } = this.state;
     const {
       poll: { id },
+      profileUpdate,
     } = this.props;
 
     let actionUrl: string = '';
@@ -88,6 +92,7 @@ class Poll extends React.Component<Props, State> {
         this.setState(({ rated }) => ({
           rated: rate === rated ? undefined : rate,
         }));
+        profileUpdate && profileUpdate();
       })
       .catch((err) => console.warn(err));
   };

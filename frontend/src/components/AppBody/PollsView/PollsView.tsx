@@ -2,7 +2,7 @@ import React, { useContext } from 'react';
 
 import { withSpinner } from '../../hoc';
 import { Poll as PollType, Votable } from '../../../types';
-import { UserdataContext } from '../../../contexts';
+import { UserdataContext, ProfileUpdateContext } from '../../../contexts';
 
 import Poll from './Poll';
 
@@ -14,6 +14,7 @@ type Props = {
 
 const PollsView = ({ polls }: Props) => {
   const userdata = useContext(UserdataContext);
+  const profileUpdate = useContext(ProfileUpdateContext);
 
   const votedIDs = userdata.is_auth
     ? Object.keys(userdata.voted).map((val) => +val)
@@ -43,6 +44,7 @@ const PollsView = ({ polls }: Props) => {
         key={poll.id}
         is_auth={userdata.is_auth}
         {...voteRateData}
+        profileUpdate={profileUpdate}
       />
     );
   });
