@@ -8,21 +8,24 @@
 
   &__icon {
     margin-right: 0.5em;
-    height: 2em;
-    width: 2em;
+    height: 1.75rem;
+    width: 1.75rem;
 
     background: url(Logo.png);
-    background-size: 100%;
-    @include stitched();
+    background-position: 50% 50%;
+    background-repeat: no-repeat;
+    background-size: 80%;
     border-radius: 50%;
 
-    filter: sepia(70%);
+    box-shadow: 0 1px 2px #222;
+
+    filter: sepia(20%);
   }
 
   &__splash {
     color: theme(header-text);
-    font-size: 2em;
-    line-height: 2em;
+    font-size: 2rem;
+    line-height: 2rem;
     font-family: 'Courier New', monospace;
   }
 }
