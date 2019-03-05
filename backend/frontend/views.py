@@ -193,7 +193,7 @@ def voteYes(request):
     try:
         poll = Poll.objects.get(pk=data['id'])
         profile = Profile.objects.get(user=request.user)
-        profile.voteYes(int(poll.id))
+        profile.voteYes(data['id'])
         poll.voteYes()
     except:
         return HttpResponse(status=500)
@@ -206,10 +206,8 @@ def voteYes(request):
 def voteNo(request):
     data = json.loads(request.body.decode('utf-8'))
     try:
-        poll = Poll.objects.get(pk=data['id'])
         profile = Profile.objects.get(user=request.user)
-        profile.voteNo(int(poll.id))
-        poll.voteNo()
+        profile.voteNo(data['id'])
     except:
         return HttpResponse(status=500)
     else:
@@ -221,10 +219,8 @@ def voteNo(request):
 def rateLike(request):
     data = json.loads(request.body.decode('utf-8'))
     try:
-        poll = Poll.objects.get(pk=data['id'])
         profile = Profile.objects.get(user=request.user)
-        profile.rateLike(int(poll.id))
-        poll.rateLike()
+        profile.rateLike(data['id'])
     except:
         return HttpResponse(status=500)
     else:
@@ -236,134 +232,8 @@ def rateLike(request):
 def rateDislike(request):
     data = json.loads(request.body.decode('utf-8'))
     try:
-        poll = Poll.objects.get(pk=data['id'])
         profile = Profile.objects.get(user=request.user)
-        profile.rateDislike(int(poll.id))
-        poll.rateDislike()
-    except:
-        return HttpResponse(status=500)
-    else:
-        return HttpResponse(status=204)
-
-
-@ensure_csrf_cookie
-@transaction.atomic
-def unvoteYes(request):
-    data = json.loads(request.body.decode('utf-8'))
-    try:
-        poll = Poll.objects.get(pk=data['id'])
-        profile = Profile.objects.get(user=request.user)
-        profile.unvoteYes(int(poll.id))
-        poll.unvoteYes()
-    except:
-        return HttpResponse(status=500)
-    else:
-        return HttpResponse(status=204)
-    
-
-@ensure_csrf_cookie
-@transaction.atomic
-def unvoteNo(request):
-    data = json.loads(request.body.decode('utf-8'))
-    try:
-        poll = Poll.objects.get(pk=data['id'])
-        profile = Profile.objects.get(user=request.user)
-        profile.unvoteNo(int(poll.id))
-        poll.unvoteNo()
-    except:
-        return HttpResponse(status=500)
-    else:
-        return HttpResponse(status=204)
-
-
-@ensure_csrf_cookie
-@transaction.atomic
-def unrateLike(request):
-    data = json.loads(request.body.decode('utf-8'))
-    try:
-        poll = Poll.objects.get(pk=data['id'])
-        profile = Profile.objects.get(user=request.user)
-        profile.unrateLike(int(poll.id))
-        poll.unrateLike()
-    except:
-        return HttpResponse(status=500)
-    else:
-        return HttpResponse(status=204)
-
-
-@ensure_csrf_cookie
-@transaction.atomic
-def unrateDislike(request):
-    data = json.loads(request.body.decode('utf-8'))
-    try:
-        poll = Poll.objects.get(pk=data['id'])
-        profile = Profile.objects.get(user=request.user)
-        profile.unrateDislike(int(poll.id))
-        poll.unrateDislike()
-    except:
-        return HttpResponse(status=500)
-    else:
-        return HttpResponse(status=204)
-
-
-@ensure_csrf_cookie
-@transaction.atomic
-def switchtoYes(request):
-    data = json.loads(request.body.decode('utf-8'))
-    try:
-        poll = Poll.objects.get(pk=data['id'])
-        profile = Profile.objects.get(user=request.user)
-        profile.voteYes(int(poll.id))
-        poll.unvoteNo()
-        poll.voteYes()
-    except:
-        return HttpResponse(status=500)
-    else:
-        return HttpResponse(status=204)
-    
-
-@ensure_csrf_cookie
-@transaction.atomic
-def switchtoNo(request):
-    data = json.loads(request.body.decode('utf-8'))
-    try:
-        poll = Poll.objects.get(pk=data['id'])
-        profile = Profile.objects.get(user=request.user)
-        profile.voteNo(int(poll.id))
-        poll.unvoteYes()
-        poll.voteNo()
-    except:
-        return HttpResponse(status=500)
-    else:
-        return HttpResponse(status=204)
-
-
-@ensure_csrf_cookie
-@transaction.atomic
-def switchtoLike(request):
-    data = json.loads(request.body.decode('utf-8'))
-    try:
-        poll = Poll.objects.get(pk=data['id'])
-        profile = Profile.objects.get(user=request.user)
-        profile.rateLike(int(poll.id))
-        poll.unrateDislike()
-        poll.rateLike()
-    except:
-        return HttpResponse(status=500)
-    else:
-        return HttpResponse(status=204)
-
-
-@ensure_csrf_cookie
-@transaction.atomic
-def switchtoDislike(request):
-    data = json.loads(request.body.decode('utf-8'))
-    try:
-        poll = Poll.objects.get(pk=data['id'])
-        profile = Profile.objects.get(user=request.user)
-        profile.rateDislike(int(poll.id))
-        poll.unrateLike()
-        poll.rateDislike()
+        profile.rateDislike(data['id'])
     except:
         return HttpResponse(status=500)
     else:
