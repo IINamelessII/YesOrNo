@@ -38,6 +38,8 @@ export default class YonApiService {
   register = (email: string, username: string, password: string) =>
     this[sendData](`${this.URL}/signup/`, { email, username, password });
 
+  logout = () => this[fetchUrl](`${this.URL}/logout/`);
+
   resetPassword = (email: string) =>
     this[sendData](`${this.URL}/resetpassword/`, { email });
 

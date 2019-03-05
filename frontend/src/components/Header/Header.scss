@@ -12,4 +12,11 @@
 
   background: theme(header-bg);
   box-shadow: theme(header-shadow);
+
+  &__login-section {
+    display: grid;
+    grid-auto-flow: column;
+    column-gap: 0.5rem;
+    align-items: center;
+  }
 }
