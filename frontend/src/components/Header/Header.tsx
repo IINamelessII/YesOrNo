@@ -1,7 +1,7 @@
 import React, { useContext } from 'react';
 
 import { ProfileUpdateContext, UserdataContext } from '../../contexts';
-import { YonApiService } from '../../services';
+import { yonUser } from '../../services';
 
 import Button from '../Button';
 import Logo from './Logo';
@@ -15,8 +15,7 @@ const Header = () => {
   const userdata = useContext(UserdataContext);
   const profileUpdate = useContext(ProfileUpdateContext);
 
-  const onSignout = () =>
-    new YonApiService().logout().then(() => profileUpdate());
+  const onSignout = () => yonUser.logout().then(() => profileUpdate());
 
   return (
     <header className="app-header">

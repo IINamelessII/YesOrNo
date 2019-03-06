@@ -1,6 +1,6 @@
 import React from 'react';
 
-import { YonApiService } from '../../services';
+import { yonFetch } from '../../services';
 import { Poll, User } from '../../types';
 
 import PollsView from './PollsView';
@@ -20,8 +20,6 @@ type State = {
 };
 
 class AppBody extends React.Component<Props, State> {
-  yonApi = new YonApiService();
-
   state = {
     polls: [],
     pollsLoading: true,
@@ -44,7 +42,7 @@ class AppBody extends React.Component<Props, State> {
   updatePolls = () => {
     if (this.props.selectedFlow) {
       this.setState({ polls: [], pollsLoading: true }, () => {
-        this.yonApi
+        yonFetch
           .getPollsByFlow(this.props.selectedFlow as string)
           .then(this.onPollsUpdated);
       });

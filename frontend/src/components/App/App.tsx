@@ -1,6 +1,6 @@
 import React from 'react';
 
-import { YonApiService } from '../../services';
+import { yonFetch } from '../../services';
 import { Flow, User } from '../../types';
 import { UserdataContext, ProfileUpdateContext } from '../../contexts';
 
@@ -66,19 +66,11 @@ type State = {
 };
 
 class App extends React.Component<{}, State> {
-  yonApi = new YonApiService();
-
   state: State = {
     selectedFlow: null,
     userdata: {
       is_auth: false,
     },
-    // userdata: {
-    //   is_auth: true,
-    //   username: 'BANANAN_CHIK',
-    //   voted: { 0: true, 5: true, 6: true, 7: false, 8: false, 10: false },
-    //   rated: { 0: true, 5: true, 6: true, 7: false, 8: false, 10: false },
-    // },
   };
 
   componentDidMount() {
@@ -86,7 +78,7 @@ class App extends React.Component<{}, State> {
   }
 
   updateProfile = () => {
-    this.yonApi
+    yonFetch
       .getUserdata()
       .then((userdata) =>
         this.setState({ userdata }, () => console.log(this.state.userdata))

@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { YonApiService } from '../../services';
+import { yonFetch } from '../../services';
 
 import { Flow as FlowType } from '../../types';
 import Spinner from '../Spinner';
@@ -18,14 +18,12 @@ type State = {
 };
 
 class Flows extends React.Component<Props, State> {
-  yonAPI = new YonApiService();
-
   state: State = {
     flows: null,
   };
 
   componentDidMount() {
-    this.yonAPI.getFlows().then((flows) => this.setState({ flows }));
+    yonFetch.getFlows().then((flows) => this.setState({ flows }));
   }
 
   render() {

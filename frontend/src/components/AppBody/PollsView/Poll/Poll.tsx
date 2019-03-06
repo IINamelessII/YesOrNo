@@ -1,7 +1,7 @@
 import React from 'react';
 
-import { YonApiService } from '../../../../services';
-import { Votable } from '../../../../types';
+import { yonVote } from '../../../../services';
+import { Votable, Poll as PollType } from '../../../../types';
 
 import VoteBar from './VoteBar';
 import LikeSection from './LikeSection';

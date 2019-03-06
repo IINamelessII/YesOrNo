@@ -1,3 +1,1 @@
-import YonApiService from './YonApiService';
-
-export { YonApiService };
+export * from './yonapi.service';
