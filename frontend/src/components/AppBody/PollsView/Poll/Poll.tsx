@@ -11,7 +11,7 @@ import './Poll.scss';
 // TODO: Implement cool loading dummy poll component wow cool
 
 type Props = {
-  poll: any;
+  poll: PollType;
   is_auth: boolean;
   voted?: Votable;
   rated?: Votable;
@@ -29,73 +29,13 @@ const getInitialState = ({ voted, rated }: Props): State => ({
 });
 
 class Poll extends React.Component<Props, State> {
-  yonAPI = new YonApiService();
-
   state = getInitialState(this.props);
 
-  onVote = (vote: Votable) => {
-    const { voted } = this.state;
-    const {
-      poll: { id },
-      profileUpdate,
-    } = this.props;
+  onVoteYes = () => yonVote.voteYes(this.props.poll.id);
+  onVoteNo = () => yonVote.voteNo(this.props.poll.id);
 
-    let actionUrl: string = '';
-
-    switch (voted) {
-      case undefined:
-        actionUrl = vote === '+' ? 'voteYes/' : 'voteNo/';
-        break;
-      case '-':
-        actionUrl = vote === '+' ? 'switchtoYes/' : 'unvoteNo/';
-        break;
-      case '+':
-        actionUrl = vote === '+' ? 'unvoteYes/' : 'switchtoNo/';
-        break;
-    }
-
-    this.yonAPI
-      .sendData(actionUrl, { id })
-      .then(() => {
-        this.setState(({ voted }) => ({
-          voted: vote === voted ? undefined : vote,
-        }));
-        profileUpdate && profileUpdate();
-      })
-      .catch((err) => console.warn(err));
-  };
-
-  onRate = (rate: Votable) => {
-    const { rated } = this.state;
-    const {
-      poll: { id },
-      profileUpdate,
-    } = this.props;
-
-    let actionUrl: string = '';
-
-    switch (rated) {
-      case undefined:
-        actionUrl = rate === '+' ? 'voteLike/' : 'voteDislike/';
-        break;
-      case '-':
-        actionUrl = rate === '+' ? 'switchtoLike/' : 'unvoteDislike/';
-        break;
-      case '+':
-        actionUrl = rate === '+' ? 'unvoteLike/' : 'switchtoDislike/';
-        break;
-    }
-
-    this.yonAPI
-      .sendData(actionUrl, { id })
-      .then(() => {
-        this.setState(({ rated }) => ({
-          rated: rate === rated ? undefined : rate,
-        }));
-        profileUpdate && profileUpdate();
-      })
-      .catch((err) => console.warn(err));
-  };
+  onRateLike = () => yonVote.rateLike(this.props.poll.id);
+  onRateDislike = () => yonVote.rateDislike(this.props.poll.id);
 
   render() {
     const { poll, is_auth } = this.props;
@@ -110,14 +50,16 @@ class Poll extends React.Component<Props, State> {
             disagreed={poll.disagree + +(voted === '-')}
             voted={voted}
             is_auth={is_auth}
-            onVote={this.onVote}
+            onVoteYes={this.onVoteYes}
+            onVoteNo={this.onVoteNo}
           />
           {is_auth && (
             <LikeSection
               liked={poll.likes + +(rated === '+')}
               disliked={poll.dislikes + +(rated === '-')}
               rated={rated}
-              onRate={this.onRate}
+              onRateLike={this.onRateLike}
+              onRateDislike={this.onRateDislike}
             />
           )}
         </div>

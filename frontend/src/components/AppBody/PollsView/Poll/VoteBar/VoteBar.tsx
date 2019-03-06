@@ -11,20 +11,20 @@ type Props = {
   disagreed: number;
   is_auth: boolean;
   voted?: Votable;
-  onVote: (vote: Votable) => void;
+  onVoteYes: () => void;
+  onVoteNo: () => void;
 };
 
 class VoteBar extends React.Component<Props, {}> {
-  onVoteYes = () => {
-    this.props.onVote('+');
-  };
-
-  onVoteNo = () => {
-    this.props.onVote('-');
-  };
-
   render() {
-    const { agreed, disagreed, voted, is_auth } = this.props;
+    const {
+      agreed,
+      disagreed,
+      voted,
+      is_auth,
+      onVoteYes,
+      onVoteNo,
+    } = this.props;
 
     const votedAgree = voted === '+';
     const votedDisagree = voted === '-';
@@ -34,7 +34,7 @@ class VoteBar extends React.Component<Props, {}> {
         {is_auth && (
           <div
             className="votebar__btn votebar__btn--agree"
-            onClick={this.onVoteYes}
+            onClick={onVoteYes}
             data-voted={votedAgree}
           />
         )}
@@ -50,7 +50,7 @@ class VoteBar extends React.Component<Props, {}> {
         {is_auth && (
           <div
             className="votebar__btn votebar__btn--disagree"
-            onClick={this.onVoteNo}
+            onClick={onVoteNo}
             data-voted={votedDisagree}
           />
         )}
