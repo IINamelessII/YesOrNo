@@ -57,13 +57,13 @@ Dependencies: /api/profile/$ (if user is authenticated) - ```<dict>``` with fiel
 * "is_auth":```<bool>```
 * "message":```<str>``` or ```<null>```
 * "voted":```<dict>```
-    ```"<int>"```:```<bool>```
+    ```"<String>"```:```<int>```
 * "rated":```<dict>```
-    ```"<int>"```:```<bool>```
+    ```"<String>"```:```<int>```
 
 Example:
 ```python
-{"username":"Daniel","is_auth":true,"message":null,"voted":{"2":false,"3":true,"4":true},"rated":{"4":true,"5":false,"6":false}}
+{"username":"Daniel","is_auth":true,"message":null,"voted":{"+":[1,3,7],"-":[4,5]},"rated":{"+":[3,5],"-":[]}}
 ```
 
 ### 5. Dictionary that represents Profile object of current user (not authentificated by far).
