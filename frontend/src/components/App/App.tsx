@@ -12,54 +12,6 @@ import './App.scss';
 
 // TODO: implement cool loading animation
 
-// in case of no internet connection
-// #region
-const pollId = ((counter = 0) => () => counter++)();
-const flowId = ((counter = 0) => () => counter++)();
-
-// eslint-disable-next-line
-const pollsMy = [
-  {
-    id: pollId(),
-    flow: 'Ukraine',
-    statement: 'Україна це залупа?',
-    agree: 2,
-    disagree: 1,
-    likes: 10,
-    dislikes: 5,
-  },
-  {
-    id: pollId(),
-    flow: 'Science',
-    statement: 'Do you like VT?',
-    agree: 5,
-    disagree: 1,
-    likes: 10,
-    dislikes: 5,
-  },
-  {
-    id: pollId(),
-    flow: 'Science',
-    statement: 'Mnogonozhka?',
-    agree: 0,
-    disagree: 0,
-    likes: 0,
-    dislikes: 0,
-  },
-];
-// eslint-disable-next-line
-const flowsMy = [
-  { id: flowId(), name: 'Ukraine' },
-  { id: flowId(), name: 'Bikes' },
-  { id: flowId(), name: 'Anime' },
-  { id: flowId(), name: 'Politics' },
-  { id: flowId(), name: 'Science' },
-  { id: flowId(), name: 'Sport' },
-  { id: flowId(), name: 'Health' },
-  { id: flowId(), name: 'Videogames' },
-];
-// #endregion
-
 type State = {
   selectedFlow: string | null;
   userdata: User;
