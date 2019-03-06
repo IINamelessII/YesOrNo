@@ -187,14 +187,13 @@ def reset_password_form(request, uemailb64, token):
     
 
 @ensure_csrf_cookie
-@transaction.atomic
+# @transaction.atomic
 def voteYes(request):
     data = json.loads(request.body.decode('utf-8'))
     try:
-        poll = Poll.objects.get(pk=data['id'])
         profile = Profile.objects.get(user=request.user)
+        print(data['id'])
         profile.voteYes(data['id'])
-        poll.voteYes()
     except:
         return HttpResponse(status=500)
     else:
@@ -202,7 +201,7 @@ def voteYes(request):
     
 
 @ensure_csrf_cookie
-@transaction.atomic
+# @transaction.atomic
 def voteNo(request):
     data = json.loads(request.body.decode('utf-8'))
     try:
@@ -215,7 +214,7 @@ def voteNo(request):
 
 
 @ensure_csrf_cookie
-@transaction.atomic
+# @transaction.atomic
 def rateLike(request):
     data = json.loads(request.body.decode('utf-8'))
     try:
@@ -228,7 +227,7 @@ def rateLike(request):
 
 
 @ensure_csrf_cookie
-@transaction.atomic
+# @transaction.atomic
 def rateDislike(request):
     data = json.loads(request.body.decode('utf-8'))
     try:

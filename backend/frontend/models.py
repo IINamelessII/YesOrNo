@@ -1,4 +1,4 @@
-from django.db import models
+from django.db import models, transaction
 from django.db.models.signals import post_save
 from django.contrib.auth.models import User
 from django.contrib.postgres.fields import JSONField
@@ -13,8 +13,9 @@ class Profile(models.Model):
     def __str__(self):
         return self.user.username
 
+    @transaction.atomic
     def voteYes(self, poll_id):
-        poll = Poll.objects.get(pk=data['id'])
+        poll = Poll.objects.get(pk=poll_id)
         if poll_id in self.voted and self.voted[poll_id]:
             self.voted.pop(poll_id, None)
             poll.unvoteYes()
@@ -25,8 +26,9 @@ class Profile(models.Model):
             poll.voteYes()
         self.save()
     
+    @transaction.atomic
     def voteNo(self, poll_id):
-        poll = Poll.objects.get(pk=data['id'])
+        poll = Poll.objects.get(pk=poll_id)
         if poll_id in self.voted and not self.voted[poll_id]:
             self.voted.pop(poll_id, None)
             poll.unvoteNo()
@@ -37,8 +39,9 @@ class Profile(models.Model):
             poll.voteNo()
         self.save()
 
+    @transaction.atomic
     def rateLike(self, poll_id):
-        poll = Poll.objects.get(pk=data['id'])
+        poll = Poll.objects.get(pk=poll_id)
         if poll_id in self.rated and self.rated[poll_id]:
             self.rated.pop(poll_id, None)
             poll.unrateLike()
@@ -49,8 +52,9 @@ class Profile(models.Model):
             poll.rateLike()
         self.save()
     
+    @transaction.atomic
     def rateDislike(self, poll_id):
-        poll = Poll.objects.get(pk=data['id'])
+        poll = Poll.objects.get(pk=poll_id)
         if poll_id in self.rated and not self.rated[poll_id]:
             self.rated.pop(poll_id, None)
             poll.unrateDislike()
