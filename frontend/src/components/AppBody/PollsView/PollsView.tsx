@@ -16,25 +16,19 @@ const PollsView = ({ polls }: Props) => {
   const userdata = useContext(UserdataContext);
   const profileUpdate = useContext(ProfileUpdateContext);
 
-  const votedIDs = userdata.is_auth
-    ? Object.keys(userdata.voted).map((val) => +val)
-    : [];
-  const ratedIDs = userdata.is_auth
-    ? Object.keys(userdata.rated).map((val) => +val)
-    : [];
-
-  const pollElements = polls.map((poll, idx) => {
-    const isVoted = votedIDs.includes(poll.id);
-    const isRated = ratedIDs.includes(poll.id);
-
+  const pollElements = polls.map((poll) => {
     const voteRateData = userdata.is_auth
       ? {
-          voted: isVoted
-            ? ((userdata.voted[poll.id] ? '+' : '-') as Votable)
-            : undefined,
-          rated: isRated
-            ? ((userdata.rated[poll.id] ? '+' : '-') as Votable)
-            : undefined,
+          voted: (userdata.voted['+'].includes(poll.id)
+            ? '+'
+            : userdata.voted['-'].includes(poll.id)
+            ? '-'
+            : undefined) as Votable | undefined,
+          rated: (userdata.rated['+'].includes(poll.id)
+            ? '+'
+            : userdata.rated['-'].includes(poll.id)
+            ? '-'
+            : undefined) as Votable | undefined,
         }
       : {};
 
@@ -43,8 +37,8 @@ const PollsView = ({ polls }: Props) => {
         poll={poll}
         key={poll.id}
         is_auth={userdata.is_auth}
-        {...voteRateData}
         profileUpdate={profileUpdate}
+        {...voteRateData}
       />
     );
   });
