@@ -1,8 +1,13 @@
+type Votes = {
+  '+': number[];
+  '-': number[];
+};
+
 export type AuthenticatedUser = {
   is_auth: true;
   username: string;
-  voted: any;
-  rated: any;
+  voted: Votes;
+  rated: Votes;
 };
 
 export type UnauthenticatedUser = {
