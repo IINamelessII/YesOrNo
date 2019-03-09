@@ -192,7 +192,6 @@ def voteYes(request):
     data = json.loads(request.body.decode('utf-8'))
     try:
         profile = Profile.objects.get(user=request.user)
-        print(data['id'])
         profile.voteYes(data['id'])
     except:
         return HttpResponse(status=500)

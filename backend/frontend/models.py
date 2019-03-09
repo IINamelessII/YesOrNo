@@ -16,10 +16,11 @@ class Profile(models.Model):
     def voteYes(self, poll_id):
         poll = Poll.objects.get(pk=poll_id)
         if poll_id in self.voted['+']:
-            self.voted['+'].pop(poll_id, None)
+            self.voted['+'].remove(poll_id)
             poll.unvoteYes()
         else:
             if poll_id in self.voted['-']:
+                self.voted['-'].remove(poll_id)
                 poll.unvoteNo()
             self.voted['+'].append(poll_id)
             poll.voteYes()
@@ -28,10 +29,11 @@ class Profile(models.Model):
     def voteNo(self, poll_id):
         poll = Poll.objects.get(pk=poll_id)
         if poll_id in self.voted['-']:
-            self.voted['-'].pop(poll_id, None)
+            self.voted['-'].remove(poll_id)
             poll.unvoteNo()
         else:
             if poll_id in self.voted['+']:
+                self.voted['+'].remove(poll_id)
                 poll.unvoteYes()
             self.voted['-'].append(poll_id)
             poll.voteNo()
@@ -40,10 +42,11 @@ class Profile(models.Model):
     def rateLike(self, poll_id):
         poll = Poll.objects.get(pk=poll_id)
         if poll_id in self.rated['+']:
-            self.rated['+'].pop(poll_id, None)
+            self.rated['+'].remove(poll_id)
             poll.unrateLike()
         else:
             if poll_id in self.rated['-']:
+                self.rated['-'].remove(poll_id)
                 poll.unrateDislike()
             self.rated['+'].append(poll_id)
             poll.rateLike()
@@ -52,10 +55,11 @@ class Profile(models.Model):
     def rateDislike(self, poll_id):
         poll = Poll.objects.get(pk=poll_id)
         if poll_id in self.rated['-']:
-            self.rated['-'].pop(poll_id, None)
+            self.rated['-'].remove(poll_id)
             poll.unrateDislike()
         else:
             if poll_id in self.rated['+']:
+                self.rated['+'].remove(poll_id)
                 poll.unrateLike()
             self.rated['-'].append(poll_id)
             poll.rateDislike()
