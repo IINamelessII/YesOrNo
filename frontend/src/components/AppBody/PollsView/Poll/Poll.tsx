@@ -31,11 +31,19 @@ const getInitialState = ({ voted, rated }: Props): State => ({
 class Poll extends React.Component<Props, State> {
   state = getInitialState(this.props);
 
-  onVoteYes = () => yonVote.voteYes(this.props.poll.id);
-  onVoteNo = () => yonVote.voteNo(this.props.poll.id);
+  onVoteYes = () =>
+    (this.props.profileUpdate && this.props.profileUpdate()) ||
+    yonVote.voteYes(this.props.poll.id);
+  onVoteNo = () =>
+    (this.props.profileUpdate && this.props.profileUpdate()) ||
+    yonVote.voteNo(this.props.poll.id);
 
-  onRateLike = () => yonVote.rateLike(this.props.poll.id);
-  onRateDislike = () => yonVote.rateDislike(this.props.poll.id);
+  onRateLike = () =>
+    (this.props.profileUpdate && this.props.profileUpdate()) ||
+    yonVote.rateLike(this.props.poll.id);
+  onRateDislike = () =>
+    (this.props.profileUpdate && this.props.profileUpdate()) ||
+    yonVote.rateDislike(this.props.poll.id);
 
   render() {
     const { poll, is_auth } = this.props;
