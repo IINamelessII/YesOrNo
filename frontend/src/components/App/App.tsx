@@ -57,7 +57,7 @@ class App extends React.Component<{}, State> {
 
             <SideMenu flowsProps={flowsProps} loggedIn={userdata.is_auth} />
 
-            <AppBody selectedFlow={selectedFlow} userdata={userdata} />
+            <AppBody selectedFlow={selectedFlow} />
           </ProfileUpdateContext.Provider>
         </UserdataContext.Provider>
       </div>
