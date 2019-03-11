@@ -1,5 +1,7 @@
 import React from 'react';
 
+import { UserdataContext } from '../../contexts';
+
 import AppBodyHeader from './AppBodyHeader';
 import GreetingPage from './GreetingPage';
 import Polls from './Polls';
@@ -15,7 +17,15 @@ const AppBody = ({ selectedFlow }: Props) => {
     selectedFlow !== null ? (
       <>
         <AppBodyHeader label={selectedFlow} />
-        <Polls selectedFlow={selectedFlow} />
+        <UserdataContext.Consumer>
+          {({ userdata, updateProfile }) => (
+            <Polls
+              selectedFlow={selectedFlow}
+              userdata={userdata}
+              updateProfile={updateProfile}
+            />
+          )}
+        </UserdataContext.Consumer>
       </>
     ) : (
       <GreetingPage />

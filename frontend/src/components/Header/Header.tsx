@@ -1,6 +1,6 @@
 import React, { useContext } from 'react';
 
-import { ProfileUpdateContext, UserdataContext } from '../../contexts';
+import { UserdataContext } from '../../contexts';
 import { yonUser } from '../../services';
 
 import Button from '../Button';
@@ -12,10 +12,9 @@ import './Header.scss';
 // TODO: move user sign in logics to loginform
 
 const Header = () => {
-  const userdata = useContext(UserdataContext);
-  const profileUpdate = useContext(ProfileUpdateContext);
+  const { userdata, updateProfile } = useContext(UserdataContext);
 
-  const onSignout = () => yonUser.logout().then(() => profileUpdate());
+  const onSignout = () => yonUser.logout().then(() => updateProfile());
 
   return (
     <header className="app-header">
@@ -27,7 +26,7 @@ const Header = () => {
             <Button label="Sign out" onClick={onSignout} flat />
           </>
         ) : (
-          <LoginForm profileUpdate={profileUpdate} centered showAsPopup />
+          <LoginForm updateProfile={updateProfile} centered showAsPopup />
         )}
       </div>
     </header>

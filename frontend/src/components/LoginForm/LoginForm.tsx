@@ -24,7 +24,7 @@ type Props = {
   email?: string;
   children?: never;
   onToggleShow?: Function;
-  profileUpdate?: () => void;
+  updateProfile?: () => void;
 };
 
 type State = {
@@ -111,7 +111,7 @@ class LoginForm extends React.Component<Props, State> {
       .state as State;
 
     if (canSubmit) {
-      const { profileUpdate } = this.props;
+      const { updateProfile } = this.props;
 
       (registering
         ? yonUser.register(email, login, password)
@@ -119,7 +119,7 @@ class LoginForm extends React.Component<Props, State> {
       )
         .then(() => {
           this.setState(getInitialState({}));
-          profileUpdate && profileUpdate();
+          updateProfile && updateProfile();
         })
         .catch((err) => console.warn(err));
 

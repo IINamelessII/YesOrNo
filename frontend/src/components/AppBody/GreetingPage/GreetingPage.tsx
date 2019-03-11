@@ -1,15 +1,14 @@
 import React, { useContext } from 'react';
 
-import { User } from '../../../types';
+import { UserdataContext } from '../../../contexts';
 
 import Button from '../../Button';
 import AppBodyHeader from '../AppBodyHeader';
 
 import './GreetingPage.scss';
-import { UserdataContext } from '../../../contexts';
 
 const GreetingPage = () => {
-  const userdata = useContext(UserdataContext);
+  const { userdata } = useContext(UserdataContext);
 
   const onAuthMessage = userdata.is_auth && ` (hello, ${userdata.username}!)`;
 

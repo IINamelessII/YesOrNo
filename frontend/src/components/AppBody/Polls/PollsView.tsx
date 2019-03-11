@@ -1,45 +1,33 @@
 import React, { useContext } from 'react';
 
-import { Poll as PollType, Votable } from '../../../types';
-import { UserdataContext, ProfileUpdateContext } from '../../../contexts';
+import { Poll as PollType, Votable, VoteFunctions } from '../../../types';
+import { UserdataContext } from '../../../contexts';
 
 import Poll from './Poll';
 
 import './PollsView.scss';
 
 type Props = {
-  polls: Array<PollType>;
+  pollData: Array<{
+    poll: PollType;
+    voteRateData: { voted?: Votable; rated?: Votable };
+    voteFunctions: VoteFunctions;
+  }>;
 };
 
-const PollsView = ({ polls }: Props) => {
-  const userdata = useContext(UserdataContext);
-  const profileUpdate = useContext(ProfileUpdateContext);
+const PollsView = ({ pollData }: Props) => {
+  const { userdata, updateProfile } = useContext(UserdataContext);
 
   const content =
-    polls.length > 0 ? (
-      polls.map((poll) => {
-        const voteRateData = userdata.is_auth
-          ? {
-              voted: (userdata.voted['+'].includes(poll.id)
-                ? '+'
-                : userdata.voted['-'].includes(poll.id)
-                ? '-'
-                : undefined) as Votable | undefined,
-              rated: (userdata.rated['+'].includes(poll.id)
-                ? '+'
-                : userdata.rated['-'].includes(poll.id)
-                ? '-'
-                : undefined) as Votable | undefined,
-            }
-          : {};
-
+    pollData.length > 0 ? (
+      pollData.map(({ poll, voteRateData, voteFunctions }) => {
         return (
           <Poll
             poll={poll}
             key={poll.id}
             is_auth={userdata.is_auth}
-            profileUpdate={profileUpdate}
             {...voteRateData}
+            {...voteFunctions}
           />
         );
       })

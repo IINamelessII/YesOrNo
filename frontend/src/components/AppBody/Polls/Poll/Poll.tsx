@@ -1,7 +1,6 @@
 import React from 'react';
 
-import { yonVote } from '../../../../services';
-import { Votable, Poll as PollType } from '../../../../types';
+import { Votable, Poll as PollType, VoteFunctions } from '../../../../types';
 
 import VoteBar from './VoteBar';
 import LikeSection from './LikeSection';
@@ -15,8 +14,7 @@ type Props = {
   is_auth: boolean;
   voted?: Votable;
   rated?: Votable;
-  profileUpdate?: () => void;
-};
+} & VoteFunctions;
 
 type State = {
   voted?: Votable;
@@ -31,23 +29,17 @@ const getInitialState = ({ voted, rated }: Props): State => ({
 class Poll extends React.Component<Props, State> {
   state = getInitialState(this.props);
 
-  onVoteYes = () =>
-    (this.props.profileUpdate && this.props.profileUpdate()) ||
-    yonVote.voteYes(this.props.poll.id);
-  onVoteNo = () =>
-    (this.props.profileUpdate && this.props.profileUpdate()) ||
-    yonVote.voteNo(this.props.poll.id);
-
-  onRateLike = () =>
-    (this.props.profileUpdate && this.props.profileUpdate()) ||
-    yonVote.rateLike(this.props.poll.id);
-  onRateDislike = () =>
-    (this.props.profileUpdate && this.props.profileUpdate()) ||
-    yonVote.rateDislike(this.props.poll.id);
-
   render() {
-    const { poll, is_auth } = this.props;
-    const { voted, rated } = this.state;
+    const {
+      poll,
+      is_auth,
+      voteYes,
+      voteNo,
+      rateLike,
+      rateDislike,
+      voted,
+      rated,
+    } = this.props;
 
     return (
       <article className="poll">
@@ -58,16 +50,16 @@ class Poll extends React.Component<Props, State> {
             disagreed={poll.disagree + +(voted === '-')}
             voted={voted}
             is_auth={is_auth}
-            onVoteYes={this.onVoteYes}
-            onVoteNo={this.onVoteNo}
+            voteYes={voteYes}
+            voteNo={voteNo}
           />
           {is_auth && (
             <LikeSection
               liked={poll.likes + +(rated === '+')}
               disliked={poll.dislikes + +(rated === '-')}
               rated={rated}
-              onRateLike={this.onRateLike}
-              onRateDislike={this.onRateDislike}
+              rateLike={rateLike}
+              rateDislike={rateDislike}
             />
           )}
         </div>

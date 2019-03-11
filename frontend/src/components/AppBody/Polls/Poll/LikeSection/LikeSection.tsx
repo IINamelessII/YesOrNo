@@ -8,11 +8,11 @@ type Props = {
   liked: number;
   disliked: number;
   rated?: Votable;
-  onRateLike: () => void;
-  onRateDislike: () => void;
+  rateLike: () => void;
+  rateDislike: () => void;
 };
 
-const LikeSection = ({ liked, rated, onRateLike, onRateDislike }: Props) => {
+const LikeSection = ({ liked, rated, rateLike, rateDislike }: Props) => {
   const ratedLike = rated === '+';
 
   return (
@@ -21,7 +21,7 @@ const LikeSection = ({ liked, rated, onRateLike, onRateDislike }: Props) => {
         className="likesection__btn likesection__btn--like"
         data-liked={liked}
         data-pressed={ratedLike}
-        onClick={onRateLike}
+        onClick={rateLike}
       />
     </div>
   );

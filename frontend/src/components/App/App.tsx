@@ -1,8 +1,8 @@
 import React from 'react';
 
 import { yonFetch } from '../../services';
-import { Flow, User } from '../../types';
-import { UserdataContext, ProfileUpdateContext } from '../../contexts';
+import { User } from '../../types';
+import { UserdataContext } from '../../contexts';
 
 import Header from '../Header';
 import SideMenu from '../SideMenu';
@@ -51,14 +51,14 @@ class App extends React.Component<{}, State> {
 
     return (
       <div className="app">
-        <UserdataContext.Provider value={userdata}>
-          <ProfileUpdateContext.Provider value={this.updateProfile}>
-            <Header />
+        <UserdataContext.Provider
+          value={{ userdata, updateProfile: this.updateProfile }}
+        >
+          <Header />
 
-            <SideMenu flowsProps={flowsProps} loggedIn={userdata.is_auth} />
+          <SideMenu flowsProps={flowsProps} loggedIn={userdata.is_auth} />
 
-            <AppBody selectedFlow={selectedFlow} />
-          </ProfileUpdateContext.Provider>
+          <AppBody selectedFlow={selectedFlow} />
         </UserdataContext.Provider>
       </div>
     );
