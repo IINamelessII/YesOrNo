@@ -43,7 +43,7 @@
       justify-content: center;
       align-items: center;
 
-      border-radius: 0.25rem;
+      border-radius: 0.35rem;
 
       transition: box-shadow 0.15s;
     }
@@ -55,6 +55,7 @@
       width: calc(var(--votebar-width) * var(--agree-width));
 
       background: transparentize(theme(pri), 0.5);
+      box-shadow: 0 1px 2px -1px #222;
     }
 
     &::after {
@@ -81,11 +82,11 @@
   }
 
   &__btn {
-    height: $height - 0.15rem;
+    height: $height - 0.2rem;
     width: $height;
     margin: 0;
 
-    padding: 0.2rem;
+    padding: 0.15rem;
     display: flex;
     justify-content: center;
     align-items: center;
@@ -136,7 +137,6 @@
     &[data-voted='true'] {
       @include stitched();
       opacity: 1;
-      padding: 0.1rem;
       background: transparent;
       box-shadow: none;
     }
