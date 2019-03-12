@@ -15,41 +15,44 @@ type Props = {
   voteNo: () => void;
 };
 
-class VoteBar extends React.Component<Props, {}> {
-  render() {
-    const { agreed, disagreed, voted, is_auth, voteYes, voteNo } = this.props;
+const VoteBar = ({
+  agreed,
+  disagreed,
+  voted,
+  is_auth,
+  voteYes,
+  voteNo,
+}: Props) => {
+  const votedAgree = voted === '+';
+  const votedDisagree = voted === '-';
 
-    const votedAgree = voted === '+';
-    const votedDisagree = voted === '-';
-
-    return (
-      <div className="votebar">
-        {is_auth && (
-          <div
-            className="votebar__btn votebar__btn--agree"
-            onClick={voteYes}
-            data-voted={votedAgree}
-          />
-        )}
+  return (
+    <div className="votebar">
+      {is_auth && (
         <div
-          className="votebar__bar"
-          data-agreed={agreed}
-          data-disagreed={disagreed}
-          data-voted={voted}
-          style={
-            { '--agree-width': agreed / (agreed + disagreed) } as CSSProperties
-          }
+          className="votebar__btn votebar__btn--agree"
+          onClick={voteYes}
+          data-voted={votedAgree}
         />
-        {is_auth && (
-          <div
-            className="votebar__btn votebar__btn--disagree"
-            onClick={voteNo}
-            data-voted={votedDisagree}
-          />
-        )}
-      </div>
-    );
-  }
-}
+      )}
+      <div
+        className="votebar__bar"
+        data-agreed={agreed}
+        data-disagreed={disagreed}
+        data-voted={voted}
+        style={
+          { '--agree-width': agreed / (agreed + disagreed) } as CSSProperties
+        }
+      />
+      {is_auth && (
+        <div
+          className="votebar__btn votebar__btn--disagree"
+          onClick={voteNo}
+          data-voted={votedDisagree}
+        />
+      )}
+    </div>
+  );
+};
 
 export default VoteBar;

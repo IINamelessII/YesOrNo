@@ -24,16 +24,16 @@ class Polls extends React.Component<Props, State> {
   };
 
   componentDidMount() {
-    this.updatePolls();
+    this.updatePollsHard();
   }
 
   componentDidUpdate(prevProps: Props) {
     if (this.props.selectedFlow !== prevProps.selectedFlow) {
-      this.updatePolls();
+      this.updatePollsHard();
     }
   }
 
-  updatePolls = () => {
+  updatePollsHard = () => {
     this.setState({ polls: [], loading: true }, () => {
       yonFetch
         .getPollsByFlow(this.props.selectedFlow)
@@ -41,30 +41,26 @@ class Polls extends React.Component<Props, State> {
     });
   };
 
+  updatePolls = () => {
+    yonFetch
+      .getPollsByFlow(this.props.selectedFlow)
+      .then((polls) => this.setState({ polls, loading: false }));
+  };
+
   createVoteFunctions = (pollId: number) => {
     const { updateProfile } = this.props;
 
+    const voteFunction = (voteFn: (pollId: number) => Promise<any>) => () =>
+      voteFn(pollId).then(() => {
+        updateProfile && updateProfile();
+        this.updatePolls();
+      });
+
     return {
-      voteYes: () => {
-        yonVote.voteYes(pollId).then(() => {
-          updateProfile && updateProfile();
-        });
-      },
-      voteNo: () => {
-        yonVote.voteNo(pollId).then(() => {
-          updateProfile && updateProfile();
-        });
-      },
-      rateLike: () => {
-        yonVote.rateLike(pollId).then(() => {
-          updateProfile && updateProfile();
-        });
-      },
-      rateDislike: () => {
-        yonVote.rateDislike(pollId).then(() => {
-          updateProfile && updateProfile();
-        });
-      },
+      voteYes: voteFunction(yonVote.voteYes),
+      voteNo: voteFunction(yonVote.voteNo),
+      rateLike: voteFunction(yonVote.rateLike),
+      rateDislike: voteFunction(yonVote.rateDislike),
     } as VoteFunctions;
   };
 

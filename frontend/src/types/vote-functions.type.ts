@@ -1,6 +1,6 @@
 export type VoteFunctions = {
-  voteYes: () => void;
-  voteNo: () => void;
-  rateLike: () => void;
-  rateDislike: () => void;
+  voteYes: () => Promise<any>;
+  voteNo: () => Promise<any>;
+  rateLike: () => Promise<any>;
+  rateDislike: () => Promise<any>;
 };

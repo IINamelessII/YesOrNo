@@ -10,7 +10,15 @@ import AppBody from '../AppBody';
 
 import './App.scss';
 
-// TODO: implement cool loading animation
+/* 
+TODO:Roadmap 
+  1. Add dislike button to LikeSection
+  2. Implement ability to add new polls to flow
+  3. Add Reset Password functionality
+  4. 
+  ...
+  999. implement cool loading animation
+*/
 
 type State = {
   selectedFlow: string | null;
@@ -30,11 +38,7 @@ class App extends React.Component<{}, State> {
   }
 
   updateProfile = () => {
-    yonFetch
-      .getUserdata()
-      .then((userdata) =>
-        this.setState({ userdata }, () => console.log(this.state.userdata))
-      );
+    yonFetch.getUserdata().then((userdata) => this.setState({ userdata }));
   };
 
   handleSelectFlow = (flowName: string) => {

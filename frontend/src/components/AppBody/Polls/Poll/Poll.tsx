@@ -26,46 +26,40 @@ const getInitialState = ({ voted, rated }: Props): State => ({
   rated,
 });
 
-class Poll extends React.Component<Props, State> {
-  state = getInitialState(this.props);
-
-  render() {
-    const {
-      poll,
-      is_auth,
-      voteYes,
-      voteNo,
-      rateLike,
-      rateDislike,
-      voted,
-      rated,
-    } = this.props;
-
-    return (
-      <article className="poll">
-        <h2 className="poll__name">{poll.statement}</h2>
-        <div className="poll__votes">
-          <VoteBar
-            agreed={poll.agree + +(voted === '+')}
-            disagreed={poll.disagree + +(voted === '-')}
-            voted={voted}
-            is_auth={is_auth}
-            voteYes={voteYes}
-            voteNo={voteNo}
+const Poll = ({
+  poll,
+  is_auth,
+  voted,
+  rated,
+  voteYes,
+  voteNo,
+  rateLike,
+  rateDislike,
+}: Props) => {
+  return (
+    <article className="poll">
+      <h2 className="poll__name">{poll.statement}</h2>
+      <div className="poll__votes">
+        <VoteBar
+          agreed={poll.agree}
+          disagreed={poll.disagree}
+          voted={voted}
+          is_auth={is_auth}
+          voteYes={voteYes}
+          voteNo={voteNo}
+        />
+        {is_auth && (
+          <LikeSection
+            liked={poll.likes}
+            disliked={poll.dislikes}
+            rated={rated}
+            rateLike={rateLike}
+            rateDislike={rateDislike}
           />
-          {is_auth && (
-            <LikeSection
-              liked={poll.likes + +(rated === '+')}
-              disliked={poll.dislikes + +(rated === '-')}
-              rated={rated}
-              rateLike={rateLike}
-              rateDislike={rateDislike}
-            />
-          )}
-        </div>
-      </article>
-    );
-  }
-}
+        )}
+      </div>
+    </article>
+  );
+};
 
 export default Poll;
