@@ -4,6 +4,7 @@ import { Poll as PollType, Votable, VoteFunctions } from '../../../types';
 import { UserdataContext } from '../../../contexts';
 
 import Poll from './Poll';
+import NewPoll from '../../NewPoll';
 
 import './PollsView.scss';
 
@@ -20,17 +21,20 @@ const PollsView = ({ pollData }: Props) => {
 
   const content =
     pollData.length > 0 ? (
-      pollData.map(({ poll, voteRateData, voteFunctions }) => {
-        return (
-          <Poll
-            poll={poll}
-            key={poll.id}
-            is_auth={userdata.is_auth}
-            {...voteRateData}
-            {...voteFunctions}
-          />
-        );
-      })
+      [
+        userdata.is_auth ? <NewPoll /> : null,
+        ...pollData.map(({ poll, voteRateData, voteFunctions }) => {
+          return (
+            <Poll
+              poll={poll}
+              key={poll.id}
+              is_auth={userdata.is_auth}
+              {...voteRateData}
+              {...voteFunctions}
+            />
+          );
+        }),
+      ]
     ) : (
       <span className="polls__empty-message">Whoops! No polls here!</span>
     );
