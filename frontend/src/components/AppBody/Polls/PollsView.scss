@@ -4,8 +4,8 @@
   display: grid;
   grid-template-columns: 1fr 1fr;
   grid-template-areas: 'polls-header polls-header';
-
-  gap: 0.5rem;
+  grid-auto-flow: dense;
+  gap: 0.75rem;
 
   &__flow-name {
     grid-area: polls-header;

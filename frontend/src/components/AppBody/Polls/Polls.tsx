@@ -93,7 +93,7 @@ class Polls extends React.Component<Props, State> {
   };
 
   render() {
-    const { polls, loading } = this.state;
+    const { loading } = this.state;
 
     return loading ? (
       <Spinner mimicClass="polls" />

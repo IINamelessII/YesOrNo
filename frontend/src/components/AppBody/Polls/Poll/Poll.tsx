@@ -38,26 +38,25 @@ const Poll = ({
 }: Props) => {
   return (
     <article className="poll">
-      <h2 className="poll__name">{poll.statement}</h2>
-      <div className="poll__votes">
-        <VoteBar
-          agreed={poll.agree}
-          disagreed={poll.disagree}
-          voted={voted}
-          is_auth={is_auth}
-          voteYes={voteYes}
-          voteNo={voteNo}
+      <span className="poll__name">{poll.statement}</span>
+
+      <VoteBar
+        agreed={poll.agree}
+        disagreed={poll.disagree}
+        voted={voted}
+        is_auth={is_auth}
+        voteYes={voteYes}
+        voteNo={voteNo}
+      />
+      {is_auth && (
+        <LikeSection
+          liked={poll.likes}
+          disliked={poll.dislikes}
+          rated={rated}
+          rateLike={rateLike}
+          rateDislike={rateDislike}
         />
-        {is_auth && (
-          <LikeSection
-            liked={poll.likes}
-            disliked={poll.dislikes}
-            rated={rated}
-            rateLike={rateLike}
-            rateDislike={rateDislike}
-          />
-        )}
-      </div>
+      )}
     </article>
   );
 };

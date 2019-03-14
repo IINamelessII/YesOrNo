@@ -2,7 +2,7 @@ import React from 'react';
 
 import { UserdataContext } from '../../contexts';
 
-import AppBodyHeader from './AppBodyHeader';
+import H2 from '../H2';
 import GreetingPage from './GreetingPage';
 import Polls from './Polls';
 
@@ -16,7 +16,7 @@ const AppBody = ({ selectedFlow }: Props) => {
   const contentView =
     selectedFlow !== null ? (
       <>
-        <AppBodyHeader label={selectedFlow} />
+        <H2 label={selectedFlow} />
         <UserdataContext.Consumer>
           {({ userdata, updateProfile }) => (
             <Polls

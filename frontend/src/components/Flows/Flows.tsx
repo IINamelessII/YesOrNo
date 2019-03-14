@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React from 'react';
 import { yonFetch } from '../../services';
 
 import { Flow as FlowType } from '../../types';
@@ -6,6 +6,7 @@ import Spinner from '../Spinner';
 import Button from '../Button';
 
 import './Flows.scss';
+import H2 from '../H2';
 
 type Props = {
   selectedFlow: string | null;
@@ -52,13 +53,7 @@ class Flows extends React.Component<Props, State> {
 
     return (
       <div className="flows">
-        <div className="flows__splash">Choose a flow</div>
-        <Button
-          className="flow"
-          label="+"
-          onClick={() => console.log('puff!')}
-          flat
-        />
+        <H2 label="Choose a flow" />
         {flowShow}
       </div>
     );

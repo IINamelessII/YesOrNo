@@ -8,24 +8,24 @@
 
   &__icon {
     margin-right: 0.5em;
-    height: 1.75rem;
-    width: 1.75rem;
+    height: 2rem;
+    width: 2rem;
 
     background: url(Logo.png);
     background-position: 50% 50%;
     background-repeat: no-repeat;
-    background-size: 80%;
+    background-size: 70%;
     border-radius: 50%;
 
-    box-shadow: 0 1px 2px #222;
+    box-shadow: 0 1px 5px #2b2b2b;
 
     filter: sepia(20%);
   }
 
   &__splash {
+    height: 2rem;
     color: theme(header-text);
     font-size: 2rem;
-    line-height: 2rem;
     font-family: 'Courier New', monospace;
   }
 }

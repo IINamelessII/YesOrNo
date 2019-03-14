@@ -1,12 +1,15 @@
 .app {
-  height: 100vh;
-
   display: grid;
-  grid-template-rows: 3em auto;
-  grid-template-columns: 16em auto;
+  grid-template-rows: 3rem 1fr;
+  grid-template-columns: 1fr minmax(14rem, 20rem) minmax(30rem, 55rem) 2fr;
   grid-template-areas:
-    'header header'
-    'sidemenu body';
+    'header header header header'
+    '...sidemenu body ...';
+  gap: 1rem;
+
+  justify-content: stretch;
+  align-items: stretch;
+  justify-items: stretch;
 
   .app-header {
     grid-area: header;

@@ -9,8 +9,13 @@ html {
 *,
 *::before,
 *::after {
-  box-sizing: inherit;
+  box-sizing: border-box;
   font-family: 'Courier New', monospace;
+}
+
+::selection {
+  background: theme(sec);
+  color: #fff;
 }
 
 body {
@@ -18,10 +23,32 @@ body {
   padding: 0;
 
   background: theme(bg);
+  overflow-x: hidden;
+
+  &::-webkit-scrollbar {
+    width: 0.75rem;
+  }
+
+  &::-webkit-scrollbar-button {
+    height: 0.75rem;
+  }
+
+  &::-webkit-scrollbar-thumb {
+    background: rgba(0, 0, 0, 0.15);
+    border-radius: 0.5rem;
+  }
+
+  &::-webkit-scrollbar-thumb:hover {
+    background: rgba(0, 0, 0, 0.2);
+  }
+
+  &::-webkit-scrollbar-track {
+    background: transparent;
+  }
 }
 
 #root {
-  height: 100vh;
+  height: 100%;
   width: 100vw;
 }
 
@@ -51,33 +78,4 @@ a {
       color: theme(pri);
     }
   }
-}
-
-::selection {
-  background: theme(sec);
-  color: #fff;
-}
-
-::-webkit-scrollbar {
-  width: 0.5em;
-}
-
-::-webkit-scrollbar-button {
-  width: 0;
-  height: 0.25em;
-  background: transparent;
-}
-
-::-webkit-scrollbar-thumb {
-  background: rgba(0, 0, 0, 0.1);
-  border-radius: 0.25em;
-  width: 0.5em;
-}
-
-::-webkit-scrollbar-thumb:hover {
-  background: rgba(0, 0, 0, 0.2);
-}
-
-::-webkit-scrollbar-track {
-  background: transparent;
 }

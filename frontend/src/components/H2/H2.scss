@@ -2,10 +2,10 @@
 
 .body-header {
   width: 100%;
-  margin: 0 0 0.5rem;
+  margin: 0 0 1rem;
 
-  padding: 0.25rem;
-  padding-bottom: 0.1rem;
+  padding: 0.5rem;
+  padding-bottom: 0.35rem;
   display: flex;
   justify-content: center;
   align-items: center;
@@ -16,5 +16,5 @@
   background: rgba(255, 255, 255, 0.05);
   @include stitched();
   border-radius: 0.5rem;
-  box-shadow: 0 2px 3px #222;
+  box-shadow: 0 3px 4px -1px #303030;
 }

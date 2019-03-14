@@ -16,7 +16,7 @@ type Props = {
 };
 
 const PollsView = ({ pollData }: Props) => {
-  const { userdata, updateProfile } = useContext(UserdataContext);
+  const { userdata } = useContext(UserdataContext);
 
   const content =
     pollData.length > 0 ? (
