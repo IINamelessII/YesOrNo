@@ -3,7 +3,10 @@ import React from 'react';
 import './withCentered.scss';
 
 type Props = {
-  centered: boolean;
+  centered?: boolean;
+  /**
+   * Determines whether this component should popup on render?
+   */
   showAsPopup?: boolean;
 };
 
@@ -51,7 +54,7 @@ const withCentered = <P extends object>(Wrapped: React.ComponentType<P>) => (
     };
 
     render() {
-      const { centered, ...wrappedProps } = this.props;
+      const { centered = true, ...wrappedProps } = this.props;
       const { isShown } = this.state as State;
 
       const wrapped = (
