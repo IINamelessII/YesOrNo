@@ -38,4 +38,30 @@ const Button = ({
   );
 };
 
+export const ContentButton = ({
+  children = 'Button',
+  flat,
+  secondary,
+  small,
+  large,
+  className = '',
+  ...buttonProps
+}: React.HTMLProps<HTMLDivElement> & Props) => {
+  return (
+    <div
+      className={classNames(
+        'button',
+        { 'button--flat': flat },
+        { 'button--secondary': secondary },
+        { 'button--small': small },
+        { 'button--large': large },
+        className
+      )}
+      {...buttonProps}
+    >
+      {children}
+    </div>
+  );
+};
+
 export default Button;
