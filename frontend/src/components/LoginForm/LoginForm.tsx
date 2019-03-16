@@ -5,7 +5,7 @@ import { yonUser } from '../../services';
 import { withCentered } from '../hoc';
 
 import Button from '../Button';
-import LoginFormField from './LoginFormField';
+import Input from '../Input';
 import LoginFormRegisterPrompt from './LoginFormRegisterPrompt';
 
 import './LoginForm.scss';
@@ -141,7 +141,7 @@ class LoginForm extends React.Component<Props, State> {
 
     // #region Input Elements
     const usernameInput = (
-      <LoginFormField
+      <Input
         type="text"
         name="login"
         label="Username"
@@ -152,7 +152,7 @@ class LoginForm extends React.Component<Props, State> {
     );
 
     const passwordInput = (
-      <LoginFormField
+      <Input
         type="password"
         name="password"
         label="Password"
@@ -163,7 +163,7 @@ class LoginForm extends React.Component<Props, State> {
     );
 
     const emailInput = (
-      <LoginFormField
+      <Input
         type="text"
         name="email"
         label="Email"
