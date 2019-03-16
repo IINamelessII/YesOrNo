@@ -21,7 +21,7 @@
   border-radius: 0.5rem;
   @include stitched();
 
-  &__name {
+  &__statement {
     grid-area: name;
     width: 100%;
     margin: 0 0 0.5rem;
@@ -34,6 +34,7 @@
     font-size: 1.3rem;
     font-weight: bold;
     text-align: center;
+    word-break: break-all;
 
     @include stitched();
     border-radius: 0.5rem;

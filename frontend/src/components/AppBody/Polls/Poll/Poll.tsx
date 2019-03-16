@@ -38,7 +38,7 @@ const Poll = ({
 }: Props) => {
   return (
     <article className="poll">
-      <span className="poll__name">{poll.statement}</span>
+      <span className="poll__statement">{poll.statement}</span>
 
       <VoteBar
         agreed={poll.agree}
