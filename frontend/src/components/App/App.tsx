@@ -12,9 +12,9 @@ import './App.scss';
 
 /* 
 TODO:Roadmap 
-  1. Implement ability to add new polls to flow
-  2. Add functionality to view polls created by user
-  3. Add Reset Password functionality 
+  1. Add functionality to view polls created by user
+  2. Add Reset Password functionality 
+  3. Add ability to place custom vote labels on polls
   4. Make design responsive
   ...
   999. implement cool loading animation

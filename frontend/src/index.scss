@@ -25,12 +25,17 @@ body {
   background: theme(bg);
   overflow-x: hidden;
 
+  @extend .scrollable;
+}
+
+.scrollable {
+
   &::-webkit-scrollbar {
     width: 0.75rem;
   }
 
   &::-webkit-scrollbar-button {
-    height: 0.75rem;
+    height: 2%;
   }
 
   &::-webkit-scrollbar-thumb {
@@ -53,7 +58,8 @@ body {
 }
 
 input,
-button {
+button,
+textarea {
   outline: none;
 }
 

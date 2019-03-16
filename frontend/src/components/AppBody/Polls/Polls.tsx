@@ -1,6 +1,6 @@
 import React from 'react';
 
-import { yonFetch, yonVote } from '../../../services';
+import { yonFetch, yonVote, yonAdd } from '../../../services';
 import { Poll, User, Votable, VoteFunctions } from '../../../types';
 
 import PollsView from './PollsView';
@@ -45,6 +45,16 @@ class Polls extends React.Component<Props, State> {
     yonFetch
       .getPollsByFlow(this.props.selectedFlow)
       .then((polls) => this.setState({ polls, loading: false }));
+  };
+
+  addPollHandler = (statement: string) => {
+    return this.state.polls.findIndex(
+      (poll) => poll.statement === statement
+    ) === -1
+      ? yonAdd
+          .addPoll(this.props.selectedFlow, statement)
+          .then(this.updatePolls)
+      : Promise.reject('Poll with such statement already exists!');
   };
 
   createVoteFunctions = (pollId: number) => {
@@ -94,11 +104,16 @@ class Polls extends React.Component<Props, State> {
 
   render() {
     const { loading } = this.state;
+    const { selectedFlow } = this.props;
 
     return loading ? (
       <Spinner mimicClass="polls" />
     ) : (
-      <PollsView pollData={this.createPollData()} />
+      <PollsView
+        pollData={this.createPollData()}
+        selectedFlow={selectedFlow}
+        addPollHandler={this.addPollHandler}
+      />
     );
   }
 }

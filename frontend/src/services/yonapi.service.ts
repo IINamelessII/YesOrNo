@@ -109,3 +109,12 @@ export const yonVote = {
   rateLike,
   rateDislike,
 };
+
+// #region Adding polls etc.
+const addPoll = (flow: string, statement: string) =>
+  sendData(`${URL}/addPoll/`, { flow, statement });
+
+// #endregion
+export const yonAdd = {
+  addPoll,
+};

@@ -1,38 +1,93 @@
-import React from 'react';
+import React, { useState } from 'react';
 import DjangoReactCSRFToken from 'django-react-csrftoken';
 
 import { withCentered } from '../hoc';
+import { yonAdd } from '../../services';
+import { classNames } from '../../utilities';
 
+import { Textarea } from '../Input';
 import Poll from '../AppBody/Polls/Poll';
 import Button, { ContentButton } from '../Button';
 
 import './NewPoll.scss';
-import { classNames } from '../../utilities';
 
-class NewPoll extends React.Component {
-  handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
-    e.preventDefault();
-    const target = e.target as HTMLElement;
+type Props = {
+  selectedFlow: string;
+  addPollHandler: (statement: string) => Promise<any>;
+  onToggleShow?: () => void;
+};
+
+const useStatement = () => {
+  const [statement, setStatement] = useState('');
+  const [error, setError] = useState(
+    'Question should have at least 10 characters!' as string | undefined
+  );
+
+  const enterStatement = (statement: string) => {
+    setError(
+      statement.length < 10
+        ? 'Question should have at least 10 characters!'
+        : statement.length > 100
+        ? 'Question should be less than 100 characters long!'
+        : undefined
+    );
+    setStatement(statement);
   };
 
-  render() {
-    return (
-      <form className="new-poll" onSubmit={this.handleSubmit}>
-        <DjangoReactCSRFToken />
-        <h2 className="new-poll__splash">New poll</h2>
-        Statement of the poll you want to add below:
-        <Button label="Add poll" />
-      </form>
-    );
-  }
-}
+  return { statement, error, enterStatement, setError };
+};
+
+const NewPoll = ({ selectedFlow, addPollHandler, onToggleShow }: Props) => {
+  const { statement, error, enterStatement, setError } = useStatement();
+
+  const handleInput = (e: React.ChangeEvent<HTMLTextAreaElement>) => {
+    enterStatement(e.target.value);
+  };
+
+  const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
+    e.preventDefault();
+
+    const resultStatement = statement
+      .split(/\s/)
+      .filter((str) => str)
+      .join(' ');
+
+    try {
+      await addPollHandler(resultStatement);
+      onToggleShow && onToggleShow();
+    } catch (err) {
+      setError(err);
+    }
+  };
+
+  return (
+    <form className="add-poll" onSubmit={handleSubmit}>
+      <DjangoReactCSRFToken />
+
+      <h2 className="add-poll__splash">New "{selectedFlow}" poll</h2>
+
+      <span>Enter question you want to ask below:</span>
+
+      <Textarea
+        label="Question to ask"
+        name="statement"
+        value={statement}
+        error={error}
+        onChange={handleInput}
+        className="add-poll__statement scrollable"
+      />
+
+      <Button label="Add poll" flat={!!error} disabled={!!error} />
+    </form>
+  );
+};
 
 export default withCentered(NewPoll)((onToggleShow, isShown) => (
   <ContentButton
     label=""
     onClick={onToggleShow}
-    className={classNames('new-poll-trigger', {
-      'new-poll-trigger--pressed': isShown,
+    className={classNames('add-poll-trigger', {
+      'add-poll-trigger--pressed': isShown,
     })}
     flat
   >
@@ -56,7 +111,7 @@ export default withCentered(NewPoll)((onToggleShow, isShown) => (
         voted="+"
       />
     ) : (
-      <span className="new-poll-trigger__msg">New poll</span>
+      <span className="add-poll-trigger__msg">New poll</span>
     )}
   </ContentButton>
 ));

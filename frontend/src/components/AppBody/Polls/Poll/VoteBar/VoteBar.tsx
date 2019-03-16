@@ -41,7 +41,10 @@ const VoteBar = ({
         data-disagreed={disagreed}
         data-voted={voted}
         style={
-          { '--agree-width': agreed / (agreed + disagreed) } as CSSProperties
+          {
+            '--agree-width':
+              agreed + disagreed > 0 ? agreed / (agreed + disagreed) : 0.5,
+          } as CSSProperties
         }
       />
       {is_auth && (

@@ -1,6 +1,6 @@
 @import 'src/utilities/variables';
 
-.form-field {
+.input-field {
   position: relative;
   width: fit-content;
   height: fit-content;
@@ -74,18 +74,18 @@
 
   &:hover {
 
-    .form-field__error-message {
+    .input-field__error-message {
     }
   }
 
   &--not-empty,
   &:focus-within {
 
-    .form-field__input {
+    .input-field__input {
       border-color: theme(sec);
     }
 
-    .form-field__label {
+    .input-field__label {
       transform: translate(0, -90%);
       top: 0;
       align-self: flex-start;
@@ -110,13 +110,13 @@
     // background: tomato;
     // box-shadow: 0 0 5px theme(acc);
 
-    .form-field__input {
+    .input-field__input {
       border-color: theme(acc);
     }
 
     &:focus-within {
 
-      .form-field__input {
+      .input-field__input {
         border-color: theme(acc);
       }
     }
