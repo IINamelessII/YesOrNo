@@ -29,63 +29,88 @@
     background: rgba(255, 255, 255, 0.05);
     box-shadow: 0 2px 3px #222;
   }
+}
 
-  &__trigger-button {
-    position: relative;
+@keyframes fade-in {
 
-    height: 100%;
-    width: 100%;
+  0% {
+    opacity: 0;
+  }
+
+  100% {
+    opacity: 1;
+  }
+}
+
+$plus-size: 5rem;
+
+.new-poll-trigger {
+  position: relative;
+
+  height: 100%;
+  width: 100%;
+  font-size: $plus-size / 2;
+
+  padding: 0;
+
+  transition: border-color 0s;
+
+  &__msg {
+    color: #dadada;
+
+    transition: opacity 0.15s;
+  }
+
+  > .poll {
+    animation: fade-in 1s forwards;
+  }
+
+  &::before {
+    content: '+';
+    position: absolute;
+    display: block;
+    height: $plus-size;
+    width: $plus-size;
 
     padding: 0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
 
-    font-size: 4rem;
+    color: #838383;
+    text-shadow: none;
+    font-size: $plus-size;
 
-    > .poll {
-      opacity: 0.15;
-      width: 100%;
-      height: 100%;
+    border-radius: 50%;
+    @include stitched();
 
-      background: transparent;
+    opacity: 0;
 
-      pointer-events: none;
-      user-select: none;
+    transition: opacity 0.15s, height 0.3s, width 0.3s;
+  }
+
+  &:hover {
+
+    .new-poll-trigger__msg {
+      opacity: 0;
     }
 
     &::before {
-      content: '+';
-      position: absolute;
-      display: block;
-      height: 4rem;
-      width: 4rem;
-
-      padding: 0;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-
-      color: #797979;
-      text-shadow: none;
-
-      border-radius: 50%;
-      border: 1px dashed #797979;
-
-      transition: 0.15s;
+      opacity: 1;
+      height: $plus-size + 1rem;
+      width: $plus-size + 1rem;
     }
+  }
 
-    &:hover {
+  &:active {
+    background: transparent;
 
-      &::before {
-        height: 5rem;
-        width: 5rem;
-      }
+    &::before {
+      background: rgba(114, 114, 114, 0.2);
     }
+  }
 
-    &:active {
-      background: transparent;
-
-      &::before {
-        background: rgba(119, 119, 119, 0.2);
-      }
-    }
+  &--pressed {
+    border: none;
   }
 }

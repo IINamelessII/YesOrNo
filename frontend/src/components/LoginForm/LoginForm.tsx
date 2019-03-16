@@ -2,7 +2,7 @@ import React from 'react';
 import DjangoReactCSRFToken from 'django-react-csrftoken';
 
 import { yonUser } from '../../services';
-import withCentered from '../hoc/withCentered';
+import { withCentered } from '../hoc';
 
 import Button from '../Button';
 import LoginFormField from './LoginFormField';

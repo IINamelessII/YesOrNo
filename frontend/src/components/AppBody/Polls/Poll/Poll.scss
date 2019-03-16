@@ -1,8 +1,8 @@
 @import 'src/utilities/variables';
 
 .poll {
-  height: fit-content;
-  min-height: 11rem;
+  height: 100%;
+  width: 100%;
 
   padding: 0.5rem;
 
@@ -13,6 +13,8 @@
     'votebar'
     'likesection';
   row-gap: 1rem;
+
+  text-shadow: 0 1px 2px #222;
 
   background: rgba(255, 255, 255, 0.05);
   box-shadow: 0 2px 3px #2b2b2b;

@@ -7,6 +7,7 @@ import Poll from '../AppBody/Polls/Poll';
 import Button, { ContentButton } from '../Button';
 
 import './NewPoll.scss';
+import { classNames } from '../../utilities';
 
 class NewPoll extends React.Component {
   handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
@@ -26,30 +27,36 @@ class NewPoll extends React.Component {
   }
 }
 
-export default withCentered(NewPoll)((onToggleShow) => (
+export default withCentered(NewPoll)((onToggleShow, isShown) => (
   <ContentButton
     label=""
     onClick={onToggleShow}
-    className="new-poll__trigger-button"
+    className={classNames('new-poll-trigger', {
+      'new-poll-trigger--pressed': isShown,
+    })}
     flat
   >
-    <Poll
-      poll={{
-        id: -1,
-        agree: 13,
-        disagree: 6,
-        likes: 3,
-        dislikes: 5,
-        statement: 'Can you add a new poll?',
-        flow: 'Awesomeness',
-      }}
-      is_auth
-      voteYes={() => {}}
-      voteNo={() => {}}
-      rateLike={() => {}}
-      rateDislike={() => {}}
-      rated="+"
-      voted="+"
-    />
+    {isShown ? (
+      <Poll
+        poll={{
+          id: -1,
+          agree: 13,
+          disagree: 6,
+          likes: 3,
+          dislikes: 5,
+          statement: 'Adding new poll, huh?',
+          flow: 'Awesomeness',
+        }}
+        is_auth
+        voteYes={() => {}}
+        voteNo={() => {}}
+        rateLike={() => {}}
+        rateDislike={() => {}}
+        rated="+"
+        voted="+"
+      />
+    ) : (
+      <span className="new-poll-trigger__msg">New poll</span>
+    )}
   </ContentButton>
 ));

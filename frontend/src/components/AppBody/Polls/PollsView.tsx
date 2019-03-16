@@ -19,25 +19,28 @@ type Props = {
 const PollsView = ({ pollData }: Props) => {
   const { userdata } = useContext(UserdataContext);
 
-  const content =
-    pollData.length > 0 ? (
-      [
-        userdata.is_auth ? <NewPoll /> : null,
-        ...pollData.map(({ poll, voteRateData, voteFunctions }) => {
-          return (
-            <Poll
-              poll={poll}
-              key={poll.id}
-              is_auth={userdata.is_auth}
-              {...voteRateData}
-              {...voteFunctions}
-            />
-          );
-        }),
-      ]
-    ) : (
-      <span className="polls__empty-message">Whoops! No polls here!</span>
-    );
+  const content = [
+    userdata.is_auth ? (
+      <NewPoll key="poll-new" />
+    ) : pollData.length === 0 ? (
+      <span className="polls__empty-message" key="poll-empty">
+        Whoops! No polls here! <span className="text--accent">Sign in</span> to
+        add the first one!
+      </span>
+    ) : null,
+    ,
+    ...pollData.map(({ poll, voteRateData, voteFunctions }) => {
+      return (
+        <Poll
+          poll={poll}
+          key={`poll-${poll.id}`}
+          is_auth={userdata.is_auth}
+          {...voteRateData}
+          {...voteFunctions}
+        />
+      );
+    }),
+  ];
 
   return <section className="polls">{content}</section>;
 };
