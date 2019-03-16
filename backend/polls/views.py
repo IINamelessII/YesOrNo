@@ -42,7 +42,8 @@ class PollByFlowNameList(generics.ListAPIView):
     def get_queryset(self):
         try:
             flow = self.kwargs['flow_name']
-            return sorted(Poll.objects.filter(flow__name=flow), reverse=True, key=lambda x: x.rate)
+            # return sorted(Poll.objects.filter(flow__name=flow), reverse=True, key=lambda x: x.rate)
+            return Poll.objects.filter(flow__name=flow)
         except:
             return HttpResponse(status=404)
 
