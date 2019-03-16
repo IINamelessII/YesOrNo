@@ -9,6 +9,8 @@ import NewPoll from '../../NewPoll';
 import './PollsView.scss';
 
 type Props = {
+  selectedFlow: string;
+  addPollHandler: (statement: string) => Promise<any>;
   pollData: Array<{
     poll: PollType;
     voteRateData: { voted?: Votable; rated?: Votable };
@@ -16,12 +18,16 @@ type Props = {
   }>;
 };
 
-const PollsView = ({ pollData }: Props) => {
+const PollsView = ({ pollData, selectedFlow, addPollHandler }: Props) => {
   const { userdata } = useContext(UserdataContext);
 
   const content = [
     userdata.is_auth ? (
-      <NewPoll key="poll-new" />
+      <NewPoll
+        key="poll-new"
+        selectedFlow={selectedFlow}
+        addPollHandler={addPollHandler}
+      />
     ) : pollData.length === 0 ? (
       <span className="polls__empty-message" key="poll-empty">
         Whoops! No polls here! <span className="text--accent">Sign in</span> to

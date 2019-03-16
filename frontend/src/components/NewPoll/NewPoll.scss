@@ -1,12 +1,14 @@
 @import 'src/utilities/variables';
 
-.new-poll {
-  width: 40rem;
+.add-poll {
+  width: 30rem;
   height: 20rem;
 
-  padding: 0.5rem;
+  padding: 1rem;
+  padding-bottom: 2rem;
   display: grid;
-  grid-template-rows: 3rem auto 1fr;
+  grid-template-rows: auto auto 1fr auto;
+  row-gap: 1rem;
   justify-items: center;
   align-items: center;
 
@@ -29,6 +31,14 @@
     background: rgba(255, 255, 255, 0.05);
     box-shadow: 0 2px 3px #222;
   }
+
+  &__statement {
+    resize: none;
+    height: 5rem;
+    width: 20rem;
+
+    padding: 0.5rem;
+  }
 }
 
 @keyframes fade-in {
@@ -42,9 +52,9 @@
   }
 }
 
-$plus-size: 5rem;
+.add-poll-trigger {
+  $plus-size: 5rem;
 
-.new-poll-trigger {
   position: relative;
 
   height: 100%;
@@ -91,7 +101,7 @@ $plus-size: 5rem;
 
   &:hover {
 
-    .new-poll-trigger__msg {
+    .add-poll-trigger__msg {
       opacity: 0;
     }
 
