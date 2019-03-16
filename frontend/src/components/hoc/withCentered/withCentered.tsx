@@ -2,6 +2,13 @@ import React from 'react';
 
 import './withCentered.scss';
 
+export type TriggerButtonGenerator = (
+  onToggleShow: (
+    e: React.MouseEvent<HTMLElement> | React.FocusEvent<HTMLElement>
+  ) => void,
+  isShown: boolean
+) => React.ReactElement<any, any>;
+
 type Props = {
   centered?: boolean;
   /**
@@ -20,13 +27,6 @@ const getInitialState = <P extends object>({
   isShown: showAsPopup,
 });
 
-type TriggerButtonGenerator = (
-  onToggleShow: (
-    e: React.MouseEvent<HTMLElement> | React.FocusEvent<HTMLElement>
-  ) => void,
-  isShown: boolean
-) => React.ReactElement<any, any>;
-
 /**
  * Aims to make components able to be triggered by element generated
  * by "triggerButtonGenerator" function
@@ -35,13 +35,13 @@ type TriggerButtonGenerator = (
  * @param triggerButtonGenerator function which takes two
  * arguments: "toggleShow" function and property "isShown"
  */
-const withCentered = <P extends object>(Wrapped: React.ComponentType<P>) => (
-  triggerButtonGenerator: TriggerButtonGenerator
-) =>
+export const withCentered = <P extends object>(
+  Wrapped: React.ComponentType<P>
+) => (triggerButtonGenerator: TriggerButtonGenerator) =>
   class extends React.Component<P & Props, State> {
     state = getInitialState(this.props);
 
-    onToggleShow = (e: any) => {
+    onToggleShow = () => {
       this.setState(({ isShown }) => ({ isShown: !isShown }));
     };
 
@@ -74,5 +74,3 @@ const withCentered = <P extends object>(Wrapped: React.ComponentType<P>) => (
       );
     }
   };
-
-export default withCentered;
