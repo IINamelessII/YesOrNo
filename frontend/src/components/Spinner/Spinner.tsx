@@ -7,7 +7,7 @@ type Props = {
 };
 
 const Spinner = ({ mimicClass = '' }: Props) => {
-  return <div className={`loader ${mimicClass}`} />;
+  return <div className={`${mimicClass} spinner`} />;
 };
 
 export default Spinner;

@@ -2,7 +2,6 @@ import React, { useState } from 'react';
 import DjangoReactCSRFToken from 'django-react-csrftoken';
 
 import { withCentered } from '../hoc';
-import { yonAdd } from '../../services';
 import { classNames } from '../../utilities';
 
 import { Textarea } from '../Input';
@@ -27,8 +26,8 @@ const useStatement = () => {
     setError(
       statement.length < 10
         ? 'Question should have at least 10 characters!'
-        : statement.length > 100
-        ? 'Question should be less than 100 characters long!'
+        : statement.length > 70
+        ? 'Question should be less than 70 characters long!'
         : undefined
     );
     setStatement(statement);

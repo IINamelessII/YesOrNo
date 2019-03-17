@@ -3,30 +3,12 @@
 .polls {
   display: grid;
   grid-template-columns: 1fr 1fr;
-  grid-template-areas: 'polls-header polls-header';
-  grid-auto-rows: 11rem;
+  grid-auto-rows: minmax(11rem, 12rem);
   grid-auto-flow: dense;
   gap: 0.75rem;
 
-  &__flow-name {
-    grid-area: polls-header;
-
-    width: 100%;
-    margin: 0 0 0.5rem;
-
-    padding: 0.25rem;
-    padding-bottom: 0.1rem;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-
-    font-size: 1.5rem;
-    font-weight: bold;
-
-    background: rgba(255, 255, 255, 0.05);
-    @include stitched();
-    border-radius: 0.5rem;
-    box-shadow: 0 2px 3px #222;
+  &:not(.spinner) {
+    animation: fade-in 0.5s;
   }
 
   &__empty-message {
