@@ -2,7 +2,7 @@ import React, { useContext } from 'react';
 
 import { UserdataContext } from '../../../contexts';
 
-import H2 from '../../H2';
+import H1 from '../../H1';
 
 import './GreetingPage.scss';
 
@@ -26,7 +26,7 @@ const GreetingPage = () => {
 
   return (
     <div className="greeting-page">
-      <H2 label="Welcome to YesOrNo alpha v0.666!" />
+      <H1>Welcome to YesOrNo alpha v0.666!</H1>
       <div className="greeting-page__content">
         <p>
           Each alpha-tester {onAuthMessage} is recommended to register / sign in

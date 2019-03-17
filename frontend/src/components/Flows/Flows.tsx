@@ -6,7 +6,7 @@ import Spinner from '../Spinner';
 import Button from '../Button';
 
 import './Flows.scss';
-import H2 from '../H2';
+import H1 from '../H1';
 
 type Props = {
   selectedFlow: string | null;
@@ -53,7 +53,7 @@ class Flows extends React.Component<Props, State> {
 
     return (
       <div className="flows">
-        <H2 label="Choose a flow" />
+        <H1>Choose a flow</H1>
         {flowShow}
       </div>
     );
