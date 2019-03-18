@@ -1,8 +1,12 @@
 @import './utilities/variables';
 
+@font-face {
+  font-family: 'Courier New';
+  src: url(./static/fonts/cour.ttf) format('truetype');
+}
+
 html {
   color: #fff;
-  font-family: 'Courier New', monospace;
   box-sizing: border-box;
 }
 
