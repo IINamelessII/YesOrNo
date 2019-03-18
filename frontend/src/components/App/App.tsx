@@ -12,6 +12,7 @@ import './App.scss';
 
 /* 
 TODO:Roadmap 
+  1. add font to project
   1. Add functionality to view polls created by user
   2. Add Reset Password functionality 
   3. Add ability to place custom vote labels on polls
@@ -30,6 +31,7 @@ class App extends React.Component<{}, State> {
     selectedFlow: null,
     userdata: {
       is_auth: false,
+      message: null,
     },
   };
 
@@ -47,6 +49,8 @@ class App extends React.Component<{}, State> {
 
   render() {
     const { selectedFlow, userdata } = this.state;
+
+    console.log(userdata);
 
     const flowsProps = {
       selectedFlow,

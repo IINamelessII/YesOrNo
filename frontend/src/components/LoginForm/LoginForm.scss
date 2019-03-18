@@ -1,6 +1,8 @@
 @import 'src/utilities/variables';
 
 .login-form {
+  position: relative;
+
   width: 20rem;
   height: 22rem;
 
@@ -42,6 +44,28 @@
     background: inherit;
     // @include stitched();
     border-radius: 0.5rem;
+  }
+
+  &__error-message {
+    position: absolute;
+    right: 95%;
+
+    width: 10rem;
+    height: fit-content;
+
+    padding: 0.25rem;
+    display: flex;
+    align-items: flex-end;
+
+    color: #fff;
+    font-size: 0.8rem;
+    line-height: 0.8rem;
+    font-weight: bold;
+
+    border-radius: 0.25rem;
+    background: #913b41;
+
+    box-shadow: 0 2px 3px #222;
   }
 
   &--hidden {

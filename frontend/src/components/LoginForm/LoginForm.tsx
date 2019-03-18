@@ -9,6 +9,7 @@ import Input from '../Input';
 import LoginFormRegisterPrompt from './LoginFormRegisterPrompt';
 
 import './LoginForm.scss';
+import { UserdataContext } from '../../contexts';
 
 type InputEvent = React.ChangeEvent<HTMLInputElement>;
 
@@ -193,6 +194,15 @@ class LoginForm extends React.Component<Props, State> {
           }
           onClick={this.toggleRegistration}
         />
+        <UserdataContext.Consumer>
+          {({ userdata }) =>
+            userdata.message && (
+              <div className="login-form__error-message">
+                {userdata.message}
+              </div>
+            )
+          }
+        </UserdataContext.Consumer>
       </form>
     );
   }
