@@ -12,11 +12,12 @@ import './App.scss';
 
 /* 
 TODO:Roadmap 
-  1. add font to project
-  1. Add functionality to view polls created by user
-  2. Add Reset Password functionality 
-  3. Add ability to place custom vote labels on polls
-  4. Make design responsive
+  -! Implement polls sorting 
+  -! Add Reset Password functionality 
+  -! Rework voting system into a state-based one
+  -! Make design responsive
+  - Add functionality to view polls created by user
+  - Add ability to place custom vote labels on polls
   ...
   999. implement cool loading animation
 */
@@ -49,8 +50,6 @@ class App extends React.Component<{}, State> {
 
   render() {
     const { selectedFlow, userdata } = this.state;
-
-    console.log(userdata);
 
     const flowsProps = {
       selectedFlow,

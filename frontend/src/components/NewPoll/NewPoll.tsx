@@ -5,7 +5,7 @@ import { withCentered } from '../hoc';
 import { classNames } from '../../utilities';
 
 import { Textarea } from '../Input';
-import Poll from '../AppBody/Polls/Poll';
+import { DummyPoll } from '../AppBody/Polls/Poll';
 import Button, { ContentButton } from '../Button';
 
 import './NewPoll.scss';
@@ -22,15 +22,26 @@ const useStatement = () => {
     'Question should have at least 10 characters!' as string | undefined
   );
 
+  const statementCorrect = (statement: string) =>
+    statement
+      .split(/\s/)
+      .filter((str, idx, arr) => idx === arr.length - 1 || !!str)
+      .join(' ');
+
   const enterStatement = (statement: string) => {
+    const resultStatement = statementCorrect(statement);
+
+    console.log(statement, resultStatement);
+
+    setStatement(resultStatement);
+
     setError(
-      statement.length < 10
+      resultStatement.length < 10
         ? 'Question should have at least 10 characters!'
-        : statement.length > 70
+        : resultStatement.length > 70
         ? 'Question should be less than 70 characters long!'
         : undefined
     );
-    setStatement(statement);
   };
 
   return { statement, error, enterStatement, setError };
@@ -38,24 +49,27 @@ const useStatement = () => {
 
 const NewPoll = ({ selectedFlow, addPollHandler, onToggleShow }: Props) => {
   const { statement, error, enterStatement, setError } = useStatement();
+  const [uploading, setUploading] = useState(false);
 
   const handleInput = (e: React.ChangeEvent<HTMLTextAreaElement>) => {
     enterStatement(e.target.value);
   };
 
-  const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
+  const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
 
-    const resultStatement = statement
-      .split(/\s/)
-      .filter((str) => str)
-      .join(' ');
+    if (!uploading) {
+      setUploading(true);
 
-    try {
-      await addPollHandler(resultStatement);
-      onToggleShow && onToggleShow();
-    } catch (err) {
-      setError(err);
+      addPollHandler(statement)
+        .then(() => {
+          setUploading(false);
+          onToggleShow && onToggleShow();
+        })
+        .catch((err) => {
+          setUploading(false);
+          setError(err);
+        });
     }
   };
 
@@ -76,7 +90,11 @@ const NewPoll = ({ selectedFlow, addPollHandler, onToggleShow }: Props) => {
         className="add-poll__statement scrollable"
       />
 
-      <Button label="Add poll" flat={!!error} disabled={!!error} />
+      <Button
+        label="Add poll"
+        flat={!!error || uploading}
+        disabled={!!error || uploading}
+      />
     </form>
   );
 };
@@ -101,13 +119,6 @@ export default withCentered(NewPoll)((onToggleShow, isShown) => (
           statement: 'Adding new poll, huh?',
           flow: 'Awesomeness',
         }}
-        is_auth
-        voteYes={() => {}}
-        voteNo={() => {}}
-        rateLike={() => {}}
-        rateDislike={() => {}}
-        rated="+"
-        voted="+"
       />
     ) : (
       <span className="add-poll-trigger__msg">New poll</span>
