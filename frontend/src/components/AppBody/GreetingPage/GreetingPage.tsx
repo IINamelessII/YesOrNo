@@ -26,16 +26,17 @@ const GreetingPage = () => {
 
   return (
     <div className="greeting-page">
-      <H1>Welcome to YesOrNo alpha v0.666!</H1>
+      <H1>Welcome to YesOrNo!</H1>
       <div className="greeting-page__content">
         <p>
-          Each alpha-tester {onAuthMessage} is recommended to register / sign in
-          and add at least 5 polls distributed among any flows and also vote in
+          Each tester {onAuthMessage} is recommended to register / sign in and
+          add at least 5 polls distributed among any flows and also vote in
           polls created by other users.
         </p>
         <p>
-          To start voting choose Flow or just push "Random!" button in left
-          column. To add a Poll sign in and press + in left column.
+          To start voting just choose a Flow you interested in and let it rock!
+          Once signed in, add a new Poll if you want by clicking that 'New poll'
+          button.
         </p>
         <p>
           Report problems found to
