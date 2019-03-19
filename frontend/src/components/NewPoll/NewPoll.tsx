@@ -91,7 +91,7 @@ export default withCentered(NewPoll)((onToggleShow, isShown) => (
     flat
   >
     {isShown ? (
-      <Poll
+      <DummyPoll
         poll={{
           id: -1,
           agree: 13,

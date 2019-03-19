@@ -16,16 +16,6 @@ type Props = {
   rated?: Votable;
 } & VoteFunctions;
 
-type State = {
-  voted?: Votable;
-  rated?: Votable;
-};
-
-const getInitialState = ({ voted, rated }: Props): State => ({
-  voted,
-  rated,
-});
-
 const Poll = ({
   poll,
   is_auth,
@@ -58,6 +48,43 @@ const Poll = ({
         />
       )}
     </article>
+  );
+};
+
+type DummyProps = {
+  poll?: PollType;
+  is_auth?: boolean;
+  voted?: Votable;
+  rated?: Votable;
+};
+
+const dummyPollObj: PollType = {
+  id: -1,
+  statement: 'Wanna some dummy poll, huh?',
+  flow: 'Dummy',
+  agree: 13,
+  disagree: 5,
+  likes: 4,
+  dislikes: 1,
+};
+
+export const DummyPoll = ({
+  poll = dummyPollObj,
+  is_auth = true,
+  voted = '+',
+  rated = '+',
+}: DummyProps) => {
+  return (
+    <Poll
+      poll={poll}
+      is_auth={is_auth}
+      voteYes={() => {}}
+      voteNo={() => {}}
+      rateLike={() => {}}
+      rateDislike={() => {}}
+      rated={rated}
+      voted={voted}
+    />
   );
 };
 
