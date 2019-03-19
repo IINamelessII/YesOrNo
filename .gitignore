@@ -210,5 +210,5 @@ typings/
 .vscode
 
 #Bash scripts
-.sh
+*.sh
 
