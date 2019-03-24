@@ -1,0 +1,13 @@
+.input-section {
+  width: 100%;
+  display: grid;
+
+  grid-auto-flow: row;
+  row-gap: 2rem;
+
+  background: inherit;
+
+  > .input-field {
+    width: 100%;
+  }
+}

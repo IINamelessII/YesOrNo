@@ -1,212 +1,192 @@
-import React from 'react';
+import React, { useState, useEffect, useContext } from 'react';
 import DjangoReactCSRFToken from 'django-react-csrftoken';
 
-import { yonUser } from '../../services';
 import { withCentered } from '../hoc';
-
-import Button from '../Button';
-import Input from '../Input';
-import LoginFormRegisterPrompt from './LoginFormRegisterPrompt';
-
-import './LoginForm.scss';
+import { yonUser } from '../../services';
+import { Process } from './process.type';
+import { getProcessName } from './helpers';
 import { UserdataContext } from '../../contexts';
 
-type InputEvent = React.ChangeEvent<HTMLInputElement>;
+import Button from '../Button';
+import { InputSection } from './InputSection';
+import { BottomStatement } from './BottomStatement';
+import { ProcessSelector } from './ProcessSelector';
 
-type FieldErrors = {
-  login?: boolean | string;
-  password?: boolean | string;
-  email?: boolean | string;
-};
+import './LoginForm.scss';
+
+type InputEvent = React.ChangeEvent<HTMLInputElement>;
 
 type Props = {
   login?: string;
   password?: string;
   email?: string;
   children?: never;
-  onToggleShow?: Function;
+  onToggleShow?: () => void;
   updateProfile?: () => void;
 };
 
-type State = {
-  login: string;
-  password: string;
-  email: string;
-  errors: FieldErrors;
-  registering: boolean;
-  canSubmit: boolean;
+type FieldErrors = {
+  username: string | boolean;
+  password: string | boolean;
+  email: string | boolean;
 };
 
-const getInitialState = (props: Props): State => ({
-  login: props.login || '',
-  password: props.password || '',
-  email: props.email || '',
-  registering: !!props.email || false,
-  canSubmit: false,
-  errors: {},
-});
+const initialErrors: FieldErrors = {
+  username: false,
+  password: false,
+  email: false,
+};
 
-// TODO: IMPLEMENT SERVER RESPONSE ERRORS WHEN SUBMITTING LOGIN DATA
+const useData = () => {
+  const [process, setProcess] = useState('signIn' as Process);
 
-class LoginForm extends React.Component<Props, State> {
-  state: State = getInitialState(this.props);
+  const [username, setUsername] = useState('');
+  const [password, setPassword] = useState('');
+  const [email, setEmail] = useState('');
 
-  onInputChange = (e: InputEvent): void => {
-    const target = e.target as HTMLInputElement;
-    const { name, value } = target;
+  const [errors, setErrors] = useState(initialErrors);
+  const [message, setMessage] = useState(null as string | null);
 
-    const errors: FieldErrors = {};
+  const calculateErrors = (): boolean => {
+    const errors =
+      process === 'register'
+        ? {
+            username: username.length === 0 && 'Enter username',
+            password: password.length < 8 && 'Too short',
+            email: !/^[\w.+-]+@[\w-]+\.\w{2,}$/.test(email),
+          }
+        : initialErrors;
 
+    setErrors(errors);
+
+    return !!(errors.username || errors.password || errors.email);
+  };
+
+  const onInputChange = ({ target: { value, name } }: InputEvent) => {
     switch (name) {
-      case 'login':
-        errors.login = false;
+      case 'username':
+        setUsername(value);
         break;
       case 'password':
-        errors.password = value
-          ? this.state.registering && (value.length < 8 ? 'Too short' : false)
-          : false;
+        setPassword(value);
         break;
       case 'email':
-        errors.email = value ? !/^[\w.+-]+@[\w-]+\.\w{2,}$/.test(value) : false;
+        setEmail(value);
         break;
     }
-
-    this.setState(
-      (prevState): State => ({
-        ...prevState,
-        [name]: value,
-        errors: { ...prevState.errors, ...errors },
-      }),
-      () =>
-        this.setState((prevState) => ({
-          canSubmit: this.allInputsValid(prevState),
-        }))
-    );
   };
 
-  allInputsValid = (stateObj: State = this.state): boolean => {
-    const { login, password, email, registering, errors } = stateObj;
-
-    return (
-      !!login &&
-      !errors.login &&
-      (!!password && !errors.password) &&
-      (!registering || (!!email && !errors.email))
-    );
-  };
-
-  toggleRegistration = () => {
-    this.setState(
-      ({ registering }) => ({ registering: !registering }),
-      () =>
-        this.setState((prevState) => ({
-          canSubmit: this.allInputsValid(prevState),
-        }))
-    );
-  };
-
-  onSubmit = (e: React.FormEvent<HTMLFormElement>) => {
-    e.preventDefault();
-
-    const { login, password, email, canSubmit, registering } = this
-      .state as State;
-
-    if (canSubmit) {
-      const { updateProfile } = this.props;
-
-      (registering
-        ? yonUser.register(email, login, password)
-        : yonUser.auth(login, password)
-      )
-        .then(() => {
-          this.setState(getInitialState({}));
-          updateProfile && updateProfile();
-        })
-        .catch((err) => console.warn(err));
-
-      // this.props.onToggleShow && this.props.onToggleShow();
+  const switchProcess = (newProcess: Process) => {
+    if (newProcess !== process) {
+      setProcess(newProcess);
+      setErrors(initialErrors);
     }
   };
 
-  render() {
-    const {
-      login,
-      password,
-      email,
-      registering,
-      canSubmit,
-      errors,
-    } = this.state;
+  useEffect(() => {
+    calculateErrors();
+    setMessage(null);
+  }, [email, username, password]);
 
-    const nameOfProcedure = registering ? 'Sign up' : 'Sign in';
+  return {
+    process,
+    switchProcess,
+    values: { username, password, email },
+    onInputChange,
+    errors,
+    calculateErrors,
+    message,
+    setMessage,
+  };
+};
 
-    // #region Input Elements
-    const usernameInput = (
-      <Input
-        type="text"
-        name="login"
-        label="Username"
-        error={errors.login}
-        value={login}
-        onChange={this.onInputChange}
+const LoginForm = ({  }: Props) => {
+  const {
+    process,
+    switchProcess,
+    values,
+    onInputChange,
+    errors,
+    calculateErrors,
+    message,
+    setMessage,
+  } = useData();
+  const [uploading, setUploading] = useState(false);
+  const { updateProfile } = useContext(UserdataContext);
+
+  const blockSubmit =
+    uploading ||
+    (process === 'register' &&
+      !!(errors.username || errors.password || errors.email));
+
+  const onSubmit = (e: React.FormEvent<HTMLFormElement>) => {
+    e.preventDefault();
+
+    const { username, password, email } = values;
+
+    const onActionPerformed = () => {
+      updateProfile().then(({ message }) => {
+        if (message) {
+          setMessage(message);
+          setUploading(false);
+        }
+      });
+    };
+
+    switch (process) {
+      case 'signIn':
+        setUploading(true);
+        yonUser.auth(username, password).then(onActionPerformed);
+        break;
+      case 'register':
+        if (!calculateErrors()) {
+          setUploading(true);
+          yonUser.register(email, username, password).then(onActionPerformed);
+        }
+        break;
+      case 'resetPassword':
+        setUploading(true);
+        yonUser.resetPassword(email).then(onActionPerformed);
+        break;
+      default:
+        throw 'Something went wrong! (wrong process)';
+    }
+  };
+
+  return (
+    <form className="login-form" onSubmit={onSubmit}>
+      <DjangoReactCSRFToken />
+
+      <ProcessSelector process={process} onProcessSelect={switchProcess} />
+
+      <InputSection
+        process={process}
+        values={values}
+        errors={errors}
+        onInputChange={onInputChange}
       />
-    );
 
-    const passwordInput = (
-      <Input
-        type="password"
-        name="password"
-        label="Password"
-        error={errors.password}
-        value={password}
-        onChange={this.onInputChange}
+      <Button
+        className="login-form__submit"
+        label={getProcessName(process)}
+        flat={blockSubmit}
+        disabled={uploading}
       />
-    );
 
-    const emailInput = (
-      <Input
-        type="text"
-        name="email"
-        label="Email"
-        error={errors.email}
-        value={email}
-        onChange={this.onInputChange}
-      />
-    );
-    // #endregion
-
-    return (
-      <form className="login-form" onSubmit={this.onSubmit}>
-        <DjangoReactCSRFToken />
-
-        <h2 className="login-form__splash">{nameOfProcedure}</h2>
-        <div className="login-form__fields">
-          {registering && emailInput}
-          {usernameInput}
-          {passwordInput}
+      {message && (
+        <div
+          className={`login-form__message${
+            !message.includes('link') ? ' login-form__message--error' : ''
+          }`}
+        >
+          {message}
         </div>
-        <Button label={nameOfProcedure} flat={!canSubmit} />
-        <LoginFormRegisterPrompt
-          messages={
-            registering
-              ? ['Already have an account?', 'Sign in then!']
-              : ["Don't have an account yet?", 'Create a new one!']
-          }
-          onClick={this.toggleRegistration}
-        />
-        <UserdataContext.Consumer>
-          {({ userdata }) =>
-            userdata.message && (
-              <div className="login-form__error-message">
-                {userdata.message}
-              </div>
-            )
-          }
-        </UserdataContext.Consumer>
-      </form>
-    );
-  }
-}
+      )}
+
+      <BottomStatement process={process} onProcessSelect={switchProcess} />
+    </form>
+  );
+};
 
 export default withCentered(LoginForm)((onToggleShow, isShown) => (
   <Button label="Sign in" onClick={onToggleShow} flat={isShown} />

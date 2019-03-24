@@ -51,7 +51,7 @@ const NewPoll = ({ selectedFlow, addPollHandler, onToggleShow }: Props) => {
   const { statement, error, enterStatement, setError } = useStatement();
   const [uploading, setUploading] = useState(false);
 
-  const handleInput = (e: React.ChangeEvent<HTMLTextAreaElement>) => {
+  const onInputChange = (e: React.ChangeEvent<HTMLTextAreaElement>) => {
     enterStatement(e.target.value);
   };
 
@@ -86,7 +86,7 @@ const NewPoll = ({ selectedFlow, addPollHandler, onToggleShow }: Props) => {
         name="statement"
         value={statement}
         error={error}
-        onChange={handleInput}
+        onChange={onInputChange}
         className="add-poll__statement scrollable"
       />
 

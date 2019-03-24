@@ -15,7 +15,7 @@ const Input = ({
   label,
   value,
   name,
-  type,
+  type = 'text',
   error = false,
   onChange,
   className,
@@ -45,7 +45,7 @@ const Input = ({
       />
       {error && (
         <div className="input-field__error-message">
-          {typeof error === 'boolean' ? `Invalid ${name}` : error}
+          {typeof error === 'boolean' ? `Enter valid ${name}` : error}
         </div>
       )}
     </label>
@@ -85,7 +85,7 @@ export const Textarea = React.memo(
         />
         {error && (
           <div className="input-field__error-message">
-            {typeof error === 'boolean' ? `Invalid ${name}` : error}
+            {typeof error === 'boolean' ? `Enter valid ${name}` : error}
           </div>
         )}
       </label>
@@ -95,7 +95,9 @@ export const Textarea = React.memo(
     value === nextProps.value && error === nextProps.error
 );
 
-export default React.memo(
-  Input,
-  (prevProps: Props, nextProps: Props) => prevProps.value === nextProps.value
-);
+export default Input;
+
+// export default React.memo(
+//   Input,
+//   (prevProps: Props, nextProps: Props) => prevProps.value === nextProps.value
+// );

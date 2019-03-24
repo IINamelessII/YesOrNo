@@ -1,30 +1,32 @@
 @import 'src/utilities/variables';
 
+$radius: 0.35rem;
+$outer-padding: 0.1rem;
+
 .input-field {
   position: relative;
   width: fit-content;
   height: fit-content;
 
-  padding: 0.15rem;
+  padding: $outer-padding;
   display: flex;
   justify-content: flex-start;
   align-items: center;
 
   background: inherit;
-  border: 1px solid #fff;
-  border-radius: 0.7rem;
+  border-radius: $radius + $outer-padding;
 
   user-select: none;
 
   &__label {
     position: absolute;
-    margin-left: 0.5rem;
+    transform: translate(0.75rem, 0);
 
     height: 0.8rem;
     line-height: 0.8rem;
 
-    color: rgb(94, 94, 94);
-    font-weight: normal;
+    color: rgba(255, 255, 255, 0.25);
+    font-weight: 400;
 
     cursor: text;
 
@@ -32,61 +34,61 @@
   }
 
   &__input {
-    height: 1.75rem;
-    width: 15rem;
+    height: 100%;
+    width: 100%;
 
-    padding: 0 0.5rem;
+    padding: 0.35rem 0.75rem;
 
-    font-family: 'Courier New', monospace;
-    font-weight: bold;
+    font-weight: 600;
     font-size: 1rem;
 
-    border-radius: 0.5rem;
+    border-radius: $radius;
     border: none;
     border-bottom: 2px solid theme(pri);
-    box-shadow: 0 2px 3px #222;
+    box-shadow: 0 2px 3px -1px #222;
+
+    background: rgba(255, 255, 255, 0.05);
+
+    color: #fff;
 
     transition: border-color 0.25s;
+
+    &:-webkit-autofill {
+      -webkit-animation-name: autofill;
+      -webkit-animation-fill-mode: both;
+    }
   }
 
   &__error-message {
     position: absolute;
-    right: -0.5rem;
-    transform: translate(100%, 0);
-    max-width: 7rem;
-    height: fit-content;
+    right: 0;
+    max-width: 10rem;
 
-    padding: 0.25rem;
+    padding: 0.4rem;
     display: flex;
     align-items: flex-end;
 
     color: #fff;
+    font-weight: 600;
     font-size: 0.7rem;
     line-height: 0.7rem;
-    font-weight: bold;
 
     border-radius: 0.25rem;
-    // background: transparentize(theme(acc), 0.5);
     background: #913b41;
+    box-shadow: 0 2px 3px -1px #222;
 
-    box-shadow: 0 2px 3px #222;
-  }
-
-  &:hover {
-
-    .input-field__error-message {
-    }
+    animation: error-popup 0.25s forwards;
   }
 
   &--not-empty,
   &:focus-within {
 
     .input-field__input {
-      border-color: theme(sec);
+      border-color: theme(pri);
     }
 
     .input-field__label {
-      transform: translate(0, -90%);
+      transform: translate(0.35rem, -120%);
       top: 0;
       align-self: flex-start;
 
@@ -107,8 +109,6 @@
   }
 
   &--error {
-    // background: tomato;
-    // box-shadow: 0 0 5px theme(acc);
 
     .input-field__input {
       border-color: theme(acc);
@@ -120,5 +120,27 @@
         border-color: theme(acc);
       }
     }
+  }
+}
+
+@keyframes error-popup {
+
+  0% {
+    transform: translate(90%, 0);
+    opacity: 0;
+  }
+
+  100% {
+    opacity: 1;
+    transform: translate(calc(0.5rem + 100%), 0);
+  }
+}
+
+// Auto-fill bg fix for input
+@keyframes autofill {
+
+  to {
+    color: #fff;
+    background: rgba(255, 255, 255, 0.05);
   }
 }
