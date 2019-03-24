@@ -35,7 +35,7 @@ const Input = ({
     >
       <span className="input-field__label">{label}</span>
       <input
-        className={`input-field__input ${className}`}
+        className={`input-field__input ${className || ''}`}
         type={type}
         name={name}
         value={value}

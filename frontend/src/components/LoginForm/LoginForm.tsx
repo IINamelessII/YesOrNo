@@ -122,34 +122,36 @@ const LoginForm = ({  }: Props) => {
   const onSubmit = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
 
-    const { username, password, email } = values;
+    if (!uploading) {
+      const { username, password, email } = values;
 
-    const onActionPerformed = () => {
-      updateProfile().then(({ message }) => {
-        if (message) {
-          setMessage(message);
-          setUploading(false);
-        }
-      });
-    };
+      const onActionPerformed = () => {
+        updateProfile().then(({ message }) => {
+          if (message) {
+            setMessage(message);
+            setUploading(false);
+          }
+        });
+      };
 
-    switch (process) {
-      case 'signIn':
-        setUploading(true);
-        yonUser.auth(username, password).then(onActionPerformed);
-        break;
-      case 'register':
-        if (!calculateErrors()) {
+      switch (process) {
+        case 'signIn':
           setUploading(true);
-          yonUser.register(email, username, password).then(onActionPerformed);
-        }
-        break;
-      case 'resetPassword':
-        setUploading(true);
-        yonUser.resetPassword(email).then(onActionPerformed);
-        break;
-      default:
-        throw 'Something went wrong! (wrong process)';
+          yonUser.auth(username, password).then(onActionPerformed);
+          break;
+        case 'register':
+          if (!calculateErrors()) {
+            setUploading(true);
+            yonUser.register(email, username, password).then(onActionPerformed);
+          }
+          break;
+        case 'resetPassword':
+          setUploading(true);
+          yonUser.resetPassword(email).then(onActionPerformed);
+          break;
+        default:
+          throw 'Something went wrong! (wrong process)';
+      }
     }
   };
 
@@ -169,8 +171,8 @@ const LoginForm = ({  }: Props) => {
       <Button
         className="login-form__submit"
         label={getProcessName(process)}
-        flat={blockSubmit}
-        disabled={uploading}
+        flat={uploading || blockSubmit}
+        disabled={uploading || blockSubmit}
       />
 
       {message && (

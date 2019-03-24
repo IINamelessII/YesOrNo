@@ -1,15 +1,15 @@
 @import 'src/utilities/variables';
 
 .add-poll {
-  width: 30rem;
-  height: 20rem;
+  position: relative;
+  width: 26rem;
+  height: 30rem;
 
-  padding: 1rem;
-  padding-bottom: 2rem;
+  padding: 5rem 3rem 4rem;
   display: grid;
   grid-template-rows: auto auto 1fr auto;
   row-gap: 1rem;
-  justify-items: center;
+  justify-items: start;
   align-items: center;
 
   background: rgb(68, 68, 66);
@@ -17,27 +17,29 @@
   border-radius: 0.5rem;
 
   &__splash {
-    align-self: start;
+    position: relative;
+    justify-self: start;
 
+    font-size: 1.2rem;
+    text-transform: uppercase;
+
+    padding-bottom: 0.1rem;
+    border-bottom: 2px solid theme(pri);
+  }
+
+  > .input-field {
     width: 100%;
-    height: fit-content;
-    margin: 0;
-
-    padding: 0.25rem;
-
-    text-align: center;
-
-    border-radius: 0.5rem;
-    background: rgba(255, 255, 255, 0.05);
-    box-shadow: 0 2px 3px #222;
   }
 
   &__statement {
     resize: none;
-    height: 5rem;
-    width: 20rem;
+    height: 7rem;
 
     padding: 0.5rem;
+  }
+
+  &__submit {
+    width: 100%;
   }
 }
 

@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import DjangoReactCSRFToken from 'django-react-csrftoken';
 
 import { withCentered } from '../hoc';
@@ -18,37 +18,50 @@ type Props = {
 
 const useStatement = () => {
   const [statement, setStatement] = useState('');
-  const [error, setError] = useState(
-    'Question should have at least 10 characters!' as string | undefined
-  );
+  const [error, setError] = useState(undefined as string | undefined);
 
-  const statementCorrect = (statement: string) =>
+  const calculateErrors = (): boolean => {
+    const error =
+      statement.length < 10
+        ? 'Question should have at least 10 characters!'
+        : statement.length > 70
+        ? 'Question should be less than 70 characters long!'
+        : undefined;
+
+    setError(error);
+
+    return !!error;
+  };
+
+  const correctStatement = (statement: string) =>
     statement
       .split(/\s/)
       .filter((str, idx, arr) => idx === arr.length - 1 || !!str)
       .join(' ');
 
   const enterStatement = (statement: string) => {
-    const resultStatement = statementCorrect(statement);
-
-    console.log(statement, resultStatement);
+    const resultStatement = correctStatement(statement);
 
     setStatement(resultStatement);
-
-    setError(
-      resultStatement.length < 10
-        ? 'Question should have at least 10 characters!'
-        : resultStatement.length > 70
-        ? 'Question should be less than 70 characters long!'
-        : undefined
-    );
   };
 
-  return { statement, error, enterStatement, setError };
+  useEffect(() => {
+    if (statement) {
+      calculateErrors();
+    }
+  }, [statement]);
+
+  return { statement, error, enterStatement, setError, calculateErrors };
 };
 
 const NewPoll = ({ selectedFlow, addPollHandler, onToggleShow }: Props) => {
-  const { statement, error, enterStatement, setError } = useStatement();
+  const {
+    statement,
+    error,
+    enterStatement,
+    setError,
+    calculateErrors,
+  } = useStatement();
   const [uploading, setUploading] = useState(false);
 
   const onInputChange = (e: React.ChangeEvent<HTMLTextAreaElement>) => {
@@ -58,7 +71,7 @@ const NewPoll = ({ selectedFlow, addPollHandler, onToggleShow }: Props) => {
   const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
 
-    if (!uploading) {
+    if (!calculateErrors() && statement && !uploading) {
       setUploading(true);
 
       addPollHandler(statement)
@@ -77,7 +90,9 @@ const NewPoll = ({ selectedFlow, addPollHandler, onToggleShow }: Props) => {
     <form className="add-poll" onSubmit={handleSubmit}>
       <DjangoReactCSRFToken />
 
-      <h2 className="add-poll__splash">New "{selectedFlow}" poll</h2>
+      <span className="add-poll__splash">
+        New <span className="text--accent">"{selectedFlow}"</span> poll
+      </span>
 
       <span>Enter question you want to ask below:</span>
 
@@ -91,6 +106,7 @@ const NewPoll = ({ selectedFlow, addPollHandler, onToggleShow }: Props) => {
       />
 
       <Button
+        className="add-poll__submit"
         label="Add poll"
         flat={!!error || uploading}
         disabled={!!error || uploading}

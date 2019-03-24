@@ -50,12 +50,4 @@
   &--hidden {
     display: none;
   }
-
-  &:not(&--minified) {
-    align-self: flex-start;
-    margin-right: -0.5rem;
-
-    .login-form__btn {
-    }
-  }
 }
