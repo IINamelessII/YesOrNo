@@ -24,8 +24,11 @@
 
   &__splash {
     height: 2rem;
+
     color: theme(header-text);
     font-size: 2rem;
-    font-family: 'Courier New', monospace;
+    line-height: 2rem;
+    font-weight: 500;
+    text-transform: lowercase;
   }
 }
