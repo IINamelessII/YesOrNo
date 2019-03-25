@@ -1,10 +1,10 @@
 import React from 'react';
 
-import { yonFetch, yonVote, yonAdd } from '../../../services';
-import { Poll, User, Votable, VoteFunctions } from '../../../types';
+import { yonFetch, yonVote, yonAdd } from '../../services';
+import { Poll, User, Votable, VoteFunctions } from '../../types';
 
 import PollsView from './PollsView';
-import Spinner from '../../Spinner';
+import Spinner from '../Spinner';
 
 type Props = {
   selectedFlow: string;

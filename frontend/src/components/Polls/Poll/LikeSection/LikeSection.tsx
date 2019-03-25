@@ -1,6 +1,6 @@
 import React from 'react';
 
-import { Votable } from '../../../../../types';
+import { Votable } from '../../../../types';
 
 import './LikeSection.scss';
 

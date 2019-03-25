@@ -12,10 +12,9 @@ import './App.scss';
 
 /* 
 TODO:Roadmap 
-  -! Implement polls sorting 
-  -! Add Reset Password functionality 
-  -! Add error boundaries
   -! Rework voting system into a state-based one
+  -! Implement polls sorting 
+  -! Add error boundaries
   -! Make design responsive
   - Add functionality to view polls created by user
   - Add ability to place custom vote labels on polls

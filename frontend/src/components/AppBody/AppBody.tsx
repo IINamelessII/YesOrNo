@@ -3,8 +3,8 @@ import React from 'react';
 import { UserdataContext } from '../../contexts';
 
 import H1 from '../H1';
+import Polls from '../Polls';
 import GreetingPage from './GreetingPage';
-import Polls from './Polls';
 
 import './AppBody.scss';
 

@@ -1,12 +1,12 @@
 import React, { useState, useEffect } from 'react';
 import DjangoReactCSRFToken from 'django-react-csrftoken';
 
-import { withCentered } from '../hoc';
-import { classNames } from '../../utilities';
+import { withCentered } from '../../hoc';
+import { classNames } from '../../../utilities';
 
-import { Textarea } from '../Input';
-import { DummyPoll } from '../AppBody/Polls/Poll';
-import Button, { ContentButton } from '../Button';
+import { Textarea } from '../../Input';
+import { DummyPoll } from '../Poll';
+import Button, { ContentButton } from '../../Button';
 
 import './NewPoll.scss';
 

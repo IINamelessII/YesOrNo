@@ -1,6 +1,6 @@
 import React, { CSSProperties } from 'react';
 
-import { Votable } from '../../../../../types';
+import { Votable } from '../../../../types';
 
 import './VoteBar.scss';
 

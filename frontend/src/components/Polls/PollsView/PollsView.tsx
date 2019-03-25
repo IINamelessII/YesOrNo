@@ -3,8 +3,8 @@ import React, { useContext } from 'react';
 import { Poll as PollType, Votable, VoteFunctions } from '../../../types';
 import { UserdataContext } from '../../../contexts';
 
-import Poll from './Poll';
-import NewPoll from '../../NewPoll';
+import Poll from '../Poll';
+import NewPoll from '../NewPoll';
 
 import './PollsView.scss';
 

@@ -1,13 +1,11 @@
 import React from 'react';
 
-import { Votable, Poll as PollType, VoteFunctions } from '../../../../types';
+import { Votable, Poll as PollType, VoteFunctions } from '../../../types';
 
 import VoteBar from './VoteBar';
 import LikeSection from './LikeSection';
 
 import './Poll.scss';
-
-// TODO: Implement cool loading dummy poll component wow cool
 
 type Props = {
   poll: PollType;
