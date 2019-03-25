@@ -103,6 +103,7 @@ const NewPoll = ({ selectedFlow, addPollHandler, onToggleShow }: Props) => {
         error={error}
         onChange={onInputChange}
         className="add-poll__statement scrollable"
+        autoFocus
       />
 
       <Button
