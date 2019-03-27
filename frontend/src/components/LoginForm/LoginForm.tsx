@@ -22,7 +22,6 @@ type Props = {
   email?: string;
   children?: never;
   onToggleShow?: () => void;
-  updateProfile?: () => void;
 };
 
 type FieldErrors = {

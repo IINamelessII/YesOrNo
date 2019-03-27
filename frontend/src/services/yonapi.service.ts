@@ -8,10 +8,10 @@ axios.defaults.withCredentials = true;
 const URL = '';
 const API = `${URL}/api`;
 
-const getData = async <T extends object>(
+const getData = async (
   url: string,
   settings?: AxiosRequestConfig
-): Promise<T> => {
+): Promise<any> => {
   const response = await axios.get(url, settings);
 
   if (!/2[0-9]{2}/.test(response.status.toString())) {
@@ -79,7 +79,17 @@ const getPollsByUser = (
   settings?: AxiosRequestConfig
 ): Promise<Poll[]> => getData(`${API}/polls_by_user/${username}`, settings);
 
-const getUserdata = (): Promise<User> => getData(`${API}/profile/`);
+const getUserdata = (): Promise<User> =>
+  getData(`${API}/profile/`).then((data: User) => {
+    const changes = { ...data } as User;
+    if (data.is_auth && changes.is_auth) {
+      changes.voted['+'] = new Set(data.voted['+']);
+      changes.voted['-'] = new Set(data.voted['-']);
+      changes.rated['+'] = new Set(data.rated['+']);
+      changes.rated['-'] = new Set(data.rated['-']);
+    }
+    return { ...data, ...changes };
+  });
 
 // #endregion
 export const yonFetch = {

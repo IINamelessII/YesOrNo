@@ -26,7 +26,7 @@ const Header = () => {
             <Button label="Sign out" onClick={onSignout} flat />
           </>
         ) : (
-          <LoginForm updateProfile={updateProfile} showAsPopup />
+          <LoginForm showAsPopup />
         )}
       </div>
     </header>

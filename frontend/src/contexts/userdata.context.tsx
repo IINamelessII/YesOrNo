@@ -1,7 +1,9 @@
 import React from 'react';
 import { User } from '../types';
 
+const initialUserdata = { is_auth: false, message: null } as User;
+
 export const UserdataContext = React.createContext({
-  userdata: { is_auth: false, message: null } as User,
-  updateProfile: (() => Promise.resolve({} as User)) as () => Promise<any>,
+  userdata: initialUserdata,
+  updateProfile: (change?: User) => Promise.resolve(initialUserdata),
 });

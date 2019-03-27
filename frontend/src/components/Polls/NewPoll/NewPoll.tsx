@@ -12,7 +12,7 @@ import './NewPoll.scss';
 
 type Props = {
   selectedFlow: string;
-  addPollHandler: (statement: string) => Promise<any>;
+  addPoll: (statement: string) => Promise<any>;
   onToggleShow?: () => void;
 };
 
@@ -54,7 +54,7 @@ const useStatement = () => {
   return { statement, error, enterStatement, setError, calculateErrors };
 };
 
-const NewPoll = ({ selectedFlow, addPollHandler, onToggleShow }: Props) => {
+const NewPoll = ({ selectedFlow, addPoll, onToggleShow }: Props) => {
   const {
     statement,
     error,
@@ -74,15 +74,10 @@ const NewPoll = ({ selectedFlow, addPollHandler, onToggleShow }: Props) => {
     if (!calculateErrors() && statement && !uploading) {
       setUploading(true);
 
-      addPollHandler(statement)
-        .then(() => {
-          setUploading(false);
-          onToggleShow && onToggleShow();
-        })
-        .catch((err) => {
-          setUploading(false);
-          setError(err);
-        });
+      addPoll(statement.trim()).catch((err) => {
+        setUploading(false);
+        setError(err);
+      });
     }
   };
 

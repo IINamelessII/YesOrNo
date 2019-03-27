@@ -12,8 +12,6 @@ import './App.scss';
 
 /* 
 TODO:Roadmap 
-  -! Rework voting system into a state-based one
-  -! Implement polls sorting 
   -! Add error boundaries
   -! Make design responsive
   - Add functionality to view polls created by user
@@ -40,11 +38,16 @@ class App extends React.Component<{}, State> {
     this.updateProfile();
   }
 
-  updateProfile = () =>
-    yonFetch.getUserdata().then((userdata) => {
+  updateProfile = async (change?: User) => {
+    if (change) {
+      this.setState({ userdata: change });
+      return change;
+    } else {
+      const userdata = await yonFetch.getUserdata();
       this.setState({ userdata });
       return userdata;
-    });
+    }
+  };
 
   handleSelectFlow = (flowName: string) => {
     this.setState({ selectedFlow: flowName });

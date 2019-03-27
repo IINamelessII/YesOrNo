@@ -10,7 +10,7 @@ import './PollsView.scss';
 
 type Props = {
   selectedFlow: string;
-  addPollHandler: (statement: string) => Promise<any>;
+  addPoll: (statement: string) => Promise<any>;
   pollData: Array<{
     poll: PollType;
     voteRateData: { voted?: Votable; rated?: Votable };
@@ -18,7 +18,7 @@ type Props = {
   }>;
 };
 
-const PollsView = ({ pollData, selectedFlow, addPollHandler }: Props) => {
+const PollsView = ({ pollData, selectedFlow, addPoll }: Props) => {
   const { userdata } = useContext(UserdataContext);
 
   const content = [
@@ -26,7 +26,7 @@ const PollsView = ({ pollData, selectedFlow, addPollHandler }: Props) => {
       <NewPoll
         key="poll-new"
         selectedFlow={selectedFlow}
-        addPollHandler={addPollHandler}
+        addPoll={addPoll}
       />
     ) : pollData.length === 0 ? (
       <span className="polls__empty-message" key="poll-empty">

@@ -1,6 +1,6 @@
 type Votes = {
-  '+': number[];
-  '-': number[];
+  '+': Set<number>;
+  '-': Set<number>;
 };
 
 export type AuthenticatedUser = {
