@@ -9,7 +9,7 @@ import { Votable, VoteFunctions, Poll } from '../../../types';
 export const usePolls = (selectedFlow: string) => {
   const sortPolls = (polls: Polls) => polls.sort(byLikeData);
 
-  const fetchPolls = () => {
+  const fetchPolls = (soft?: boolean) => {
     // axios token for cancelling requests
     let token: CancelTokenSource | undefined;
     if (token) {
@@ -17,21 +17,22 @@ export const usePolls = (selectedFlow: string) => {
     }
     token = axios.CancelToken.source();
 
-    setLoading(true);
+    soft || setLoading(true);
 
     yonFetch
       .getPollsByFlow(selectedFlow, { cancelToken: token.token })
       .then((newPolls) => {
-        setLoading(false);
         setPolls(sortPolls(newPolls));
       })
       .catch((reason) => {
-        setLoading(false);
         if (!axios.isCancel(reason)) {
           setError(
             `An error occured! Please, refresh this page. Reason: ${reason}`
           );
         }
+      })
+      .finally(() => {
+        soft || setLoading(false);
       });
   };
 
@@ -112,7 +113,7 @@ export const usePolls = (selectedFlow: string) => {
 
   const addPoll = (statement: string) => {
     return polls.findIndex((poll) => poll.statement === statement) === -1
-      ? yonAdd.addPoll(selectedFlow, statement).then(() => fetchPolls())
+      ? yonAdd.addPoll(selectedFlow, statement).then(() => fetchPolls(true))
       : Promise.reject('Such poll already exists!');
   };
 
