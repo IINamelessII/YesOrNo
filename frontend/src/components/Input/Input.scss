@@ -77,7 +77,13 @@ $outer-padding: 0.1rem;
     background: #913b41;
     box-shadow: 0 2px 3px -1px #222;
 
-    animation: error-popup 0.25s forwards;
+    top: 0;
+    animation: error-popup-mobile 0.25s forwards;
+
+    @media screen and (min-width: $screen-break-small) {
+      top: unset;
+      animation: error-popup 0.25s forwards;
+    }
   }
 
   &--not-empty,
@@ -133,6 +139,19 @@ $outer-padding: 0.1rem;
   100% {
     opacity: 1;
     transform: translate(calc(0.5rem + 100%), 0);
+  }
+}
+
+@keyframes error-popup-mobile {
+
+  0% {
+    transform: translate(10%, 0);
+    opacity: 0;
+  }
+
+  100% {
+    opacity: 1;
+    transform: translate(10%, -60%);
   }
 }
 
