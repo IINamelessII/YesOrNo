@@ -51,3 +51,21 @@
     display: none;
   }
 }
+
+.login-section {
+  display: grid;
+  grid-auto-flow: column;
+  align-items: center;
+
+  &__greeting {
+    display: none;
+  }
+
+  @media screen and (min-width: $screen-break-small) {
+    column-gap: 0.5rem;
+
+    &__greeting {
+      display: flex;
+    }
+  }
+}

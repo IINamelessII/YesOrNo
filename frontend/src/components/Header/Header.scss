@@ -4,10 +4,11 @@
   z-index: 1000;
   position: fixed;
   top: 0;
+  left: 0;
   height: 3rem;
-  width: 100vw;
+  width: 100%;
+  padding: 0 0.75rem;
 
-  padding: 0 2rem;
   display: flex;
   justify-content: space-between;
   align-items: center;
@@ -15,10 +16,10 @@
   background: theme(header-bg);
   box-shadow: theme(header-shadow);
 
-  &__login-section {
-    display: grid;
-    grid-auto-flow: column;
-    column-gap: 0.5rem;
-    align-items: center;
+  @media screen and (min-width: $screen-break) {
+    height: 3rem;
+    width: 100vw;
+
+    padding: 0 2rem;
   }
 }

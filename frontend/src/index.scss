@@ -25,6 +25,11 @@ body {
   @extend .scrollable;
 }
 
+#root {
+  min-height: 100vh;
+  max-width: 100vw;
+}
+
 .scrollable {
 
   &::-webkit-scrollbar {
@@ -47,11 +52,6 @@ body {
   &::-webkit-scrollbar-track {
     background: transparent;
   }
-}
-
-#root {
-  min-height: 100vh;
-  width: 100vw;
 }
 
 input,

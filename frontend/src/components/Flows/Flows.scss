@@ -3,12 +3,12 @@
 .flows {
   display: flex;
   flex-direction: row;
-  justify-content: flex-end;
+  justify-content: center;
   align-items: flex-start;
   flex-wrap: wrap;
 
-  .body-header {
-    margin-bottom: 0.75rem;
+  @media screen and (min-width: $screen-break) {
+    justify-content: flex-end;
   }
 }
 
