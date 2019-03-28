@@ -16,5 +16,5 @@
   background: rgba(255, 255, 255, 0.05);
   @include stitched();
   border-radius: 0.5rem;
-  box-shadow: 0 3px 4px -1px #303030;
+  box-shadow: theme(elevate-higher);
 }

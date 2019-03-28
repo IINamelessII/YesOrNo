@@ -12,8 +12,9 @@ import './App.scss';
 
 /* 
 TODO:Roadmap 
-  -! Add error boundaries
   -! Make design responsive
+  -! Fix reset password functionality
+  -! Add error boundaries
   - Add functionality to view polls created by user
   - Add ability to place custom vote labels on polls
   ...

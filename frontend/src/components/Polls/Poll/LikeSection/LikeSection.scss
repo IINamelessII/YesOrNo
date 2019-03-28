@@ -1,13 +1,22 @@
 @import 'src/utilities/variables';
 
 .likesection {
-  $height: 1.4rem;
+  $height: 1.5rem;
+
+  position: absolute;
+  justify-self: center;
+  bottom: 0.5rem;
 
   display: grid;
   grid-auto-flow: column;
   align-items: center;
-  column-gap: 0.25rem;
-  padding-right: $height - 0.75rem;
+  column-gap: 0;
+  padding: 0 $height - 0.25rem;
+
+  @include stitched();
+  background: rgba(255, 255, 255, 0.03);
+  box-shadow: 0 2px 3px #444;
+  border-radius: 0.4rem;
 
   &__btn {
     height: $height;
@@ -19,10 +28,7 @@
     justify-content: center;
     align-items: center;
 
-    border-radius: 0.4rem;
     border: 1px solid transparent;
-    background: rgba(255, 255, 255, 0.05);
-    box-shadow: 0 1px 1px -1px #222;
 
     transition: 0.15s;
     cursor: pointer;
@@ -30,7 +36,7 @@
     &::before,
     &::after {
       filter: grayscale(0.5);
-      opacity: 0.3;
+      opacity: 0.4;
       transition: opacity 0.15s;
     }
 
@@ -41,9 +47,15 @@
       height: 100%;
       width: 100%;
 
+      padding: 0.25rem;
+
       background-size: 100%;
       background-repeat: no-repeat;
       background-position: 50%;
+
+      transform: translate(0, -1px);
+
+      transition: transform 0.15s;
     }
 
     &::after {
@@ -51,8 +63,18 @@
 
       display: block;
       position: absolute;
+      height: 1rem;
+      min-width: 1rem;
+
+      display: flex;
+      justify-content: center;
+      align-items: center;
 
       font-size: 0.8rem;
+
+      background: theme(pri);
+      border-radius: 50%;
+      box-shadow: 0 1px 2px #222;
     }
 
     &:hover {
@@ -87,9 +109,15 @@
     }
 
     &[data-pressed='true'] {
-      @include stitched();
       background: transparent;
-      box-shadow: none;
+
+      &::before {
+        transform: translate(0, 0);
+      }
+
+      &::after {
+        background: theme(pri);
+      }
     }
   }
 }
