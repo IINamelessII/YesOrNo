@@ -99,7 +99,7 @@ const useData = () => {
   };
 };
 
-const LoginForm = ({  }: Props) => {
+const LoginForm = ({ onToggleShow }: Props) => {
   const {
     process,
     switchProcess,
@@ -111,7 +111,13 @@ const LoginForm = ({  }: Props) => {
     setMessage,
   } = useData();
   const [uploading, setUploading] = useState(false);
-  const { updateProfile } = useContext(UserdataContext);
+  const { userdata, updateProfile } = useContext(UserdataContext);
+
+  useEffect(() => {
+    if (userdata.is_auth) {
+      onToggleShow && onToggleShow();
+    }
+  });
 
   const blockSubmit =
     uploading ||
@@ -189,6 +195,34 @@ const LoginForm = ({  }: Props) => {
   );
 };
 
+type LoginSectionProps = {
+  onToggleShow: (
+    e: React.MouseEvent<HTMLElement, MouseEvent> | React.FocusEvent<HTMLElement>
+  ) => void;
+  isShown: boolean;
+};
+
+const LoginSection = ({ onToggleShow, isShown }: LoginSectionProps) => {
+  const { userdata, updateProfile } = useContext(UserdataContext);
+
+  const onSignout = () => yonUser.logout().then(() => updateProfile());
+
+  return (
+    <div className="login-section">
+      {userdata.is_auth ? (
+        <>
+          <span className="login-section__greeting">{`Hello, ${
+            userdata.username
+          }!`}</span>
+          <Button label="Sign out" onClick={onSignout} flat />
+        </>
+      ) : (
+        <Button label="Sign in" onClick={onToggleShow} flat={isShown} />
+      )}
+    </div>
+  );
+};
+
 export default withCentered(LoginForm)((onToggleShow, isShown) => (
-  <Button label="Sign in" onClick={onToggleShow} flat={isShown} />
+  <LoginSection onToggleShow={onToggleShow} isShown={isShown} />
 ));
