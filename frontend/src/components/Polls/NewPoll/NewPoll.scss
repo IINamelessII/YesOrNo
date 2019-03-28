@@ -2,10 +2,12 @@
 
 .add-poll {
   position: relative;
-  width: 26rem;
-  height: 30rem;
 
-  padding: 5rem 3rem 4rem;
+  width: 90vw;
+  min-width: 18rem;
+  min-height: 70vh;
+
+  padding: 10vh 8vw 8vh;
   display: grid;
   grid-template-rows: auto auto 1fr auto;
   row-gap: 1rem;
@@ -40,6 +42,12 @@
 
   &__submit {
     width: 100%;
+  }
+
+  @media screen and (min-width: $screen-break-small) {
+    width: 26rem;
+    height: 30rem;
+    padding: 5rem 3rem 4rem;
   }
 }
 
