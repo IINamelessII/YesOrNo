@@ -22,7 +22,7 @@
   @include stitched();
 
   box-shadow: theme(elevate-normal);
-  transform: translate(0, -0.5px);
+  transform: translate(0, -2px);
 
   transition: transform 0.15s, box-shadow 0.15s;
 
