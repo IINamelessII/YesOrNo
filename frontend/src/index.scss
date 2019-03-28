@@ -1,11 +1,6 @@
 @import './utilities/variables';
 @import url('https://fonts.googleapis.com/css?family=Montserrat:400,500,600&subset=cyrillic');
 
-@font-face {
-  font-family: 'Courier New';
-  src: url(./static/fonts/cour.ttf) format('truetype');
-}
-
 html {
   color: #fff;
   font-family: 'Montserrat', sans-serif;
