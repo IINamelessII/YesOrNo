@@ -113,7 +113,10 @@ export const usePolls = (selectedFlow: string) => {
 
   const addPoll = (statement: string) => {
     return polls.findIndex((poll) => poll.statement === statement) === -1
-      ? yonAdd.addPoll(selectedFlow, statement).then(() => fetchPolls(true))
+      ? yonAdd
+          .addPoll(selectedFlow, statement)
+          .then(() => fetchPolls(true))
+          .catch((err) => setError(err))
       : Promise.reject('Such poll already exists!');
   };
 

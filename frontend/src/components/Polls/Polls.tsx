@@ -17,6 +17,8 @@ const Polls = ({ selectedFlow }: Props) => {
   const { userdata } = useContext(UserdataContext);
   const { pollData, loading, addPoll, error } = usePolls(selectedFlow);
 
+  // if (error) throw error;
+
   if (loading) return <Spinner mimicClass="polls" />;
 
   if (!userdata.is_auth && pollData.length === 0) {
