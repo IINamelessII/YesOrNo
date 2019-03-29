@@ -49,6 +49,13 @@
     height: 30rem;
     padding: 5rem 3rem 4rem;
   }
+
+  @media all and (orientation: landscape) and (max-device-height: $screen-break-small) {
+    height: 96vh;
+    width: 60vw;
+
+    padding: 4vh 4vw 3vh;
+  }
 }
 
 @keyframes fade-in {

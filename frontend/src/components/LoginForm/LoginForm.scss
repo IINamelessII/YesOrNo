@@ -15,47 +15,71 @@
   align-items: center;
 
   background: rgb(68, 68, 66);
-  box-shadow: 0 3px 10px rgba(0, 0, 0, 0.4);
+  box-shadow: 0 0px 6px #222;
   border-radius: 0.5rem;
+
+  @media screen and (min-width: $screen-break-small) {
+    width: 26rem;
+    height: 34rem;
+    padding: 5rem 3rem 1rem;
+  }
+
+  @media screen and (orientation: landscape) and (max-device-height: $screen-break-small) {
+    height: 96vh;
+    width: 70vw;
+
+    padding: 3vh 5vw 0;
+
+    overflow: auto;
+  }
 
   &__submit {
     width: 100%;
   }
 
   &__message {
+    z-index: -1;
     position: absolute;
-    right: 95%;
+    top: 0;
 
-    width: 10rem;
-    height: fit-content;
+    width: 100%;
+    padding: 0.5rem 0.5rem 1.5rem;
+    text-align: center;
 
-    padding: 0.5rem;
     display: flex;
-    align-items: flex-end;
+    justify-content: center;
 
     color: #fff;
     font-size: 0.8rem;
     line-height: 0.9rem;
     font-weight: bold;
 
-    border-radius: 0.25rem;
+    border-radius: 0.5rem;
     background: #616161;
-
-    box-shadow: 0 2px 3px #222;
 
     &--error {
       background: #913b41;
+    }
+
+    animation: message-popup-mobile 0.25s forwards;
+
+    @media screen and (min-width: $screen-break) {
+      z-index: unset;
+      top: unset;
+      right: 95%;
+
+      max-width: 10rem;
+
+      padding: 0.5rem;
+
+      box-shadow: 0 3px 6px -1px #222;
+
+      animation: message-popup 0.25s forwards;
     }
   }
 
   &--hidden {
     display: none;
-  }
-
-  @media screen and (min-width: $screen-break-small) {
-    width: 26rem;
-    height: 34rem;
-    padding: 5rem 3rem 1rem;
   }
 }
 
@@ -74,5 +98,31 @@
     &__greeting {
       display: flex;
     }
+  }
+}
+
+@keyframes message-popup {
+
+  0% {
+    transform: translate(20%, 0);
+    opacity: 0;
+  }
+
+  100% {
+    opacity: 1;
+    transform: translate(0, 0);
+  }
+}
+
+@keyframes message-popup-mobile {
+
+  0% {
+    transform: translate(0, 0);
+    opacity: 0;
+  }
+
+  100% {
+    opacity: 1;
+    transform: translate(0, calc(-100% + 1rem));
   }
 }

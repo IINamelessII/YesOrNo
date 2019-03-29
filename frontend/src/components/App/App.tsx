@@ -12,7 +12,6 @@ import './App.scss';
 
 /* 
 TODO:Roadmap 
-  -! Make design responsive
   -! Fix reset password functionality
   -! Add error boundaries
   - Add functionality to view polls created by user

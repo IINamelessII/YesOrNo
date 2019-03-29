@@ -75,13 +75,15 @@ const NewPoll = ({ selectedFlow, addPoll, onToggleShow }: Props) => {
       setUploading(true);
 
       addPoll(statement.trim())
-        .catch((err) => {
-          setError(err);
-        })
-        .finally(() => {
+        .then(() => {
           setUploading(false);
           onToggleShow && onToggleShow();
-        });
+
+        })
+        .catch((err) => {
+          setUploading(false);
+          setError(err);
+        })
     }
   };
 
