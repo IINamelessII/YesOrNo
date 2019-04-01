@@ -1,11 +1,11 @@
 import React, { useContext } from 'react';
 
-import { usePolls } from './hooks';
+import { usePolls } from '../../hooks';
 import { UserdataContext } from '../../contexts';
 
-import Spinner from '../Spinner';
-import NewPoll from './NewPoll';
 import Poll from './Poll/Poll';
+import NewPoll from './NewPoll';
+import Spinner from '../Spinner';
 
 import './Polls.scss';
 
@@ -15,11 +15,11 @@ export type Props = {
 
 const Polls = ({ selectedFlow }: Props) => {
   const { userdata } = useContext(UserdataContext);
-  const { pollData, loading, addPoll, error } = usePolls(selectedFlow);
+  const { pollData, pollsLoading, addPoll, error } = usePolls(selectedFlow);
 
   // if (error) throw error;
 
-  if (loading) return <Spinner mimicClass="polls" />;
+  if (pollsLoading) return <Spinner mimicClass="polls" />;
 
   if (!userdata.is_auth && pollData.length === 0) {
     return (

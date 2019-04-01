@@ -1,0 +1,16 @@
+.not-found {
+  grid-area: 1 / 1 / -1 / -1;
+
+  align-self: center;
+  justify-self: center;
+
+  height: 100%;
+  width: fit-content;
+
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+
+  animation: fade-in 0.5s forwards;
+}

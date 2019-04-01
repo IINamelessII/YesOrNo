@@ -1,7 +1,7 @@
 import React, { useState, useEffect, useContext } from 'react';
 import DjangoReactCSRFToken from 'django-react-csrftoken';
+import { withRouter, RouteComponentProps } from 'react-router';
 
-import { withCentered } from '../hoc';
 import { yonUser } from '../../services';
 import { Process } from './process.type';
 import { getProcessName } from './helpers';
@@ -16,14 +16,6 @@ import './LoginForm.scss';
 
 type InputEvent = React.ChangeEvent<HTMLInputElement>;
 
-type Props = {
-  login?: string;
-  password?: string;
-  email?: string;
-  children?: never;
-  onToggleShow?: () => void;
-};
-
 type FieldErrors = {
   username: string | boolean;
   password: string | boolean;
@@ -36,9 +28,7 @@ const initialErrors: FieldErrors = {
   email: false,
 };
 
-const useData = () => {
-  const [process, setProcess] = useState('signIn' as Process);
-
+const useData = (process: Process) => {
   const [username, setUsername] = useState('');
   const [password, setPassword] = useState('');
   const [email, setEmail] = useState('');
@@ -48,7 +38,7 @@ const useData = () => {
 
   const calculateErrors = (): boolean => {
     const errors =
-      process === 'register'
+      process === 'signup'
         ? {
             username: username.length === 0 && 'Enter username',
             password: password.length < 8 && 'Too short',
@@ -75,21 +65,12 @@ const useData = () => {
     }
   };
 
-  const switchProcess = (newProcess: Process) => {
-    if (newProcess !== process) {
-      setProcess(newProcess);
-      setErrors(initialErrors);
-    }
-  };
-
   useEffect(() => {
     calculateErrors();
     setMessage(null);
   }, [email, username, password]);
 
   return {
-    process,
-    switchProcess,
     values: { username, password, email },
     onInputChange,
     errors,
@@ -99,30 +80,42 @@ const useData = () => {
   };
 };
 
-const LoginForm = ({ onToggleShow }: Props) => {
+type Props = {
+  children?: never;
+} & RouteComponentProps<{ process?: Process }>;
+
+const LoginForm = ({ match, history }: Props) => {
+  const process = match.params.process || 'signin';
   const {
-    process,
-    switchProcess,
     values,
     onInputChange,
     errors,
     calculateErrors,
     message,
     setMessage,
-  } = useData();
+  } = useData(process);
+
   const [uploading, setUploading] = useState(false);
   const { userdata, updateProfile } = useContext(UserdataContext);
 
+  const closeForm = () => {
+    history.push('/');
+  };
+
   useEffect(() => {
     if (userdata.is_auth) {
-      onToggleShow && onToggleShow();
+      closeForm();
     }
-  });
+  }, [userdata.is_auth]);
 
   const blockSubmit =
     uploading ||
-    (process === 'register' &&
+    (process === 'signup' &&
       !!(errors.username || errors.password || errors.email));
+
+  const switchProcess = (newProcess: Process) => {
+    history.push(`/user/${newProcess}`);
+  };
 
   const onSubmit = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
@@ -140,11 +133,11 @@ const LoginForm = ({ onToggleShow }: Props) => {
       };
 
       switch (process) {
-        case 'signIn':
+        case 'signin':
           setUploading(true);
           yonUser.auth(username, password).then(onActionPerformed);
           break;
-        case 'register':
+        case 'signup':
           if (!calculateErrors()) {
             setUploading(true);
             yonUser.register(email, username, password).then(onActionPerformed);
@@ -195,34 +188,6 @@ const LoginForm = ({ onToggleShow }: Props) => {
   );
 };
 
-type LoginSectionProps = {
-  onToggleShow: (
-    e: React.MouseEvent<HTMLElement, MouseEvent> | React.FocusEvent<HTMLElement>
-  ) => void;
-  isShown: boolean;
-};
-
-const LoginSection = ({ onToggleShow, isShown }: LoginSectionProps) => {
-  const { userdata, updateProfile } = useContext(UserdataContext);
-
-  const onSignout = () => yonUser.logout().then(() => updateProfile());
-
-  return (
-    <div className="login-section">
-      {userdata.is_auth ? (
-        <>
-          <span className="login-section__greeting">{`Hello, ${
-            userdata.username
-          }!`}</span>
-          <Button label="Sign out" onClick={onSignout} flat />
-        </>
-      ) : (
-        <Button label="Sign in" onClick={onToggleShow} flat={isShown} />
-      )}
-    </div>
-  );
-};
-
-export default withCentered(LoginForm)((onToggleShow, isShown) => (
-  <LoginSection onToggleShow={onToggleShow} isShown={isShown} />
+export default withRouter(({ staticContext, children, ...props }) => (
+  <LoginForm {...props} />
 ));

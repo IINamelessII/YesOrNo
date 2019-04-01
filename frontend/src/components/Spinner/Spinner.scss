@@ -1,13 +1,12 @@
 .spinner {
-  background: url(Spinner.png);
-  background-size: 100%;
+  grid-area: 1 / 1 / -1 / -1;
+  align-self: center;
+  justify-self: center;
 
   height: 3rem;
   width: 3rem;
 
-  align-self: center;
-  justify-self: center;
-
+  padding: 0;
   display: flex;
   justify-content: center;
   align-items: center;
@@ -16,6 +15,16 @@
 
   animation: fade-in 3s ease-in 1s 1, spinning 1.5s ease-in-out 0s infinite;
   animation-fill-mode: forwards;
+
+  &::before {
+    content: '';
+
+    height: 100%;
+    width: 100%;
+
+    background: url(Spinner.png);
+    background-size: 100%;
+  }
 }
 
 @keyframes spinning {

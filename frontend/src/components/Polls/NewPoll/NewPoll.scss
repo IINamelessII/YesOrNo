@@ -1,8 +1,6 @@
 @import 'src/utilities/variables';
 
 .add-poll {
-  position: relative;
-
   width: 90vw;
   min-width: 18rem;
   min-height: 70vh;
@@ -72,8 +70,6 @@
 .add-poll-trigger {
   $plus-size: 5rem;
 
-  position: relative;
-
   height: 100%;
   width: 100%;
   font-size: $plus-size / 2;
@@ -84,6 +80,10 @@
 
   &__msg {
     color: #dadada;
+
+    display: flex;
+    justify-content: center;
+    align-items: center;
 
     transition: opacity 0.15s;
   }

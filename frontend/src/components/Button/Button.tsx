@@ -4,13 +4,16 @@ import { classNames } from '../../utilities';
 
 import './Button.scss';
 
-type Props = {
-  label: string;
+type StyleProps = {
   flat?: boolean;
   secondary?: boolean;
   small?: boolean;
   large?: boolean;
 };
+
+type Props = {
+  label: string;
+} & StyleProps;
 
 const Button = ({
   label = 'Button',
@@ -38,6 +41,8 @@ const Button = ({
   );
 };
 
+type ContentButtonProps = StyleProps;
+
 export const ContentButton = ({
   children = 'Button',
   flat,
@@ -46,10 +51,11 @@ export const ContentButton = ({
   large,
   className = '',
   ...buttonProps
-}: React.HTMLProps<HTMLDivElement> & Props) => {
+}: React.HTMLProps<HTMLDivElement> & ContentButtonProps) => {
   return (
     <div
       className={classNames(
+        'content-button',
         'button',
         { 'button--flat': flat },
         { 'button--secondary': secondary },

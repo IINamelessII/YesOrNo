@@ -12,17 +12,17 @@ type Props = {
 export const BottomStatement = ({ process, onProcessSelect }: Props) => {
   return (
     <div className="bottom-statement">
-      {process === 'signIn' ? (
+      {process === 'signin' ? (
         <div
           className="bottom-statement__phrase"
           onClick={() => onProcessSelect('resetPassword')}
         >
           Forgot password?
         </div>
-      ) : process === 'register' ? (
+      ) : process === 'signup' ? (
         <div
           className="bottom-statement__phrase"
-          onClick={() => onProcessSelect('signIn')}
+          onClick={() => onProcessSelect('signin')}
         >
           Already have an account?
         </div>

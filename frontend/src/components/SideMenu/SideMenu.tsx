@@ -5,20 +5,16 @@ import Flows from '../Flows';
 import './SideMenu.scss';
 
 type Props = {
-  flowsProps: {
-    selectedFlow: string | null;
-    handleSelectFlow: (flowName: string) => void;
-  };
-  loggedIn: boolean;
+  selectedFlow?: string;
 };
 
 class SideMenu extends React.Component<Props, {}> {
   render() {
-    const { flowsProps } = this.props;
+    const { selectedFlow } = this.props;
 
     return (
       <nav className="sidemenu">
-        <Flows {...flowsProps} />
+        <Flows selectedFlow={selectedFlow} />
       </nav>
     );
   }

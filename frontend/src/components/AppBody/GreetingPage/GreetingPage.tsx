@@ -29,7 +29,7 @@ const GreetingPage = () => {
       <H1>Welcome to YesOrNo!</H1>
       <div className="greeting-page__content">
         <p>
-          Each tester {onAuthMessage} is recommended to register / sign in and
+          Each tester {onAuthMessage} is recommended to signup / sign in and
           add at least 5 polls distributed among any flows and also vote in
           polls created by other users.
         </p>

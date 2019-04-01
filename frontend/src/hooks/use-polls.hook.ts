@@ -1,14 +1,11 @@
 import axios, { CancelTokenSource } from 'axios';
 import { useState, useContext, useEffect } from 'react';
 
-import { UserdataContext } from '../../../contexts';
-import { yonFetch, yonVote, yonAdd } from '../../../services';
-import { byLikeData, getVoteRateData } from '../helpers';
-import { Votable, VoteFunctions, Poll } from '../../../types';
+import { UserdataContext } from '../contexts';
+import { yonFetch, yonVote, yonAdd } from '../services';
+import { Votable, VoteFunctions, Poll, User } from '../types';
 
 export const usePolls = (selectedFlow: string) => {
-  const sortPolls = (polls: Polls) => polls.sort(byLikeData);
-
   const fetchPolls = (soft?: boolean) => {
     // axios token for cancelling requests
     let token: CancelTokenSource | undefined;
@@ -19,16 +16,19 @@ export const usePolls = (selectedFlow: string) => {
 
     soft || setLoading(true);
 
-    yonFetch
-      .getPollsByFlow(selectedFlow, { cancelToken: token.token })
+    (selectedFlow === 'All polls'
+      ? yonFetch.getAllPolls({ cancelToken: token.token })
+      : yonFetch.getPollsByFlow(selectedFlow, { cancelToken: token.token })
+    )
       .then((newPolls) => {
-        setPolls(sortPolls(newPolls));
+        setPolls(sortPollsByLikes(newPolls));
       })
       .catch((reason) => {
         if (!axios.isCancel(reason)) {
           setError(
-            `An error occured! Please, refresh this page. Reason: ${reason}`
+            `An error occured! Please, check your connection and refresh this page. Reason: ${reason}`
           );
+          setPolls([]);
         }
       })
       .finally(() => {
@@ -134,9 +134,32 @@ export const usePolls = (selectedFlow: string) => {
   return {
     pollData: createPollData(),
     addPoll,
-    loading,
+    pollsLoading: loading,
     error,
   };
 };
 
 type Polls = Poll[];
+
+const getVoteRateData = (userdata: User) => (poll: Poll) =>
+  userdata.is_auth
+    ? {
+        voted: (userdata.voted['+'].has(poll.id)
+          ? '+'
+          : userdata.voted['-'].has(poll.id)
+          ? '-'
+          : undefined) as Votable | undefined,
+        rated: (userdata.rated['+'].has(poll.id)
+          ? '+'
+          : userdata.rated['-'].has(poll.id)
+          ? '-'
+          : undefined) as Votable | undefined,
+      }
+    : {};
+
+const sortPollsByLikes = (polls: Poll[]): Poll[] =>
+  polls.sort((prev, next) => likeRateOf(next) - likeRateOf(prev));
+
+const likeRateOf = ({ likes, dislikes }: Poll): number => {
+  return likes + dislikes >= 3 ? likes / (likes + dislikes) : Infinity;
+};

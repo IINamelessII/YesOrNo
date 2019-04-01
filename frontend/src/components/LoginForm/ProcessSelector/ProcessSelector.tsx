@@ -12,7 +12,7 @@ type Props = {
 };
 
 export const ProcessSelector = ({ process, onProcessSelect }: Props) => {
-  const processes: Process[] = ['signIn', 'register'];
+  const processes: Process[] = ['signin', 'signup'];
   if (process === 'resetPassword') {
     processes.push('resetPassword');
   }
@@ -21,12 +21,15 @@ export const ProcessSelector = ({ process, onProcessSelect }: Props) => {
     <div className="process-select">
       {processes.map((proc, idx) => (
         <span
-          className={classNames('process-select__process', {
-            'process-select__process--selected': proc === process,
-          },
-          {
-            'process-select__process--reset-pass': proc === 'resetPassword'
-          })}
+          className={classNames(
+            'process-select__process',
+            {
+              'process-select__process--selected': proc === process,
+            },
+            {
+              'process-select__process--reset-pass': proc === 'resetPassword',
+            }
+          )}
           key={`proc-${process}-${idx}`}
           onClick={() => (proc !== process ? onProcessSelect(proc) : null)}
         >

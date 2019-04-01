@@ -1,0 +1,21 @@
+@import 'src/utilities/variables';
+
+.login-section {
+  display: grid;
+  grid-auto-flow: column;
+  align-items: center;
+
+  animation: fade-in 0.5s forwards;
+
+  &__greeting {
+    display: none;
+  }
+
+  @media screen and (min-width: $screen-break-small) {
+    column-gap: 0.5rem;
+
+    &__greeting {
+      display: flex;
+    }
+  }
+}

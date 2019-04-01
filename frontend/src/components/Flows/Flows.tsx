@@ -1,69 +1,55 @@
-import React from 'react';
-import { yonFetch } from '../../services';
+import React, { useContext } from 'react';
+import { withRouter, RouteComponentProps } from 'react-router';
 
-import { Flow as FlowType } from '../../types';
-import Spinner from '../Spinner';
+import { FlowsContext } from '../../contexts';
+
+import H1 from '../H1';
 import Button from '../Button';
+import Spinner from '../Spinner';
 
 import './Flows.scss';
-import H1 from '../H1';
 
 type Props = {
-  selectedFlow: string | null;
-  loggedIn?: boolean;
-  handleSelectFlow: (flowName: string) => void;
-};
+  selectedFlow: string | undefined;
+} & RouteComponentProps;
 
-type State = {
-  flows: FlowType[] | null;
-};
+const Flows = ({ history, selectedFlow }: Props) => {
+  const { flows, flowsLoading } = useContext(FlowsContext);
 
-class Flows extends React.Component<Props, State> {
-  state: State = {
-    flows: null,
-  };
+  if (flowsLoading) return <Spinner mimicClass="flows" />;
 
-  componentDidMount() {
-    yonFetch.getFlows().then((flows) => this.setState({ flows }));
-  }
+  const isEmpty = flows.length === 0;
 
-  render() {
-    const { selectedFlow, handleSelectFlow, loggedIn = false } = this.props;
-    const { flows } = this.state;
+  const flowShow = isEmpty ? (
+    <div className="flow">Whoops! No flows!</div>
+  ) : (
+    flows.map((flow) => (
+      <Button
+        className="flow"
+        key={`flow-${flow.id}`}
+        label={flow.name}
+        secondary={flow.name === selectedFlow}
+        onClick={() => history.push(`/polls/${flow.name.split(' ').join('_')}`)}
+      />
+    ))
+  );
 
-    if (flows === null) {
-      return <Spinner mimicClass="flows" />;
-    }
-
-    const empty = flows.length === 0;
-
-    const flowShow = empty ? (
-      <div className="flow">Whoops! Empty!</div>
-    ) : (
-      flows.map((flow) => (
+  return (
+    <div className="flows">
+      <H1>Choose a flow</H1>
+      {!isEmpty && (
         <Button
           className="flow"
-          key={`flow-${flow.id}`}
-          label={flow.name}
-          secondary={flow.name === selectedFlow}
-          onClick={() => handleSelectFlow(flow.name)}
+          key="flow-all"
+          label="All"
+          onClick={() => history.push(`/polls`)}
+          secondary={selectedFlow === 'All polls'}
+          flat
         />
-      ))
-    );
+      )}
+      {flowShow}
+    </div>
+  );
+};
 
-    return (
-      <div className="flows">
-        <H1>Choose a flow</H1>
-        {flowShow}
-      </div>
-    );
-  }
-}
-
-export default Flows;
-
-// export default React.memo(
-//   Flows,
-//   ({ selectedFlow, loggedIn }, props) =>
-//     selectedFlow === props.selectedFlow || loggedIn === props.loggedIn
-// );
+export default withRouter(Flows);

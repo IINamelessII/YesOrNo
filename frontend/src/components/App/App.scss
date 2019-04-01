@@ -3,8 +3,10 @@
 $mob-gap: 0.75rem;
 
 .app {
-  box-sizing: border-box;
+  position: relative;
+
   width: 100vw;
+  min-height: 100vh;
 
   display: grid;
 
@@ -37,5 +39,17 @@ $mob-gap: 0.75rem;
 
   .sidemenu {
     grid-area: sidemenu;
+  }
+
+  .login-form {
+    justify-self: center;
+    align-self: stretch;
+
+    grid-area: 3 / 1 / -1 / -1;
+
+    @media screen and (min-width: $screen-break) {
+      grid-area: 1 / 1 / -1 / -1;
+      align-self: center;
+    }
   }
 }

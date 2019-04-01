@@ -1,11 +1,10 @@
 @import 'src/utilities/variables';
 
 .sidemenu {
-  position: relative;
-  z-index: 50;
-
   margin: 0;
 
   display: flex;
   flex-direction: column;
+
+  animation: fade-in 1s forwards;
 }

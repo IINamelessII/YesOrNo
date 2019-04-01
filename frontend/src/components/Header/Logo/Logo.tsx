@@ -1,14 +1,16 @@
 import React from 'react';
 
+import { withRouter, RouteComponentProps } from 'react-router';
+
 import './Logo.scss';
 
-const Logo = () => {
+const Logo = ({ history }: RouteComponentProps) => {
   return (
-    <div className="logo">
+    <div className="logo" onClick={() => history.push('/home')}>
       <div className="logo__icon" />
       <div className="logo__splash">Yes|No</div>
     </div>
   );
 };
 
-export default Logo;
+export default withRouter(Logo);

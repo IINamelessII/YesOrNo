@@ -52,6 +52,10 @@
       font-size: 0.9rem;
 
       border-radius: 0.35rem;
+
+      will-change: width;
+
+      transition: width 0.25s;
     }
 
     &::before {
@@ -62,10 +66,6 @@
 
       background: transparentize(theme(pri), 0.5);
       box-shadow: 0 1px 2px -1px #222;
-
-      will-change: width;
-
-      transition: width 0.15s;
     }
 
     &::after {

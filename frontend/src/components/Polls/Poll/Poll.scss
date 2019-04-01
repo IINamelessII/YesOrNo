@@ -22,17 +22,6 @@
   @include stitched();
   box-shadow: theme(elevate-normal);
 
-  @media screen and (min-width: $screen-break) {
-    transform: translate(0, -2px);
-
-    transition: transform 0.15s, box-shadow 0.15s;
-
-    &:hover {
-      transform: translate(0, 0);
-      box-shadow: theme(elevate-lower);
-    }
-  }
-
   &__statement {
     grid-area: name;
     width: 100%;

@@ -1,8 +1,8 @@
 import { Process } from '../process.type';
 
 export const getProcessName = (process: Process) =>
-  process === 'signIn'
+  process === 'signin'
     ? 'Sign in'
-    : process === 'register'
+    : process === 'signup'
     ? 'Sign Up'
     : 'Reset Password';

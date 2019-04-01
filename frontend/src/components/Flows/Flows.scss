@@ -26,7 +26,8 @@
 
   transition: transform 0.15s, box-shadow 0.15s;
 
-  &:hover {
+  &:hover,
+  &.button--secondary {
     transform: translate(0, 0);
     box-shadow: theme(elevate-lower);
   }

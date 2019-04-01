@@ -1,7 +1,7 @@
 import React from 'react';
 
 import Logo from './Logo';
-import LoginFormTrigger from '../LoginForm';
+import { Trigger as LoginFormTrigger } from '../LoginForm';
 
 import './Header.scss';
 
@@ -10,7 +10,7 @@ const Header = () => {
     <header className="app-header">
       <Logo />
 
-      <LoginFormTrigger showAsPopup />
+      <LoginFormTrigger />
     </header>
   );
 };

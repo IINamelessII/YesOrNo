@@ -5,10 +5,11 @@
   position: fixed;
   top: 0;
   left: 0;
-  height: 3rem;
-  width: 100%;
-  padding: 0 0.75rem;
 
+  height: 3rem;
+  width: 100vw;
+
+  padding: 0 0.75rem;
   display: flex;
   justify-content: space-between;
   align-items: center;
@@ -17,9 +18,6 @@
   box-shadow: theme(header-shadow);
 
   @media screen and (min-width: $screen-break) {
-    height: 3rem;
-    width: 100vw;
-
     padding: 0 2rem;
   }
 }

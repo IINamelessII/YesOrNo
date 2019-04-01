@@ -1,1 +1,1 @@
-export type Process = 'signIn' | 'register' | 'resetPassword';
+export type Process = 'signin' | 'signup' | 'resetPassword';

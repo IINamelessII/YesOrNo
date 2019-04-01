@@ -78,12 +78,11 @@ const NewPoll = ({ selectedFlow, addPoll, onToggleShow }: Props) => {
         .then(() => {
           setUploading(false);
           onToggleShow && onToggleShow();
-
         })
         .catch((err) => {
           setUploading(false);
           setError(err);
-        })
+        });
     }
   };
 
@@ -139,7 +138,7 @@ export default withCentered(NewPoll)((onToggleShow, isShown) => (
         }}
       />
     ) : (
-      <span className="add-poll-trigger__msg">New poll</span>
+      <div className="add-poll-trigger__msg">New poll</div>
     )}
   </ContentButton>
 ));

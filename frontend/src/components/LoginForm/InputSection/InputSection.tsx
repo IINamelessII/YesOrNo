@@ -19,9 +19,9 @@ type Props = {
 
 export const InputSection = ({ process, errors, ...props }: Props) => {
   const sectionContent =
-    process === 'signIn' ? (
+    process === 'signin' ? (
       <SignIn errors={{}} {...props as SignInProps} />
-    ) : process === 'register' ? (
+    ) : process === 'signup' ? (
       <Register errors={errors} {...props as RegisterProps} />
     ) : (
       <ResetPassword errors={{}} {...props as ResetPasswordProps} />
