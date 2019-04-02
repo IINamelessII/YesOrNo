@@ -52,7 +52,7 @@ class PollByUserList(generics.ListAPIView):
 
     def get_queryset(self):
         try:
-            return sorted(Poll.objects.filter(owner=self.request.user), reverse=True, key=lambda x: x.rate)
+            return Poll.objects.filter(owner=self.request.user)
         except:
             return None
 
