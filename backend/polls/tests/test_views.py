@@ -11,13 +11,13 @@ class TestPollByFlowNameList(TestCase):
 
     def test_get_queryset(self):
         view = PollByFlowNameList(kwargs={'flow_name': self.flow_model.name})
-        polls = sorted(Poll.objects.filter(flow__name=self.flow_model.name), 
-            reverse=True, key=lambda x: x.rate)
-        self.assertEquals(view.get_queryset(), polls)
+        polls = Poll.objects.filter(flow__name=self.flow_model.name)
+        self.assertQuerysetEqual(view.get_queryset(), map(repr, polls))
     
     def test_get_queryser_empty(self):
         view = PollByFlowNameList(kwargs={'flow_name': ''})
-        self.assertEquals(view.get_queryset(), [])
+        polls = Poll.objects.filter(flow__name='')
+        self.assertQuerysetEqual(view.get_queryset(), map(repr, polls))
     
     def test_get_queryser_fail(self):
         view = PollByFlowNameList(kwargs={'not_a_flow_name': 'some'})
