@@ -3,32 +3,45 @@ from django.contrib.auth.models import User
 from django.test import TestCase
 from model_mommy import mommy
 from frontend.models import Profile
+from polls.models import Poll
 
 
 class TestProfile(TestCase):
     def setUp(self):
         self.user_model = mommy.make('User')
         self.model = Profile.objects.get(user=self.user_model)
+        self.poll_model = mommy.make('Poll')
     
     def test_str(self):
         self.assertEquals(str(self.model), self.model.user.username)
 
-    # def test_voteYes_voted_was_false(self):
-    #     poll_id = randint(1, 2147483647)
-    #     self.model.voted[poll_id] = False
-    #     self.model.voteYes(poll_id)
-    #     self.assertEquals(self.model.voted[poll_id], True)
+    def test_voteYes_voted_was_false(self):
+        poll_id = self.poll_model.id
+        if self.poll_model.disagree == 0:
+            self.poll_model.disagree = 1
+        self.poll_model.save()
+        self.model.voted['-'].append(poll_id)
+        self.model.save()
+        self.model.voteYes(poll_id)
+        self.assertEquals(poll_id in self.model.voted['+'], True)
+        self.assertEquals(poll_id in self.model.voted['-'], False)
 
-    # def test_voteYes_voted_was_true(self):
-    #     poll_id = randint(1, 2147483647)
-    #     self.model.voted[poll_id] = True
-    #     self.model.voteYes(poll_id)
-    #     self.assertEquals(self.model.voted[poll_id], True)
+    def test_voteYes_voted_was_true(self):
+        poll_id = self.poll_model.id
+        if self.poll_model.agree == 0:
+            self.poll_model.agree = 1
+        self.poll_model.save()
+        self.model.voted['+'].append(poll_id)
+        self.model.save()
+        self.model.voteYes(poll_id)
+        self.assertEquals(poll_id in self.model.voted['+'], False)
+        self.assertEquals(poll_id in self.model.voted['-'], False)
     
-    # def test_voteYes_voted_wasnt(self):
-    #     poll_id = randint(1, 2147483647)
-    #     self.model.voteYes(poll_id)
-    #     self.assertEquals(self.model.voted[poll_id], True)
+    def test_voteYes_voted_wasnt(self):
+        poll_id = self.poll_model.id
+        self.model.voteYes(poll_id)
+        self.assertEquals(poll_id in self.model.voted['+'], True)
+        self.assertEquals(poll_id in self.model.voted['-'], False)
     
     # def test_voteNo_voted_was_false(self):
     #     poll_id = randint(1, 2147483647)
