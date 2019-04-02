@@ -163,7 +163,7 @@ def reset_password_link(request, uemailb64, token):
         else:
             request.session['message'] = None
             request.session['message_was_showed'] = True
-            return render(request, 'frontend/resetPassForm.html')
+            return render(request, os.path.join(settings.REACT_APP_DIR, 'build', 'index.html'))
     else:
         message = 'Sorry, this link is not valid'
     request.session['message'] = message
