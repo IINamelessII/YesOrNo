@@ -110,7 +110,7 @@ class TestProfile(TestCase):
         self.assertEquals(poll_id in self.model.rated['+'], False)
         self.assertEquals(poll_id in self.model.rated['-'], False)
 
-    def test_rateDislike_rate_was_dislike(self):
+    def test_rateDislike_rate_was_like(self):
         poll_id = self.poll_model.id
         if self.poll_model.likes == 0:
             self.poll_model.likes = 1
