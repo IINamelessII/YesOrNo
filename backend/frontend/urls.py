@@ -1,4 +1,4 @@
-from django.urls import path
+from django.urls import path, re_path
 from django.conf.urls import url
 from frontend import views
 
@@ -20,3 +20,7 @@ urlpatterns = [
     path('addPoll/', views.addPoll, name='addPoll'),
     url(r'api/profile/', views.ProfileById.as_view())
 ]
+
+#Urls for React routing
+urlpatterns += [path(url, views.index) for url in ('home', 'polls', 'user/signin', 'user/signup', 'user/resetPassword')]
+urlpatterns += [re_path(r'polls/[0-9A-Za-z_\-]+', views.index)]
