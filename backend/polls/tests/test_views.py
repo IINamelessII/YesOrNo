@@ -1,11 +1,9 @@
-from importlib import import_module
-from django.conf import settings
+from random import randint
 from django.contrib.auth.models import User
 from django.test import TestCase
-from rest_framework.test import APIRequestFactory, force_authenticate
 from model_mommy import mommy
 from polls.models import Flow, Poll
-from polls.views import PollByFlowNameList, PollByUserList
+from polls.views import PollByFlowNameList, PollByUserList, ShortPollById
 
 
 class TestPollByFlowNameList(TestCase):
@@ -33,7 +31,7 @@ class TestPollByUserList(TestCase):
         self.user_model = mommy.make('User')
         self.flow_model = mommy.make('Flow')
         self.view = PollByUserList
-        
+
         class Request():
             def __init__(request_self):
                 request_self.user = self.user_model
@@ -56,3 +54,23 @@ class TestPollByUserList(TestCase):
         view = self.view()
         polls = Poll.objects.filter(owner=self.user_model)
         self.assertEquals(view.get_queryset(), None)
+
+
+class TestShortPollById(TestCase):
+    def setUp(self):
+        self.poll_model = mommy.make('Poll')
+        self.view = ShortPollById
+
+    def test_get_queryset(self):
+        view = self.view(kwargs={'id': self.poll_model.id})
+        poll = Poll.objects.get(pk=self.poll_model.id)
+        self.assertEquals(view.get_object(), poll)
+    
+    def test_get_queryset_empty(self):
+        id = randint(1, 2147483647)
+        view = self.view(kwargs={'id': id})
+        self.assertEquals(view.get_object().status_code, 404)
+    
+    def test_get_queryset_fail(self):
+        view = self.view(kwargs={'not_a_flow_name': 'some'})
+        self.assertEquals(view.get_object().status_code, 404)
