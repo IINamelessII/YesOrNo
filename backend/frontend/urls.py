@@ -23,4 +23,6 @@ urlpatterns = [
 
 #Urls for React routing
 urlpatterns += [path(url, views.index) for url in ('home', 'polls', 'user/signin', 'user/signup', 'user/resetPassword')]
-urlpatterns += [re_path(r'polls/[0-9A-Za-z_\-]+', views.index)]
+urlpatterns += [re_path(r'polls/[0-9A-Za-z_\-]+', views.index),]
+#404 for React routing
+urlpatterns += [re_path(r'^(?:.*)/?$', views.index),]
