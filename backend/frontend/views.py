@@ -190,13 +190,13 @@ def reset_password_form(request, uemailb64, token):
 # @transaction.atomic
 def voteYes(request):
     data = json.loads(request.body.decode('utf-8'))
-    # try:
-    profile = Profile.objects.get(user=request.user)
-    profile.voteYes(data['id'])
-# except:
-#     return HttpResponse(status=500)
-# else:
-    return HttpResponse(status=204)
+    try:
+        profile = Profile.objects.get(user=request.user)
+        profile.voteYes(data['id'])
+    except:
+        return HttpResponse(status=500)
+    else:
+        return HttpResponse(status=204)
     
 
 @ensure_csrf_cookie
