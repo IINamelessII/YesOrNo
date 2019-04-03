@@ -15,7 +15,9 @@ export type Props = {
 
 const Polls = ({ selectedFlow }: Props) => {
   const { userdata } = useContext(UserdataContext);
-  const { pollData, pollsLoading, addPoll, error } = usePolls(selectedFlow);
+  const { pollData, pollsLoading, addPoll, error, addable } = usePolls(
+    selectedFlow
+  );
 
   // if (error) throw error;
 
@@ -42,13 +44,14 @@ const Polls = ({ selectedFlow }: Props) => {
     );
   });
 
-  if (userdata.is_auth) {
-    pollElements.unshift(
-      <NewPoll key="poll-new" selectedFlow={selectedFlow} addPoll={addPoll} />
-    );
-  }
-
-  return <section className="polls">{pollElements}</section>;
+  return (
+    <section className="polls">
+      {userdata.is_auth && addable && (
+        <NewPoll key="poll-new" selectedFlow={selectedFlow} addPoll={addPoll} />
+      )}
+      {pollElements}
+    </section>
+  );
 };
 
 export default Polls;

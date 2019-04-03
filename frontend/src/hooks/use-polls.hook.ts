@@ -6,7 +6,7 @@ import { yonFetch, yonVote, yonAdd } from '../services';
 import { Votable, VoteFunctions, Poll, User } from '../types';
 
 export const usePolls = (selectedFlow: string) => {
-  const fetchPolls = (soft?: boolean) => {
+  const fetchPolls = async (soft?: boolean) => {
     // axios token for cancelling requests
     let token: CancelTokenSource | undefined;
     if (token) {
@@ -15,25 +15,23 @@ export const usePolls = (selectedFlow: string) => {
     token = axios.CancelToken.source();
 
     soft || setLoading(true);
+    setAddable(false);
 
-    (selectedFlow === 'All polls'
-      ? yonFetch.getAllPolls({ cancelToken: token.token })
-      : yonFetch.getPollsByFlow(selectedFlow, { cancelToken: token.token })
-    )
-      .then((newPolls) => {
-        setPolls(sortPollsByLikes(newPolls));
-      })
-      .catch((reason) => {
-        if (!axios.isCancel(reason)) {
-          setError(
-            `An error occured! Please, check your connection and refresh this page. Reason: ${reason}`
-          );
-          setPolls([]);
-        }
-      })
-      .finally(() => {
-        soft || setLoading(false);
-      });
+    try {
+      const newPolls = await (selectedFlow === 'All polls'
+        ? yonFetch.getAllPolls({ cancelToken: token.token })
+        : yonFetch.getPollsByFlow(selectedFlow, { cancelToken: token.token }));
+
+      setPolls(sortPollsByLikes(newPolls));
+      selectedFlow !== 'All polls' && setAddable(true);
+    } catch (err) {
+      setError(
+        `An error occured! Please, check your connection and refresh this page. Reason: ${err}`
+      );
+      setPolls([]);
+    } finally {
+      setLoading(false);
+    }
   };
 
   const createVoteFunctions = (pollId: number) => {
@@ -123,6 +121,7 @@ export const usePolls = (selectedFlow: string) => {
   const { userdata, updateProfile } = useContext(UserdataContext);
 
   const [polls, setPolls] = useState([] as Polls);
+  const [addable, setAddable] = useState(false);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null as string | null);
 
@@ -136,13 +135,19 @@ export const usePolls = (selectedFlow: string) => {
     addPoll,
     pollsLoading: loading,
     error,
+    addable,
   };
 };
 
 type Polls = Poll[];
 
-const getVoteRateData = (userdata: User) => (poll: Poll) =>
-  userdata.is_auth
+const getVoteRateData = (userdata: User) => (
+  poll: Poll
+): {
+  voted?: Votable;
+  rated?: Votable;
+} => {
+  return userdata.is_auth
     ? {
         voted: (userdata.voted['+'].has(poll.id)
           ? '+'
@@ -156,6 +161,7 @@ const getVoteRateData = (userdata: User) => (poll: Poll) =>
           : undefined) as Votable | undefined,
       }
     : {};
+};
 
 const sortPollsByLikes = (polls: Poll[]): Poll[] =>
   polls.sort((prev, next) => likeRateOf(next) - likeRateOf(prev));
