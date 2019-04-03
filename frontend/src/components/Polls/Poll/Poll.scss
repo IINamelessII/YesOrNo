@@ -39,7 +39,7 @@
 
     background: rgba(255, 255, 255, 0.01);
     @include stitched();
-    box-shadow: 0 2px 5px #444;
+    box-shadow: theme(elevate-card-item-accent);
     border-radius: 0.5rem;
   }
 

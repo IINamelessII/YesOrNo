@@ -45,7 +45,7 @@ $outer-padding: 0.1rem;
     border-radius: $radius;
     border: none;
     border-bottom: 2px solid theme(pri);
-    box-shadow: 0 2px 3px -1px #222;
+    box-shadow: theme(elevate-card-item-accent);
 
     background: rgba(255, 255, 255, 0.05);
 

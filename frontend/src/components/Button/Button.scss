@@ -17,7 +17,7 @@
   border-radius: 0.5rem;
   border: 1px solid transparent;
   background: transparentize(theme(pri), 0.5);
-  box-shadow: 0 2px 3px #2b2b2b;
+  box-shadow: theme(elevate-card-item-accent);
 
   transition: background 0.25s, border-color 0.5s;
 

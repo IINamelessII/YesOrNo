@@ -1,6 +1,6 @@
 import React, { useState, useEffect, useContext } from 'react';
-import DjangoReactCSRFToken from 'django-react-csrftoken';
 import { withRouter, RouteComponentProps } from 'react-router';
+import DjangoReactCSRFToken from 'django-react-csrftoken';
 
 import { yonUser } from '../../services';
 import { Process } from './process.type';
@@ -35,10 +35,13 @@ const useData = (process: Process) => {
 
   const [errors, setErrors] = useState(initialErrors);
   const [message, setMessage] = useState(null as string | null);
+  const [initial, setInitial] = useState(true);
 
-  const calculateErrors = (): boolean => {
-    const errors =
-      process === 'signup'
+  const calculateErrors = (
+    forWhat?: 'username' | 'password' | 'email'
+  ): boolean => {
+    const newErrors =
+      !initial && process === 'signup'
         ? {
             username: username.length === 0 && 'Enter username',
             password: password.length < 8 && 'Too short',
@@ -46,9 +49,10 @@ const useData = (process: Process) => {
           }
         : initialErrors;
 
-    setErrors(errors);
+    setInitial(false);
+    setErrors(newErrors);
 
-    return !!(errors.username || errors.password || errors.email);
+    return !!(newErrors.username || newErrors.password || newErrors.email);
   };
 
   const onInputChange = ({ target: { value, name } }: InputEvent) => {

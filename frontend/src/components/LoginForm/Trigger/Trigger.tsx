@@ -11,6 +11,8 @@ import './Trigger.scss';
 export const Trigger = withRouter(({ history, location }) => {
   const { userdata, updateProfile } = useContext(UserdataContext);
 
+  const isInForm = /\/user\//.test(location.pathname);
+
   const onSignout = () => yonUser.logout().then(() => updateProfile());
 
   return (
@@ -25,8 +27,8 @@ export const Trigger = withRouter(({ history, location }) => {
       ) : (
         <Button
           label="Sign in"
-          onClick={() => history.push('/user/signin')}
-          flat={/\/user\//.test(location.pathname)}
+          onClick={() => history.push(isInForm ? '/home' : '/user/signin')}
+          flat={isInForm}
         />
       )}
     </div>

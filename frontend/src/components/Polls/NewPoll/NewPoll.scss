@@ -3,18 +3,38 @@
 .add-poll {
   width: 90vw;
   min-width: 18rem;
-  min-height: 70vh;
+  min-height: 56vh;
+  height: fit-content;
 
-  padding: 10vh 8vw 8vh;
+  padding: 10vh 8vw 6vh;
   display: grid;
-  grid-template-rows: auto auto 1fr auto;
+  grid-template-rows: auto auto auto auto;
   row-gap: 1rem;
   justify-items: start;
   align-items: center;
 
-  background: rgb(68, 68, 66);
-  box-shadow: 0 3px 10px rgba(0, 0, 0, 0.4);
+  background: #505050;
   border-radius: 0.5rem;
+  @include stitched();
+  box-shadow: 0 3px 10px rgba(0, 0, 0, 0.4);
+
+  @media screen and (min-width: $screen-break-small) {
+    width: 26rem;
+    height: 30rem;
+    padding: 5rem 3rem 3rem;
+
+    height: 34rem;
+  }
+
+  @media screen and (orientation: landscape) and (max-device-height: $screen-break-small) {
+    height: 80vh;
+    max-width: 80vw;
+
+    margin-top: 3rem;
+
+    row-gap: 2vh;
+    padding: 4vh 5vw 3vh;
+  }
 
   &__splash {
     position: relative;
@@ -40,19 +60,6 @@
 
   &__submit {
     width: 100%;
-  }
-
-  @media screen and (min-width: $screen-break-small) {
-    width: 26rem;
-    height: 30rem;
-    padding: 5rem 3rem 4rem;
-  }
-
-  @media all and (orientation: landscape) and (max-device-height: $screen-break-small) {
-    height: 96vh;
-    width: 60vw;
-
-    padding: 4vh 4vw 3vh;
   }
 }
 
