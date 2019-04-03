@@ -4,7 +4,7 @@ from django.conf import settings
 from django.contrib.auth.models import User
 from django.test import TestCase
 from model_mommy import mommy
-from rest_framework.test import APIRequestFactory, force_authenticate
+from rest_framework.test import APIRequestFactory, force_authenticate, APIClient
 from frontend import views
 from frontend.models import Profile
 from polls.models import Poll
@@ -45,22 +45,14 @@ class TestLogoutView(TestCase):
         self.assertEquals(response.status_code, 500)
 
 
-# class TestVoteYesView(TestCase):
+# class TestVoteYes(TestCase):
 #     def setUp(self):
 #         self.view = views.voteYes
-#         self.poll_model = mommy.make('polls.Poll')
+#         self.client = APIClient()
 #         self.user_model = mommy.make('User')
-#         self.profile_model = Profile.objects.get(user=self.user_model)
-#         self.factory = APIRequestFactory()
-        
-#     def test(self):
-#         agree = self.poll_model.agree
-#         self.profile_model.voted[self.poll_model.pk] = False
-#         request = self.factory.post('/', dumps({'id': self.poll_model.pk}), content_type='application/json')
-#         force_authenticate(request, user=self.user_model)
-#         response = self.view(request)
-#         self.poll_model.refresh_from_db()
-#         new_agree = agree + 1
-#         self.assertEquals(new_agree, self.poll_model.agree)
-#         self.assertEquals(self.profile_model[self.poll_model.pk], True)
+#         self.poll_model = mommy.make('Poll')
 
+#     def test_id_exists(self):
+#         self.client.login(username=self.user_model.username, password=self.user_model.password)
+#         response = self.client.post(reverse('/voteYes'), {'id': self.poll_model.id})
+#         self.assertEquals(response.status_code, 204)
