@@ -25,9 +25,7 @@ export const usePolls = (selectedFlow: string) => {
       setPolls(sortPollsByLikes(newPolls));
       selectedFlow !== 'All polls' && setAddable(true);
     } catch (err) {
-      setError(
-        `An error occured! Please, check your connection and refresh this page. Reason: ${err}`
-      );
+      setError(err.message);
       setPolls([]);
     } finally {
       setLoading(false);

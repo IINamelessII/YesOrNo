@@ -43,13 +43,18 @@ $mob-gap: 0.75rem;
   }
 
   .login-form {
-    justify-self: center;
-
     grid-area: 2 / 1 / -1 / -1;
+    justify-self: center;
 
     @media screen and (min-width: $screen-break) {
       grid-area: 1 / 1 / -1 / -1;
       align-self: center;
     }
+  }
+
+  > .error-boundary {
+    grid-area: 1 / 1 / -1 / -1;
+    justify-self: center;
+    align-self: center;
   }
 }

@@ -1,0 +1,38 @@
+@import 'src/utilities/variables';
+
+.error-boundary {
+  display: grid;
+  justify-items: center;
+  grid-auto-columns: min-content;
+
+  animation: fade-in 0.5s forwards;
+
+  &__headline {
+    text-shadow: 0 3px 3px #222;
+    font-size: 4.5rem;
+    font-weight: bold;
+  }
+
+  &__refresh {
+    margin-top: 1rem;
+
+    min-width: 80%;
+    font-size: 1rem;
+
+    box-shadow: theme(elevate-normal);
+    transform: translate(0, -1px);
+
+    transition: 0.25s;
+
+    &:hover {
+      box-shadow: theme(elevate-lower);
+      transform: translate(0, 0);
+    }
+  }
+
+  &__reason {
+    text-align: center;
+    padding-top: 2rem;
+    color: rgba(255, 255, 255, 0.2);
+  }
+}

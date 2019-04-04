@@ -19,7 +19,7 @@ const Polls = ({ selectedFlow }: Props) => {
     selectedFlow
   );
 
-  // if (error) throw error;
+  if (error) throw error;
 
   if (pollsLoading) return <Spinner mimicClass="polls" />;
 
