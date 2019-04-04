@@ -1,16 +1,39 @@
+@import 'src/utilities/variables';
+
 .not-found {
   grid-area: 1 / 1 / -1 / -1;
 
   align-self: center;
   justify-self: center;
 
-  height: 100%;
-  width: fit-content;
-
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
+  display: grid;
+  grid-template-columns: auto 6rem;
+  justify-items: center;
   align-items: center;
+  column-gap: 0.5rem;
 
   animation: fade-in 0.5s forwards;
+
+  &__headline {
+    text-shadow: theme(elevate-normal);
+    font-size: 5rem;
+    font-weight: bold;
+  }
+
+  &__to-home {
+    grid-column: 1 / -1;
+    min-width: 100%;
+
+    font-size: 1rem;
+
+    box-shadow: theme(elevate-normal);
+    transform: translate(0, -1px);
+
+    transition: 0.25s;
+
+    &:hover {
+      box-shadow: theme(elevate-lower);
+      transform: translate(0, 0);
+    }
+  }
 }

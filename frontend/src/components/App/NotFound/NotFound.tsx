@@ -8,10 +8,13 @@ import './NotFound.scss';
 const NotFound = withRouter(({ history }) => {
   return (
     <div className="not-found">
-      <h1 className="not-found__headline">Whoops! 404!</h1>
-      <h3 className="not-found__message">Seems like URL is not valid</h3>
+      <span className="not-found__headline">404!</span>
+      <span className="not-found__message">
+        Seems like there's no such page!
+      </span>
       <Button
-        label="Get to the homepage"
+        className="not-found__to-home"
+        label="Go to the homepage"
         onClick={() => history.push('/home')}
       />
     </div>
