@@ -13,8 +13,8 @@ type Props = {
 
 export const ProcessSelector = ({ process, onProcessSelect }: Props) => {
   const processes: Process[] = ['signin', 'signup'];
-  if (process === 'resetPassword') {
-    processes.push('resetPassword');
+  if (process === 'resetpassword') {
+    processes.push('resetpassword');
   }
 
   return (
@@ -27,7 +27,7 @@ export const ProcessSelector = ({ process, onProcessSelect }: Props) => {
               'process-select__process--selected': proc === process,
             },
             {
-              'process-select__process--reset-pass': proc === 'resetPassword',
+              'process-select__process--reset-pass': proc === 'resetpassword',
             }
           )}
           key={`proc-${process}-${idx}`}

@@ -15,7 +15,7 @@ export const BottomStatement = ({ process, onProcessSelect }: Props) => {
       {process === 'signin' ? (
         <div
           className="bottom-statement__phrase"
-          onClick={() => onProcessSelect('resetPassword')}
+          onClick={() => onProcessSelect('resetpassword')}
         >
           Forgot password?
         </div>

@@ -59,7 +59,7 @@ const getFlows = (settings?: AxiosRequestConfig): Promise<Flow[]> =>
  * Get an array of all Poll objects
  */
 const getAllPolls = (settings?: AxiosRequestConfig): Promise<Poll[]> =>
-  getData(`${API}/polls`, settings);
+  getData(`${API}/polls/`, settings);
 
 /**
  * Get array of Poll objects specified by given flow
@@ -68,7 +68,7 @@ const getAllPolls = (settings?: AxiosRequestConfig): Promise<Poll[]> =>
 const getPollsByFlow = (
   flow: string,
   settings?: AxiosRequestConfig
-): Promise<Poll[]> => getData(`${API}/polls_by_flow/${flow}`, settings);
+): Promise<Poll[]> => getData(`${API}/polls_by_flow/${flow}/`, settings);
 
 /**
  * Get an array of Poll objects added by given username
@@ -77,7 +77,7 @@ const getPollsByFlow = (
 const getPollsByUser = (
   username: string,
   settings?: AxiosRequestConfig
-): Promise<Poll[]> => getData(`${API}/polls_by_user/${username}`, settings);
+): Promise<Poll[]> => getData(`${API}/polls_by_user/${username}/`, settings);
 
 const getUserdata = (): Promise<User> =>
   getData(`${API}/profile/`).then((data: User) => {

@@ -3,7 +3,7 @@ import React, { useContext } from 'react';
 import { usePolls } from '../../hooks';
 import { UserdataContext } from '../../contexts';
 
-import Poll from './Poll/Poll';
+import Poll from './Poll';
 import NewPoll from './NewPoll';
 import Spinner from '../Spinner';
 

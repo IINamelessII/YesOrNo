@@ -37,10 +37,8 @@ const useData = (process: Process) => {
   const [message, setMessage] = useState(null as string | null);
   const [initial, setInitial] = useState(true);
 
-  const calculateErrors = (
-    forWhat?: 'username' | 'password' | 'email'
-  ): boolean => {
-    const newErrors =
+  const calculateErrors = (): boolean => {
+    const errors =
       !initial && process === 'signup'
         ? {
             username: username.length === 0 && 'Enter username',
@@ -50,9 +48,9 @@ const useData = (process: Process) => {
         : initialErrors;
 
     setInitial(false);
-    setErrors(newErrors);
+    setErrors(errors);
 
-    return !!(newErrors.username || newErrors.password || newErrors.email);
+    return !!(errors.username || errors.password || errors.email);
   };
 
   const onInputChange = ({ target: { value, name } }: InputEvent) => {
@@ -147,7 +145,7 @@ const LoginForm = ({ match, history }: Props) => {
             yonUser.register(email, username, password).then(onActionPerformed);
           }
           break;
-        case 'resetPassword':
+        case 'resetpassword':
           setUploading(true);
           yonUser.resetPassword(email).then(onActionPerformed);
           break;
