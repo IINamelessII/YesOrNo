@@ -5,6 +5,7 @@ import DjangoReactCSRFToken from 'django-react-csrftoken';
 import { yonUser } from '../../services';
 import { Process } from './process.type';
 import { getProcessName } from './helpers';
+import { useData } from './use-form-data.hook';
 import { UserdataContext } from '../../contexts';
 
 import Button from '../Button';
@@ -14,80 +15,12 @@ import { ProcessSelector } from './ProcessSelector';
 
 import './LoginForm.scss';
 
-type InputEvent = React.ChangeEvent<HTMLInputElement>;
-
-type FieldErrors = {
-  username: string | boolean;
-  password: string | boolean;
-  email: string | boolean;
-};
-
-const initialErrors: FieldErrors = {
-  username: false,
-  password: false,
-  email: false,
-};
-
-const useData = (process: Process) => {
-  const [username, setUsername] = useState('');
-  const [password, setPassword] = useState('');
-  const [email, setEmail] = useState('');
-
-  const [errors, setErrors] = useState(initialErrors);
-  const [message, setMessage] = useState(null as string | null);
-  const [initial, setInitial] = useState(true);
-
-  const calculateErrors = (): boolean => {
-    const errors =
-      !initial && process === 'signup'
-        ? {
-            username: username.length === 0 && 'Enter username',
-            password: password.length < 8 && 'Too short',
-            email: !/^[\w.+-]+@[\w-]+\.\w{2,}$/.test(email),
-          }
-        : initialErrors;
-
-    setInitial(false);
-    setErrors(errors);
-
-    return !!(errors.username || errors.password || errors.email);
-  };
-
-  const onInputChange = ({ target: { value, name } }: InputEvent) => {
-    switch (name) {
-      case 'username':
-        setUsername(value);
-        break;
-      case 'password':
-        setPassword(value);
-        break;
-      case 'email':
-        setEmail(value);
-        break;
-    }
-  };
-
-  useEffect(() => {
-    calculateErrors();
-    setMessage(null);
-  }, [email, username, password]);
-
-  return {
-    values: { username, password, email },
-    onInputChange,
-    errors,
-    calculateErrors,
-    message,
-    setMessage,
-  };
-};
-
 type Props = {
   children?: never;
 } & RouteComponentProps<{ process?: Process }>;
 
 const LoginForm = ({ match, history }: Props) => {
-  const process = match.params.process || 'signin';
+  const process = (match.params.process || 'signin').toLowerCase() as Process;
   const {
     values,
     onInputChange,
@@ -159,14 +92,18 @@ const LoginForm = ({ match, history }: Props) => {
     <form className="login-form" onSubmit={onSubmit}>
       <DjangoReactCSRFToken />
 
-      <ProcessSelector process={process} onProcessSelect={switchProcess} />
+      <div className="login-form__title">
+        <ProcessSelector process={process} onProcessSelect={switchProcess} />
+      </div>
 
-      <InputSection
-        process={process}
-        values={values}
-        errors={errors}
-        onInputChange={onInputChange}
-      />
+      <div className="login-form__input-section">
+        <InputSection
+          process={process}
+          values={values}
+          errors={errors}
+          onInputChange={onInputChange}
+        />
+      </div>
 
       <Button
         className="login-form__submit"
@@ -174,6 +111,10 @@ const LoginForm = ({ match, history }: Props) => {
         flat={uploading || blockSubmit}
         disabled={uploading || blockSubmit}
       />
+
+      <div className="login-form__footer">
+        <BottomStatement process={process} onProcessSelect={switchProcess} />
+      </div>
 
       {message && (
         <div
@@ -184,8 +125,6 @@ const LoginForm = ({ match, history }: Props) => {
           {message}
         </div>
       )}
-
-      <BottomStatement process={process} onProcessSelect={switchProcess} />
     </form>
   );
 };
