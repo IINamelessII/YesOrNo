@@ -40,7 +40,7 @@ const resetPassword = (email: string) =>
   sendData(`${URL}/resetpassword/`, { email });
 
 const resetPasswordEntered = (url: string, password: string) =>
-  sendData(`${URL}${url}/form/`, { password });
+  sendData(`${URL}${url}form/`, { password });
 
 // #endregion
 export const yonUser = {
