@@ -156,8 +156,6 @@ def reset_password_link(request, uemailb64, token):
             user = user_model.objects.get(pk=uemail)
             if not default_token_generator.check_token(user, token):
                 raise ValueError()
-            else:
-                auth.login(request, user)
         except:
             message = 'Sorry, this link is not valid'
         else:
@@ -173,7 +171,11 @@ def reset_password_link(request, uemailb64, token):
 
 @ensure_csrf_cookie
 def reset_password_form(request, uemailb64, token):
-    password = request.POST.get('password')
+    data = json.loads(request.body.decode('utf-8'))
+    try:
+        password = data['password']
+    except:
+        return HttpResponse(status=404)
     try:
         user_model = auth.get_user_model()
         uemail = urlsafe_base64_decode(uemailb64)
