@@ -1,40 +1,21 @@
-import React, { useState, useEffect } from 'react';
-import {
-  withRouter,
-  RouteComponentProps,
-  Route,
-  Switch,
-  Redirect,
-} from 'react-router';
+import React from 'react';
+import { Route, Switch, Redirect } from 'react-router';
 
-import { yonFetch } from '../../services';
-import { User } from '../../types';
+import { useUserdata, useFlows } from '../../hooks';
 import { UserdataContext, FlowsContext } from '../../contexts';
 
-import Header from '../Header';
-import SideMenu from '../SideMenu';
-import AppBody from '../AppBody';
-
-import './App.scss';
-import LoginForm from '../LoginForm';
-import GreetingPage from '../AppBody/GreetingPage';
 import H1 from '../H1';
 import Polls from '../Polls';
-import { useUserdata, useFlows } from '../../hooks';
+import Header from '../Header';
+import AppBody from '../AppBody';
 import Spinner from '../Spinner';
-import Button from '../Button';
 import NotFound from './NotFound';
+import SideMenu from '../SideMenu';
 import ErrorBoundary from '../ErrorBoundary';
+import GreetingPage from '../AppBody/GreetingPage';
+import LoginForm, { EnterPasswordForm } from '../LoginForm';
 
-/* 
-TODO:Roadmap 
-  -! Fix reset password functionality
-  -! Add error boundaries
-  - Add functionality to view polls created by user
-  - Add ability to place custom vote labels on polls
-  ...
-  999. implement cool loading animation
-*/
+import './App.scss';
 
 const App = () => {
   const { userdata, updateProfile } = useUserdata();
@@ -107,6 +88,14 @@ const App = () => {
 
                   <Route exact path="/user/:process">
                     {userdata.is_auth ? <Redirect to="/home" /> : <LoginForm />}
+                  </Route>
+
+                  <Route exact path="/users/reset/:uemailb64/:token">
+                    {userdata.is_auth ? (
+                      <Redirect to="/home" />
+                    ) : (
+                      <EnterPasswordForm />
+                    )}
                   </Route>
 
                   <Route exact path="/user">
