@@ -39,8 +39,13 @@ const logout = () => getData(`${URL}/logout/`);
 const resetPassword = (email: string) =>
   sendData(`${URL}/resetpassword/`, { email });
 
-const resetPasswordEntered = (url: string, password: string) =>
-  sendData(`${URL}${url}form/`, { password });
+const resetPasswordEntered = (
+  { uemailb64, token }: { uemailb64: string; token: string },
+  password: string
+) =>
+  sendData(`${URL}/users/reset/${uemailb64}/${token}/form/`, {
+    password,
+  });
 
 // #endregion
 export const yonUser = {

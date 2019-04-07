@@ -10,8 +10,6 @@ import Button from '../../Button';
 
 import '../LoginForm.scss';
 
-type Props = RouteComponentProps<{}>;
-
 const usePassword = () => {
   const [password, setPassword] = useState('');
   const [error, setError] = useState(false as string | boolean);
@@ -38,7 +36,9 @@ const usePassword = () => {
   return { password, error, onInputChange, calculateError };
 };
 
-export const EnterPasswordForm = withRouter(({ location, history }: Props) => {
+type Props = RouteComponentProps<{ uemailb64: string; token: string }>;
+
+export const EnterPasswordForm = withRouter(({ history, match }: Props) => {
   const { password, onInputChange, error, calculateError } = usePassword();
   const [step, setStep] = useState(0 as 0 | 1);
 
@@ -56,19 +56,22 @@ export const EnterPasswordForm = withRouter(({ location, history }: Props) => {
 
     if (!uploading) {
       if (step === 0) {
-        const onActionPerformed = () => {
+        const onActionPerformed = () =>
           updateProfile().then(({ message }) => {
             setUploading(false);
-            if (!message) {
-              setStep(1);
-            }
+            !message && setStep(1);
           });
-        };
 
         if (!calculateError()) {
           setUploading(true);
           yonUser
-            .resetPasswordEntered(location.pathname, password)
+            .resetPasswordEntered(
+              {
+                uemailb64: match.params.uemailb64,
+                token: match.params.token,
+              },
+              password
+            )
             .then(onActionPerformed);
         }
       } else {
