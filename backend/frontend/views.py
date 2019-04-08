@@ -1,5 +1,6 @@
 import json
 import os
+from re import fullmatch
 from django.shortcuts import render, redirect
 from django.core import serializers
 from django.core.mail import EmailMessage
@@ -17,6 +18,8 @@ from rest_framework import generics
 from polls.models import Poll, Flow
 from frontend.serializers import ProfileSerializer
 from frontend.models import Profile
+from frontend.errors import (IncorrectEmailError, IncorrectPasswordError,
+ UserWithThisEmailExistsError, UserWithThisUsernameExistsError)
 
 
 @ensure_csrf_cookie
@@ -67,7 +70,13 @@ def signup(request):
     else:
         try:
             if auth.models.User.objects.filter(email=email).exists():
-                raise ValueError()
+                raise UserWithThisEmailExistsError()
+            if auth.models.User.objects.filter(username=username).exists():
+                raise UserWithThisUsernameExistsError()
+            if len(password) < 8:
+                raise IncorrectPasswordError()
+            if not fullmatch('[^@]+@[^@]+\.[^@]+', email):
+                raise IncorrectEmailError()
             user = auth.models.User.objects.create_user(
                 username=username, email=email, password=password, is_active=False)
             if user:
@@ -77,10 +86,14 @@ def signup(request):
                 link = "{}://{}/{}/{}/{}/".format(request.scheme, request.get_host(), 'users/validate', uid, token)
                 email = EmailMessage('Confirmation of registration in the YesOrNo', 'Greetings, {}!\nFollow the link below to confirm registration of your account.\n{}'.format(username, link), to=[email,])
                 email.send()
-        except IntegrityError:
+        except UserWithThisUsernameExistsError:
             message = 'Account with this username already exists'
-        except ValueError:
+        except UserWithThisEmailExistsError:
             message = 'Account has already been registered to this email'
+        except IncorrectPasswordError:
+            message = 'Password must be at least 8 characters'
+        except IncorrectEmailError:
+            message = 'This email is incorrect'
         except:
             message = 'Something went wrong, please try again'
         else:
