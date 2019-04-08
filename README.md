@@ -119,8 +119,7 @@ Example:
 ```
 
 ## Contributing
----
-Soon.
+[Contributing](/CONTRIBUTING.md)
 
 ## License
-[License](/LICENSE)
+[License](/LICENSE.md)
