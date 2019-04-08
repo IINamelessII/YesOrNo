@@ -5,3 +5,7 @@ omit =
     *migrations*
     *test*
     *local_settings*
+    */settings.py
+    */manage.py
+    */wsgi.py
+    */apps.py
