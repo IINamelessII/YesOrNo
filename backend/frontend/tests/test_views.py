@@ -303,9 +303,138 @@ class TestSignin(TestCase):
         session_key = None
         request.session = engine.SessionStore(session_key)
         request._body = bytes(dumps({
-            'not a username': self.user_model.username,
+            'not an username': self.user_model.username,
             'password': self.password
         }), 'utf-8')
         response = self.view(request)
         self.assertEquals(response.status_code, 404)
         self.assertEquals(request.session.get('message'), None)
+
+
+class TestSignup(TestCase):
+    def setUp(self):
+        self.user_model = mommy.make('User')
+        self.view = views.signup        
+        self.factory = APIRequestFactory()
+        #Example of correct and strong password
+        self.password = '9Re5ghsS@^*zw?Pd'
+        #Set known password manually 
+        #because we can not get raw password of self.user_model
+        self.user_model.set_password(self.password)
+        self.user_model.save()
+        #Not registred in system username
+        self.username = 'NewUser'
+        #Not registred in system email
+        self.email = 'newemail@gmail.com'
+
+    def test_all_data_is_OK(self):
+        #All data is OK
+        request = self.factory.get('/')
+        engine = import_module(settings.SESSION_ENGINE)
+        session_key = None
+        request.session = engine.SessionStore(session_key)
+        request._body = bytes(dumps({
+            'username': self.username,
+            'password': self.password,
+            'email': self.email
+        }), 'utf-8')
+        response = self.view(request)
+        message = 'Please follow the link received in the email to confirm registration of your account'
+        self.assertEquals(response.status_code, 200)
+        self.assertEquals(request.session.get('message'), message)
+    
+    def test_data_is_wrong(self):
+        #Wrong data
+        request = self.factory.get('/')
+        engine = import_module(settings.SESSION_ENGINE)
+        session_key = None
+        request.session = engine.SessionStore(session_key)
+        request._body = bytes(dumps({
+            'not an username': self.username,
+            'password': self.password,
+            'email': self.email
+        }), 'utf-8')
+        response = self.view(request)
+        self.assertEquals(response.status_code, 404)
+        self.assertEquals(request.session.get('message'), None)
+    
+    def test_email_is_exist_in_system(self):
+        #User with this email is exist in system
+        request = self.factory.get('/')
+        engine = import_module(settings.SESSION_ENGINE)
+        session_key = None
+        request.session = engine.SessionStore(session_key)
+        request._body = bytes(dumps({
+            'username': self.username,
+            'password': self.password,
+            'email': self.user_model.email
+        }), 'utf-8')
+        response = self.view(request)
+        message = 'Account has already been registered to this email'
+        self.assertEquals(response.status_code, 200)
+        self.assertEquals(request.session.get('message'), message)
+
+    def test_username_is_exist_in_system(self):
+        #User with this username is exist in system
+        request = self.factory.get('/')
+        engine = import_module(settings.SESSION_ENGINE)
+        session_key = None
+        request.session = engine.SessionStore(session_key)
+        request._body = bytes(dumps({
+            'username': self.user_model.username,
+            'password': self.password,
+            'email': self.email
+        }), 'utf-8')
+        response = self.view(request)
+        message = 'Account with this username already exists'
+        self.assertEquals(response.status_code, 200)
+        self.assertEquals(request.session.get('message'), message)
+
+    def test_length_of_password_is_less_than_8(self):
+        #Incorrect password, its length less than 8
+        request = self.factory.get('/')
+        engine = import_module(settings.SESSION_ENGINE)
+        session_key = None
+        request.session = engine.SessionStore(session_key)
+        request._body = bytes(dumps({
+            'username': self.username,
+            'password': 'Just 6',
+            'email': self.email
+        }), 'utf-8')
+        response = self.view(request)
+        message = 'Password must be at least 8 characters'
+        self.assertEquals(response.status_code, 200)
+        self.assertEquals(request.session.get('message'), message)
+
+    def test_incorrect_email(self):
+        #Incorrect email format
+        request = self.factory.get('/')
+        engine = import_module(settings.SESSION_ENGINE)
+        session_key = None
+        request.session = engine.SessionStore(session_key)
+        request._body = bytes(dumps({
+            'username': self.username,
+            'password': self.password,
+            'email': 'not an email adress'
+        }), 'utf-8')
+        response = self.view(request)
+        message = 'This email is incorrect'
+        self.assertEquals(response.status_code, 200)
+        self.assertEquals(request.session.get('message'), message)
+    
+    def test_email_server_does_not_work(self):
+        #Some problems with email server
+        request = self.factory.get('/')
+        engine = import_module(settings.SESSION_ENGINE)
+        session_key = None
+        request.session = engine.SessionStore(session_key)
+        request._body = bytes(dumps({
+            'username': self.username,
+            'password': self.password,
+            'email': self.email
+        }), 'utf-8')
+        with self.settings(EMAIL_BACKEND='Not a backend actually'):
+            response = self.view(request)
+        message = 'Something went wrong, please try again'
+        self.assertEquals(response.status_code, 200)
+        self.assertEquals(request.session.get('message'), message)
