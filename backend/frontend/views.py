@@ -40,6 +40,8 @@ def logout(request):
 
 @ensure_csrf_cookie
 def signin(request):
+    # if request.user.is_authenticated:
+    #     return HttpResponse(status=409)
     data = json.loads(request.body.decode('utf-8'))
     try:
         username = data['username']
@@ -51,10 +53,11 @@ def signin(request):
         if user is not None:
             auth.login(request, user)
             message = None
+            request.session['message_was_showed'] = True
         else:
             message = "Wrong Username or Password, please try again or reset your Password"
+            request.session['message_was_showed'] = False
         request.session['message'] = message
-        request.session['message_was_showed'] = False
         return HttpResponse(status=200)
 
 

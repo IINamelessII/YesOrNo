@@ -2,6 +2,7 @@ from importlib import import_module
 from json import dumps
 from random import randint
 from django.conf import settings
+from django.contrib import auth
 from django.contrib.auth.models import User
 from django.http.request import HttpRequest
 from django.test import TestCase
@@ -251,3 +252,60 @@ class TestAddPoll(TestCase):
         response = self.view(request)
         self.assertEquals(response.status_code, 404)
         self.assertEquals(Poll.objects.filter(statement=text).exists(), False)
+
+
+class TestSignin(TestCase):
+    def setUp(self):
+        self.user_model = mommy.make('User')
+        self.view = views.signin        
+        self.factory = APIRequestFactory()
+        #Example of correct and strong password
+        self.password = '9Re5ghsS@^*zw?Pd'
+        #Set known password manually 
+        #because we can not get raw password of self.user_model
+        self.user_model.set_password(self.password)
+        self.user_model.save()
+
+    def test_OK_user_was_not_authenticated(self):
+        #All data is OK, user was_not_authenticated
+        request = self.factory.get('/')
+        engine = import_module(settings.SESSION_ENGINE)
+        session_key = None
+        request.session = engine.SessionStore(session_key)
+        request._body = bytes(dumps({
+            'username': self.user_model.username,
+            'password': self.password
+        }), 'utf-8')
+        response = self.view(request)
+        self.assertEquals(response.status_code, 200)
+        self.assertEquals(request.session.get('message'), None)
+
+    def test_wrong_password_user_was_not_authenticated(self):
+        #Password is wrong, user was_not_authenticated
+        request = self.factory.get('/')
+        engine = import_module(settings.SESSION_ENGINE)
+        session_key = None
+        request.session = engine.SessionStore(session_key)
+        request._body = bytes(dumps({
+            'username': self.user_model.username,
+            'password': self.password + 'It is wrong'
+        }), 'utf-8')
+        response = self.view(request)
+        message = 'Wrong Username or Password, please try again or reset your Password'
+        self.assertEquals(response.status_code, 200)
+        self.assertEquals(request.session.get('message'), message)
+        self.assertEquals(request.session.get('message_was_showed'), False)
+
+    def test_data_is_wrong_user_was_not_authenticated(self):
+        #Data is wrong, user was_not_authenticated
+        request = self.factory.get('/')
+        engine = import_module(settings.SESSION_ENGINE)
+        session_key = None
+        request.session = engine.SessionStore(session_key)
+        request._body = bytes(dumps({
+            'not a username': self.user_model.username,
+            'password': self.password
+        }), 'utf-8')
+        response = self.view(request)
+        self.assertEquals(response.status_code, 404)
+        self.assertEquals(request.session.get('message'), None)
