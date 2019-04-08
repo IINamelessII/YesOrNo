@@ -107,10 +107,10 @@ def signup(request):
 
 
 @ensure_csrf_cookie
-def activation(request, uidb64, token):
+def activation(request, uidb64=None, token=None):
     if uidb64 is not None and token is not None:
-        uid = urlsafe_base64_decode(uidb64)
         try:
+            uid = urlsafe_base64_decode(uidb64)
             user_model = auth.get_user_model()
             user = user_model.objects.get(pk=uid)
             if default_token_generator.check_token(user, token) and user.is_active == 0:
