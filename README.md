@@ -123,5 +123,4 @@ Example:
 Soon.
 
 ## License
----
-Soon.
+[License](/LICENSE)
