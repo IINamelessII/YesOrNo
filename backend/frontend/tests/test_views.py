@@ -189,3 +189,65 @@ class TestRateDislike(TestCase):
         request.user = None
         response = self.view(request)
         self.assertEquals(response.status_code, 500)
+
+
+class TestAddPoll(TestCase):
+    def setUp(self):
+        self.user_model = mommy.make('User')
+        self.flow_model = mommy.make('Flow')
+        self.view = views.addPoll
+
+        class TestRequest(HttpRequest):
+            def __init__(request_self):
+                super().__init__()
+                request_self.user = self.user_model
+        
+        self.request = TestRequest
+
+    def test_OK(self):
+        #length of this statement is between 10 and 500, it is OK
+        text = 'This statement is OK'
+        request = self.request()
+        request._body = bytes(dumps({
+            'flow': self.flow_model.name,
+            'statement': text
+        }), 'utf-8')
+        response = self.view(request)
+        self.assertEquals(response.status_code, 204)
+        self.assertEquals(Poll.objects.filter(statement=text).exists(), True)
+
+    def test_length_of_statement_less_than_10(self):
+        #length of this statement is less than 10, it is not OK
+        text = 'Just 6'
+        request = self.request()
+        request._body = bytes(dumps({
+            'flow': self.flow_model.name,
+            'statement': text
+        }), 'utf-8')
+        response = self.view(request)
+        self.assertEquals(response.status_code, 404)
+        self.assertEquals(Poll.objects.filter(statement=text).exists(), False)
+
+    def test_length_of_statement_more_than_500(self):
+        #length of this statement is more than 500, it is not OK
+        text = 'A' * 501
+        request = self.request()
+        request._body = bytes(dumps({
+            'flow': self.flow_model.name,
+            'statement': text
+        }), 'utf-8')
+        response = self.view(request)
+        self.assertEquals(response.status_code, 404)
+        self.assertEquals(Poll.objects.filter(statement=text).exists(), False)
+
+    def test_flow_does_not_exist(self):
+        #this flow is not exist, it is not OK
+        text = 'This statement is OK',
+        request = self.request()
+        request._body = bytes(dumps({
+            'flow': 'Incorrect flow name',
+            'statement': text
+        }), 'utf-8')
+        response = self.view(request)
+        self.assertEquals(response.status_code, 404)
+        self.assertEquals(Poll.objects.filter(statement=text).exists(), False)
