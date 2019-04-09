@@ -674,4 +674,17 @@ class TestResetPasswordForm(TestCase):
         message = 'Please follow the link in the email to complete the registration of your account.'
         self.assertEquals(response.status_code, 200)
         self.assertEquals(request.session.get('message'), message)
+
+    def test_uid_and_token_are_OK_passed_wrong_data_user_is_active(self):
+        request = self.factory.get('/')
+        engine = import_module(settings.SESSION_ENGINE)
+        session_key = None
+        request.session = engine.SessionStore(session_key)
+        request._body = bytes(dumps({
+            'Not a password': self.password
+        }), 'utf-8')
+        response = self.view(request, self.uid, self.token)
+        message = 'Password must be at least 8 characters'
+        self.assertEquals(response.status_code, 404)
+        self.assertEquals(request.session.get('message'), message)
         

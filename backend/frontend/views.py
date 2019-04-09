@@ -210,9 +210,7 @@ def reset_password_form(request, uemailb64=None, token=None):
         request.session['message'] = 'Please follow the link in the email to complete the registration of your account.'
         request.session['message_was_showed'] = False
         return HttpResponse(status=200)
-    except:
-        pass
-    finally:
+    else:
         return redirect('index')
     
 
