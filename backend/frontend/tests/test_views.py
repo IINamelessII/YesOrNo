@@ -509,3 +509,78 @@ class TestActivation(TestCase):
         message = 'Sorry, this link is not valid'
         self.assertEquals(response.status_code, 302)
         self.assertEquals(request.session.get('message'), message)
+
+
+class TestResetPassword(TestCase):
+    def setUp(self):
+        self.user_model = mommy.make('User')
+        self.view = views.reset_password
+        self.factory = APIRequestFactory()
+        self.email = self.user_model.email
+
+    def test_email_exists_in_system_and_user_is_active(self):
+        request = self.factory.get('/')
+        engine = import_module(settings.SESSION_ENGINE)
+        session_key = None
+        request.session = engine.SessionStore(session_key)
+        request._body = bytes(dumps({
+            'email': self.email
+        }), 'utf-8')
+        response = self.view(request)
+        message = 'Please follow the link in the email to restore access to your account'
+        self.assertEquals(response.status_code, 200)
+        self.assertEquals(request.session.get('message'), message)
+
+    def test_email_exists_in_system_and_user_is_not_active(self):
+        self.user_model.is_active = False
+        self.user_model.save()
+        request = self.factory.get('/')
+        engine = import_module(settings.SESSION_ENGINE)
+        session_key = None
+        request.session = engine.SessionStore(session_key)
+        request._body = bytes(dumps({
+            'email': self.email
+        }), 'utf-8')
+        response = self.view(request)
+        message = 'Please follow the link in the email to complete the registration of your account.'
+        self.assertEquals(response.status_code, 200)
+        self.assertEquals(request.session.get('message'), message)
+
+    def test_email_does_not_exist_in_system(self):
+        request = self.factory.get('/')
+        engine = import_module(settings.SESSION_ENGINE)
+        session_key = None
+        request.session = engine.SessionStore(session_key)
+        request._body = bytes(dumps({
+            'email': 'not an email actually'
+        }), 'utf-8')
+        response = self.view(request)
+        message = 'Account with this email not found'
+        self.assertEquals(response.status_code, 200)
+        self.assertEquals(request.session.get('message'), message)
+    
+    def test_passed_wrong_data(self):
+        request = self.factory.get('/')
+        engine = import_module(settings.SESSION_ENGINE)
+        session_key = None
+        request.session = engine.SessionStore(session_key)
+        request._body = bytes(dumps({
+            'not an email': self.email
+        }), 'utf-8')
+        response = self.view(request)
+        self.assertEquals(response.status_code, 404)
+    
+    def test_resetpass_email_server_does_not_work(self):
+        #Some problems with email server
+        request = self.factory.get('/')
+        engine = import_module(settings.SESSION_ENGINE)
+        session_key = None
+        request.session = engine.SessionStore(session_key)
+        request._body = bytes(dumps({
+            'email': self.email
+        }), 'utf-8')
+        with self.settings(EMAIL_BACKEND='Not a backend actually'):
+            response = self.view(request)
+        message = 'Something went wrong, please try again'
+        self.assertEquals(response.status_code, 200)
+        self.assertEquals(request.session.get('message'), message)
