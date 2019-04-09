@@ -186,18 +186,30 @@ def reset_password_link(request, uemailb64=None, token=None):
 
 
 @ensure_csrf_cookie
-def reset_password_form(request, uemailb64, token):
+def reset_password_form(request, uemailb64=None, token=None):
     data = json.loads(request.body.decode('utf-8'))
     try:
         password = data['password']
     except:
         return HttpResponse(status=404)
     try:
+        if len(password) < 8:
+            raise IncorrectPasswordError()
         user_model = auth.get_user_model()
         uemail = urlsafe_base64_decode(uemailb64)
         user = user_model.objects.get(pk=uemail)
+        if not user.is_active:
+            raise ValueError()
         user.set_password(password)
         user.save()
+    except IncorrectPasswordError:
+        request.session['message'] = 'Password must be at least 8 characters'
+        request.session['message_was_showed'] = False
+        return HttpResponse(status=200)
+    except ValueError:
+        request.session['message'] = 'Please follow the link in the email to complete the registration of your account.'
+        request.session['message_was_showed'] = False
+        return HttpResponse(status=200)
     except:
         pass
     finally:

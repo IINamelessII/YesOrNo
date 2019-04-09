@@ -635,3 +635,43 @@ class TestResetPasswordLink(TestCase):
         message = 'Sorry, this link is not valid'
         self.assertEquals(response.status_code, 302)
         self.assertEquals(request.session.get('message'), message)
+
+
+class TestResetPasswordForm(TestCase):
+    def setUp(self):
+        self.user_model = mommy.make('User')
+        self.view = views.reset_password_form    
+        self.factory = APIRequestFactory()
+        #Correct uid64
+        self.uid = urlsafe_base64_encode(force_bytes(self.user_model.pk)).decode()
+        #Correct token
+        self.token = default_token_generator.make_token(self.user_model)
+        #Example of correct and strong password
+        self.password = '9Re5ghsS@^*zw?Pd'
+    
+    def test_uid_and_token_and_password_are_OK_user_is_active(self):
+        request = self.factory.get('/')
+        engine = import_module(settings.SESSION_ENGINE)
+        session_key = None
+        request.session = engine.SessionStore(session_key)
+        request._body = bytes(dumps({
+            'password': self.password
+        }), 'utf-8')
+        response = self.view(request, self.uid, self.token)
+        self.assertEquals(response.status_code, 302)
+    
+    def test_uid_and_token_and_password_are_OK_user_is_not_active(self):
+        self.user_model.is_active = False
+        self.user_model.save()
+        request = self.factory.get('/')
+        engine = import_module(settings.SESSION_ENGINE)
+        session_key = None
+        request.session = engine.SessionStore(session_key)
+        request._body = bytes(dumps({
+            'password': self.password
+        }), 'utf-8')
+        response = self.view(request, self.uid, self.token)
+        message = 'Please follow the link in the email to complete the registration of your account.'
+        self.assertEquals(response.status_code, 200)
+        self.assertEquals(request.session.get('message'), message)
+        
