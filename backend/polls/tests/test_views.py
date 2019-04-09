@@ -1,9 +1,13 @@
+from importlib import import_module
 from random import randint
+from django.conf import settings
 from django.contrib.auth.models import User
 from django.test import TestCase
 from model_mommy import mommy
+from rest_framework.test import APIRequestFactory, force_authenticate
 from polls.models import Flow, Poll
-from polls.views import PollByFlowNameList, PollByUserList, ShortPollById
+from polls.views import (PollByFlowNameList, PollByUserList, PollViewSet,
+ ShortPollById)
 
 
 class TestPollByFlowNameList(TestCase):

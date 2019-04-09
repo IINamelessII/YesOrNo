@@ -1,5 +1,5 @@
 from polls.models import Poll, Flow
-from polls.permissions import IsSuperUserOrReadOnly
+from polls.permissions import IsReadOnly
 from polls.serializers import FlowSerializer, PollSerializer, ShortPollSerializer, UserSerializer
 from rest_framework import viewsets, generics
 from django.contrib.auth.models import User
@@ -12,7 +12,7 @@ class UserViewSet(viewsets.ModelViewSet):
     """
     queryset = User.objects.all()
     serializer_class = UserSerializer
-    permission_classes = (IsSuperUserOrReadOnly,)
+    permission_classes = (IsReadOnly,)
 
 
 class FlowViewSet(viewsets.ModelViewSet):
@@ -21,7 +21,7 @@ class FlowViewSet(viewsets.ModelViewSet):
     """
     queryset = Flow.objects.all().order_by('name')
     serializer_class = FlowSerializer
-    permission_classes = (IsSuperUserOrReadOnly,)
+    permission_classes = (IsReadOnly,)
 
 
 class PollViewSet(viewsets.ModelViewSet):
@@ -30,10 +30,7 @@ class PollViewSet(viewsets.ModelViewSet):
     """
     queryset = Poll.objects.all()
     serializer_class = PollSerializer
-    permission_classes = (IsSuperUserOrReadOnly,)
-
-    def perform_create(self, serializer):
-        serializer.save(owner=self.request.user)
+    permission_classes = (IsReadOnly,)
 
 
 class PollByFlowNameList(generics.ListAPIView):

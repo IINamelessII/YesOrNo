@@ -1,17 +1,13 @@
-from rest_framework.permissions import BasePermission, SAFE_METHODS
+from rest_framework import permissions
 
-class IsSuperUserOrReadOnly(BasePermission):
+
+class IsReadOnly(permissions.BasePermission):
     """
-    The request is authenticated as admin, or is a read-only request.
+    Object-level permission to only allow read-only operations.
     """
 
     def has_permission(self, request, view):
-        if request.method in SAFE_METHODS:
+        # Read permissions are allowed to any request,
+        # so we'll always allow GET, HEAD or OPTIONS requests.
+        if request.method in permissions.SAFE_METHODS:
             return True
-        return request.user and request.user.is_superuser
-
-    def has_object_permission(self, request, view, obj):
-        if request.method in SAFE_METHODS:
-            return True
-        return request.user and request.user.is_superuser
-        
