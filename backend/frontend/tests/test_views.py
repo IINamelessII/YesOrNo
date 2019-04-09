@@ -659,6 +659,7 @@ class TestResetPasswordForm(TestCase):
         }), 'utf-8')
         response = self.view(request, self.uid, self.token)
         self.assertEquals(response.status_code, 302)
+        self.assertEquals(request.session.get('message'), None)
     
     def test_uid_and_token_and_password_are_OK_user_is_not_active(self):
         self.user_model.is_active = False
@@ -684,7 +685,18 @@ class TestResetPasswordForm(TestCase):
             'Not a password': self.password
         }), 'utf-8')
         response = self.view(request, self.uid, self.token)
-        message = 'Password must be at least 8 characters'
         self.assertEquals(response.status_code, 404)
-        self.assertEquals(request.session.get('message'), message)
+        self.assertEquals(request.session.get('message'), None)
         
+    def test_uid_and_token_are_OK_length_of_password_less_than_8_user_is_active(self):
+        request = self.factory.get('/')
+        engine = import_module(settings.SESSION_ENGINE)
+        session_key = None
+        request.session = engine.SessionStore(session_key)
+        request._body = bytes(dumps({
+            'password': 'Just 6'
+        }), 'utf-8')
+        response = self.view(request, self.uid, self.token)
+        message = 'Password must be at least 8 characters'
+        self.assertEquals(response.status_code, 200)
+        self.assertEquals(request.session.get('message'), message)
