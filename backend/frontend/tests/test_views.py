@@ -569,21 +569,6 @@ class TestResetPassword(TestCase):
         }), 'utf-8')
         response = self.view(request)
         self.assertEquals(response.status_code, 404)
-    
-    def test_resetpass_email_server_does_not_work(self):
-        #Some problems with email server
-        request = self.factory.get('/')
-        engine = import_module(settings.SESSION_ENGINE)
-        session_key = None
-        request.session = engine.SessionStore(session_key)
-        request._body = bytes(dumps({
-            'email': self.email
-        }), 'utf-8')
-        with self.settings(EMAIL_BACKEND='Not a backend actually'):
-            response = self.view(request)
-        message = 'Something went wrong, please try again'
-        self.assertEquals(response.status_code, 200)
-        self.assertEquals(request.session.get('message'), message)
 
 
 class TestResetPasswordLink(TestCase):

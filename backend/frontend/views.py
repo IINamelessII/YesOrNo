@@ -87,8 +87,8 @@ def signup(request):
                 token = default_token_generator.make_token(user)
                 uid = urlsafe_base64_encode(force_bytes(user.pk)).decode()
                 link = "{}://{}/{}/{}/{}/".format(request.scheme, request.get_host(), 'users/validate', uid, token)
-                email = EmailMessage('Confirmation of registration in the YesOrNo', 'Greetings, {}!\nFollow the link below to confirm registration of your account.\n{}'.format(username, link), to=[email,])
-                email.send()
+                confirmation_email = EmailMessage('Confirmation of registration in the YesOrNo', 'Greetings, {}!\nFollow the link below to confirm registration of your account.\n{}'.format(username, link), to=[email,])
+                confirmation_email.send()
         except UserWithThisUsernameExistsError:
             message = 'Account with this username already exists'
         except UserWithThisEmailExistsError:
@@ -147,17 +147,13 @@ def reset_password(request):
         except:
             message = "Account with this email not found"
         else:
-            try:
-                token = default_token_generator.make_token(user)
-                uemail = urlsafe_base64_encode(force_bytes(user.pk)).decode()
-                link = "{}://{}/{}/{}/{}/".format(request.scheme, request.get_host(), 'users/reset', uemail, token)
-                email = EmailMessage('Account access recovery in the YesOrNo', 'Greetings, {}!\nFollow the link below to restore access to your account.\n{}\nIf you did not restore access to your account, ignore this email.'.format(\
-                    user.username, link), to=[email,])
-                email.send()
-            except:
-                message = 'Something went wrong, please try again'
-            else:
-                message = "Please follow the link in the email to restore access to your account"
+            token = default_token_generator.make_token(user)
+            uemail = urlsafe_base64_encode(force_bytes(user.pk)).decode()
+            link = "{}://{}/{}/{}/{}/".format(request.scheme, request.get_host(), 'users/reset', uemail, token)
+            email = EmailMessage('Account access recovery in the YesOrNo', 'Greetings, {}!\nFollow the link below to restore access to your account.\n{}\nIf you did not restore access to your account, ignore this email.'.format(\
+                user.username, link), to=[email,])
+            email.send()
+            message = "Please follow the link in the email to restore access to your account"
         request.session['message'] = message
         request.session['message_was_showed'] = False
         return HttpResponse(status=200)
