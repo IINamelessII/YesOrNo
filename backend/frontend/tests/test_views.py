@@ -584,3 +584,54 @@ class TestResetPassword(TestCase):
         message = 'Something went wrong, please try again'
         self.assertEquals(response.status_code, 200)
         self.assertEquals(request.session.get('message'), message)
+
+
+class TestResetPasswordLink(TestCase):
+    def setUp(self):
+        self.user_model = mommy.make('User')
+        self.view = views.reset_password_link      
+        self.factory = APIRequestFactory()
+        #Correct uid64
+        self.uid = urlsafe_base64_encode(force_bytes(self.user_model.pk)).decode()
+        #Correct token
+        self.token = default_token_generator.make_token(self.user_model)
+
+    def test_uid_and_token_are_OK(self):
+        request = self.factory.get('/')
+        engine = import_module(settings.SESSION_ENGINE)
+        session_key = None
+        request.session = engine.SessionStore(session_key)
+        response = self.view(request, self.uid, self.token)
+        message = None
+        self.assertEquals(response.status_code, 200)
+        self.assertEquals(request.session.get('message'), message)
+    
+    def test_uid_is_OK_and_token_is_not_correct(self):
+        request = self.factory.get('/')
+        engine = import_module(settings.SESSION_ENGINE)
+        session_key = None
+        request.session = engine.SessionStore(session_key)
+        response = self.view(request, self.uid, 'Not a token actually')
+        message = 'Sorry, this link is not valid'
+        self.assertEquals(response.status_code, 302)
+        self.assertEquals(request.session.get('message'), message)
+    
+    def test_uid_is_not_correct_and_token_is_OK(self):
+        request = self.factory.get('/')
+        engine = import_module(settings.SESSION_ENGINE)
+        session_key = None
+        request.session = engine.SessionStore(session_key)
+        response = self.view(request, 'Not an uid actually', self.token)
+        message = 'Sorry, this link is not valid'
+        self.assertEquals(response.status_code, 302)
+        self.assertEquals(request.session.get('message'), message)
+
+    def test_uid_and_token_were_not_passed(self):
+        request = self.factory.get('/')
+        engine = import_module(settings.SESSION_ENGINE)
+        session_key = None
+        request.session = engine.SessionStore(session_key)
+        response = self.view(request)
+        message = 'Sorry, this link is not valid'
+        self.assertEquals(response.status_code, 302)
+        self.assertEquals(request.session.get('message'), message)

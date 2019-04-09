@@ -164,7 +164,7 @@ def reset_password(request):
 
 
 @ensure_csrf_cookie
-def reset_password_link(request, uemailb64, token):
+def reset_password_link(request, uemailb64=None, token=None):
     if uemailb64 is not None and token is not None:
         uemail = urlsafe_base64_decode(uemailb64)
         try:
