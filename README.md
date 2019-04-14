@@ -4,7 +4,7 @@
 YesOrNo is a web project, made up using a Django REST framework &amp; React.js application.
 * Version: open alpha test.
 * Technical dependencies: API returns JSON only.
-* Alternative link: https://olehserikov.info/
+* Alternative link: https://yesorno.world
 
 ## Documentation
 ---
