@@ -1,4 +1,4 @@
-export default class AH {
+export class AH {
   static insertElement = <T extends string | object | number>(
     arr: T[],
     idx: number,
