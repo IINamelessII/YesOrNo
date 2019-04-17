@@ -4,7 +4,7 @@ import { classNames } from '../../utilities';
 
 import './Button.scss';
 
-type ButtonProps = React.DetailedHTMLProps<
+type ButtonHTMLProps = React.DetailedHTMLProps<
   React.ButtonHTMLAttributes<HTMLButtonElement>,
   HTMLButtonElement
 >;
@@ -29,7 +29,7 @@ const Button = React.memo(
     large,
     className = '',
     ...buttonProps
-  }: ButtonProps & Props) => {
+  }: ButtonHTMLProps & Props) => {
     return (
       <button
         className={classNames(
