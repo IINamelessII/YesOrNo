@@ -8,16 +8,15 @@ type Props = {
   selectedFlow?: string;
 };
 
-class SideMenu extends React.Component<Props, {}> {
-  render() {
-    const { selectedFlow } = this.props;
+const SideMenu = ({ selectedFlow }: Props) => {
+  return (
+    <nav className="sidemenu">
+      <Flows selectedFlow={selectedFlow} />
+    </nav>
+  );
+};
 
-    return (
-      <nav className="sidemenu">
-        <Flows selectedFlow={selectedFlow} />
-      </nav>
-    );
-  }
-}
-
-export default SideMenu;
+export default React.memo(
+  SideMenu,
+  ({ selectedFlow: SF }, { selectedFlow: newSF }) => SF === newSF
+);

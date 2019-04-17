@@ -15,47 +15,42 @@ type Props = {
   voteNo: () => void;
 };
 
-const VoteBar = ({
-  agreed,
-  disagreed,
-  voted,
-  is_auth,
-  voteYes,
-  voteNo,
-}: Props) => {
-  const votedAgree = voted === '+';
-  const votedDisagree = voted === '-';
+const VoteBar = React.memo(
+  ({ agreed, disagreed, voted, is_auth, voteYes, voteNo }: Props) => {
+    const votedAgree = voted === '+';
+    const votedDisagree = voted === '-';
 
-  return (
-    <div className="votebar">
-      {is_auth && (
+    return (
+      <div className="votebar">
+        {is_auth && (
+          <div
+            className="votebar__btn votebar__btn--agree"
+            onClick={voteYes}
+            data-voted={votedAgree}
+          />
+        )}
         <div
-          className="votebar__btn votebar__btn--agree"
-          onClick={voteYes}
-          data-voted={votedAgree}
+          className="votebar__bar"
+          data-agreed={agreed}
+          data-disagreed={disagreed}
+          data-voted={voted}
+          style={
+            {
+              '--agree-width':
+                agreed + disagreed > 0 ? agreed / (agreed + disagreed) : 0.5,
+            } as CSSProperties
+          }
         />
-      )}
-      <div
-        className="votebar__bar"
-        data-agreed={agreed}
-        data-disagreed={disagreed}
-        data-voted={voted}
-        style={
-          {
-            '--agree-width':
-              agreed + disagreed > 0 ? agreed / (agreed + disagreed) : 0.5,
-          } as CSSProperties
-        }
-      />
-      {is_auth && (
-        <div
-          className="votebar__btn votebar__btn--disagree"
-          onClick={voteNo}
-          data-voted={votedDisagree}
-        />
-      )}
-    </div>
-  );
-};
+        {is_auth && (
+          <div
+            className="votebar__btn votebar__btn--disagree"
+            onClick={voteNo}
+            data-voted={votedDisagree}
+          />
+        )}
+      </div>
+    );
+  }
+);
 
 export default VoteBar;

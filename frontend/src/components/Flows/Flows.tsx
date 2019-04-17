@@ -1,4 +1,4 @@
-import React, { useContext } from 'react';
+import React, { useContext, useMemo } from 'react';
 import { withRouter, RouteComponentProps } from 'react-router';
 
 import { FlowsContext } from '../../contexts';
@@ -16,28 +16,13 @@ type Props = {
 const Flows = ({ history, selectedFlow }: Props) => {
   const { flows, flowsLoading } = useContext(FlowsContext);
 
-  if (flowsLoading) return <Spinner mimicClass="flows" />;
+  return useMemo(() => {
+    const isEmpty = flows.length === 0;
 
-  const isEmpty = flows.length === 0;
-
-  const flowShow = isEmpty ? (
-    <div className="flow">Whoops! No flows!</div>
-  ) : (
-    flows.map((flow) => (
-      <Button
-        className="flow"
-        key={`flow-${flow.id}`}
-        label={flow.name}
-        secondary={flow.name === selectedFlow}
-        onClick={() => history.push(`/polls/${flow.name.split(' ').join('_')}`)}
-      />
-    ))
-  );
-
-  return (
-    <div className="flows">
-      <H1>Choose a flow</H1>
-      {!isEmpty && (
+    const flowsList = isEmpty ? (
+      <div className="flow">Whoops! No flows!</div>
+    ) : (
+      [
         <Button
           className="flow"
           key="flow-all"
@@ -45,11 +30,30 @@ const Flows = ({ history, selectedFlow }: Props) => {
           onClick={() => history.push(`/polls`)}
           secondary={selectedFlow === 'All polls'}
           flat
-        />
-      )}
-      {flowShow}
-    </div>
-  );
+        />,
+        ...flows.map((flow) => (
+          <Button
+            className="flow"
+            key={`flow-${flow.id}`}
+            label={flow.name}
+            secondary={flow.name === selectedFlow}
+            onClick={() =>
+              history.push(`/polls/${flow.name.split(' ').join('_')}`)
+            }
+          />
+        )),
+      ]
+    );
+
+    return flowsLoading ? (
+      <Spinner mimicClass="flows" />
+    ) : (
+      <div className="flows">
+        <H1>Choose a flow</H1>
+        {flowsList}
+      </div>
+    );
+  }, [flowsLoading, selectedFlow]);
 };
 
 export default withRouter(Flows);

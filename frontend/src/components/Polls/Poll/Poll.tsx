@@ -14,40 +14,42 @@ type Props = {
   rated?: Votable;
 } & VoteFunctions;
 
-const Poll = ({
-  poll,
-  is_auth,
-  voted,
-  rated,
-  voteYes,
-  voteNo,
-  rateLike,
-  rateDislike,
-}: Props) => {
-  return (
-    <article className="poll">
-      <span className="poll__statement">{poll.statement}</span>
+const Poll = React.memo(
+  ({
+    poll,
+    is_auth,
+    voted,
+    rated,
+    voteYes,
+    voteNo,
+    rateLike,
+    rateDislike,
+  }: Props) => {
+    return (
+      <article className="poll">
+        <span className="poll__statement">{poll.statement}</span>
 
-      <VoteBar
-        agreed={poll.agree}
-        disagreed={poll.disagree}
-        voted={voted}
-        is_auth={is_auth}
-        voteYes={voteYes}
-        voteNo={voteNo}
-      />
-      {is_auth && (
-        <LikeSection
-          liked={poll.likes}
-          disliked={poll.dislikes}
-          rated={rated}
-          rateLike={rateLike}
-          rateDislike={rateDislike}
+        <VoteBar
+          agreed={poll.agree}
+          disagreed={poll.disagree}
+          voted={voted}
+          is_auth={is_auth}
+          voteYes={voteYes}
+          voteNo={voteNo}
         />
-      )}
-    </article>
-  );
-};
+        {is_auth && (
+          <LikeSection
+            liked={poll.likes}
+            disliked={poll.dislikes}
+            rated={rated}
+            rateLike={rateLike}
+            rateDislike={rateDislike}
+          />
+        )}
+      </article>
+    );
+  }
+);
 
 type DummyProps = {
   poll?: PollType;

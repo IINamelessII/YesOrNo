@@ -13,4 +13,4 @@ const Logo = ({ history }: RouteComponentProps) => {
   );
 };
 
-export default withRouter(Logo);
+export default withRouter(React.memo(Logo));

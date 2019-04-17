@@ -15,9 +15,7 @@ import { ProcessSelector } from './ProcessSelector';
 
 import './LoginForm.scss';
 
-type Props = {
-  children?: never;
-} & RouteComponentProps<{ process?: Process }>;
+type Props = RouteComponentProps<{ process?: Process }>;
 
 const LoginForm = ({ match, history }: Props) => {
   const process = (match.params.process || 'signin').toLowerCase() as Process;
@@ -129,6 +127,4 @@ const LoginForm = ({ match, history }: Props) => {
   );
 };
 
-export default withRouter(({ staticContext, children, ...props }) => (
-  <LoginForm {...props} />
-));
+export default withRouter((props) => <LoginForm {...props} />);

@@ -1,5 +1,5 @@
 import axios, { CancelTokenSource } from 'axios';
-import { useState, useContext, useEffect } from 'react';
+import { useState, useContext, useEffect, useMemo } from 'react';
 
 import { UserdataContext } from '../contexts';
 import { yonFetch, yonVote, yonAdd } from '../services';
@@ -32,7 +32,7 @@ export const usePolls = (selectedFlow: string) => {
     }
   };
 
-  const createVoteFunctions = (pollId: number) => {
+  const createVoteFunctions = (pollId: number): VoteFunctions => {
     const voteFunction = (keyword: 'vote' | 'rate', yesOrNo: Votable) => () => {
       if (userdata.is_auth) {
         const positive: 'agree' | 'likes' =
@@ -94,7 +94,7 @@ export const usePolls = (selectedFlow: string) => {
       voteNo: voteFunction('vote', '-'),
       rateLike: voteFunction('rate', '+'),
       rateDislike: voteFunction('rate', '-'),
-    } as VoteFunctions;
+    };
   };
 
   const createPollData = () => {
@@ -119,7 +119,7 @@ export const usePolls = (selectedFlow: string) => {
   const { userdata, updateProfile } = useContext(UserdataContext);
 
   const [polls, setPolls] = useState([] as Polls);
-  const [addable, setAddable] = useState(false);
+  const [canAddNewPoll, setAddable] = useState(false);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null as string | null);
 
@@ -129,11 +129,11 @@ export const usePolls = (selectedFlow: string) => {
   }, [selectedFlow]);
 
   return {
-    pollData: createPollData(),
+    pollData: useMemo(createPollData, [polls]),
     addPoll,
     pollsLoading: loading,
     error,
-    addable,
+    canAddNewPoll,
   };
 };
 

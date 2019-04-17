@@ -15,31 +15,33 @@ type Props = {
   label: string;
 } & StyleProps;
 
-const Button = ({
-  label = 'Button',
-  flat,
-  secondary,
-  small,
-  large,
-  className = '',
-  ...buttonProps
-}: React.HTMLProps<HTMLButtonElement> & Props) => {
-  return (
-    <button
-      className={classNames(
-        'button',
-        { 'button--flat': flat },
-        { 'button--secondary': secondary },
-        { 'button--small': small },
-        { 'button--large': large },
-        className
-      )}
-      {...buttonProps}
-    >
-      {label}
-    </button>
-  );
-};
+const Button = React.memo(
+  ({
+    label = 'Button',
+    flat,
+    secondary,
+    small,
+    large,
+    className = '',
+    ...buttonProps
+  }: React.HTMLProps<HTMLButtonElement> & Props) => {
+    return (
+      <button
+        className={classNames(
+          'button',
+          { 'button--flat': flat },
+          { 'button--secondary': secondary },
+          { 'button--small': small },
+          { 'button--large': large },
+          className
+        )}
+        {...buttonProps}
+      >
+        {label}
+      </button>
+    );
+  }
+);
 
 type ContentButtonProps = StyleProps;
 
