@@ -43,7 +43,9 @@ class ErrorBoundary extends React.Component<Props, State> {
             onClick={this.refresh}
           />
 
-          <span className="error-boundary__reason">Reason: {error}</span>
+          <span className="error-boundary__reason">
+            Reason: {error.toString()}
+          </span>
         </div>
       );
     }

@@ -15,7 +15,7 @@ export type Props = {
 
 const Polls = ({ selectedFlow }: Props) => {
   const { userdata } = useContext(UserdataContext);
-  const { pollData, pollsLoading, addPoll, error, addable } = usePolls(
+  const { pollData, pollsLoading, addPoll, error, canAddNewPoll } = usePolls(
     selectedFlow
   );
 
@@ -46,7 +46,7 @@ const Polls = ({ selectedFlow }: Props) => {
 
   return (
     <section className="polls">
-      {userdata.is_auth && addable && (
+      {userdata.is_auth && canAddNewPoll && (
         <NewPoll key="poll-new" selectedFlow={selectedFlow} addPoll={addPoll} />
       )}
       {pollElements}
@@ -54,4 +54,7 @@ const Polls = ({ selectedFlow }: Props) => {
   );
 };
 
-export default Polls;
+export default React.memo(
+  Polls,
+  ({ selectedFlow: SL }, { selectedFlow: newSL }) => SL === newSL
+);

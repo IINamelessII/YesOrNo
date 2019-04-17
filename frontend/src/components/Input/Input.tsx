@@ -14,10 +14,8 @@ type Props = {
 const Input = ({
   label,
   value,
-  name,
   type = 'text',
   error = false,
-  onChange,
   className,
   ...otherProps
 }: React.HTMLProps<HTMLInputElement> & Props) => {
@@ -37,9 +35,7 @@ const Input = ({
       <input
         className={`input-field__input ${className || ''}`}
         type={type}
-        name={name}
         value={value}
-        onChange={onChange}
         autoComplete="off"
         {...otherProps}
       />
@@ -51,6 +47,14 @@ const Input = ({
     </label>
   );
 };
+
+export default React.memo(
+  Input,
+  (
+    { value: val, error: err, className: CN },
+    { value: newVal, error: newErr, className: newCN }
+  ) => val === newVal && err === newErr && CN === newCN
+);
 
 export const Textarea = React.memo(
   ({
@@ -94,10 +98,3 @@ export const Textarea = React.memo(
   ({ value, error }: Props, nextProps: Props) =>
     value === nextProps.value && error === nextProps.error
 );
-
-export default Input;
-
-// export default React.memo(
-//   Input,
-//   (prevProps: Props, nextProps: Props) => prevProps.value === nextProps.value
-// );

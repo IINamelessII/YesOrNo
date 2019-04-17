@@ -6,7 +6,7 @@ type Content = {
   flowsLoading: boolean;
 };
 
-export const FlowsContext: React.Context<Content> = React.createContext({
+export const FlowsContext = React.createContext({
   flows: [] as Flow[],
   flowsLoading: true,
-});
+} as Content);
